@@ -19,7 +19,7 @@ const withLayoutMain = (Component: any) => {
         return(
             <>
                 <Head>
-                    <title>Nestar</title>
+                    <title>HanBooking</title>
                 </Head>
                 <Stack id="pc-wrap">
                     <Stack id= {"top"}>
