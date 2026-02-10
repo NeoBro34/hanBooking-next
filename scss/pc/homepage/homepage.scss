@@ -50,5 +50,201 @@
                 animation: rotate 4s linear infinite;
             }
         }
+        .featuredRooms {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: auto;
+            .sectionHeader {
+                text-align: center;
+                margin-bottom: 60px;
+                @media (max-width: 768px) {
+                    margin-bottom: 40px;
+                }
+                .sectionTitle {
+                    margin-bottom: 16px !important;
+                    color: var(--text-primary);
+                    display: inline-block;
+                    position: relative;
+                }
+                .sectionSubtitle {
+                    color: var(--text-secondary);
+                    font-size: 1.1rem;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    line-height: 1.7;
+                }
+            }
+            .roomCard-box {
+                width: 100%;
+                height: auto;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                cursor: pointer;
+                .roomCard {
+                    width: 30%;
+                    height: 470px;
+                    margin: 18px;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 16px !important;
+                    overflow: hidden;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    border: 1px solid rgba(0, 0, 0, 0.06);
+                    &:hover {
+                        transform: translateY(-8px);
+                        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+                        .cardImage {
+                        transform: scale(1.1);
+                        }
+                    }
+                    .cardImageWrapper {
+                        position: relative;
+                        overflow: hidden;
+                        .featuredBadge {
+                            position: absolute;
+                            top: 16px;
+                            left: 16px;
+                            z-index: 2;
+                            background: var(--accent-gold) !important;
+                            color: #bfbcbc !important;
+                            font-weight: 600 !important;
+                            letter-spacing: 0.5px;
+                            box-shadow: 0 4px 12px rgba(201, 148, 86, 0.4);
+                        }
+                        .cardImage {
+                            height: 250px;
+                            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                            background-size: cover;
+                        }
+                        .rating {
+                            display: flex;
+                            flex-direction: column;
+                            position: absolute;
+                            padding: 5px;
+                            top: 16px;
+                            right: 16px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            gap: 9px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            z-index: 2;
+                        }
+                    }
+                    .cardContent {
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        .roomName {
+                            font-size: 1.5rem !important;
+                            color: black;
+                            font-weight: 600 !important;
+                            margin-bottom: 5px;
+                        }
+                        .location {
+                            color: var(--text-secondary);
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                            font-size: 0.85rem;
+                            margin-bottom: 20px;
+                        }
+                        .amenities {
+                            display: flex;
+                            flex-direction: row;
+                            margin-bottom: 30px;
+                            .amenity {
+                                display: flex;
+                                align-items: center;
+                                margin-right: 7px;
+                                color: rgb(48, 82, 168);
+                                font-size: 0.85rem;
+                                .amenityIcon {
+                                    font-size: 1.1rem !important;
+                                    color: var(--primary-main);
+                                }
+                            }
+                        }
+                        .border {
+                            width: 100%;
+                            border: 0.05px solid gray ;
+                            border-radius: 50%;
+                            margin-bottom: 10px;
+                        }
+                        .cardFooter {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            align-items: center;
+                            .priceWrapper {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: end;
+                                .price {
+                                    color: rgb(48, 82, 168);
+                                    font-weight: 700 !important;
+                                    font-size: 1.8rem !important;
+                                    line-height: 1 !important;
+                                }
+                                .priceLabel {
+                                    color: var(--text-secondary);
+                                    font-size: 0.85rem;
+                                }
+                            }
+                            .bookButton {
+                                width: 150px;
+                                padding: 10px 24px !important;
+                                border-radius: 40px !important;
+                                font-weight: 600 !important;
+                                box-shadow: 0 4px 12px rgba(201, 148, 86, 0.2) !important;
+                                &:hover {
+                                    box-shadow: 0 6px 16px rgba(201, 148, 86, 0.3) !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .top-agents {
+            margin-top: 100px;
+            margin-bottom: 40px;
+            .info-box {
+                width: 100%;
+                margin-bottom: 40px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                .title {
+                    width: 98%;
+                }
+                .right {
+                    width: 15%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: end;
+                    align-items: center;
+                    img {
+                        margin-left: 10px;
+                    }
+                }
+
+            }
+            .scroll-box {
+                .hide-scroll-bar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                    }
+                    .hide-scroll-bar::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+        }
     }
 }
