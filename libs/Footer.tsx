@@ -86,15 +86,7 @@ const Footer: React.FC = () => {
                 <Button
                   variant="contained"
                   endIcon={<Send />}
-                  sx={{
-                    background: '#f09f24',
-                    color: '#1b1f27',
-                    fontWeight: 600,
-                    px: 3,
-                    '&:hover': {
-                      background: '#c67d10',
-                    },
-                  }}
+                  className='group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-3 px-8 rounded-full text-white hover:translate-x-1 transition mt-10'
                 >
                   Subscribe
                 </Button>

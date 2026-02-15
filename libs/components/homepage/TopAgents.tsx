@@ -9,17 +9,56 @@ const topAgent = [1,2,3,4,5,6,7,8,9];
 const TopAgents = () => {
     return (
         <Container className="top-agents">
-            <Stack className={'info-box'}>
-                <Box className="title" >
-                    <p className="text-3xl font-semibold text-center mx-auto ml-40">Top Agents</p>
-                    <p className="text-sm text-slate-500 text-center mt-2 mx-auto ml-40">Our Top Agents always ready to serve you</p>
+            <Stack 
+                style={{
+                    display: "flex", 
+                    flexDirection: "row", 
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    marginTop: "20px"
+                }}
+            >
+                <Box>
+                    <p
+                    className="title text-3xl font-semibold"
+                    >
+                        Featured Stays
+                    </p>
+                    <p
+                        className="title-desc text-sm text-slate-500  mt-2"
+                    >
+                        Handpicked luxury accommodations for unforgettable experiences
+                    </p>
                 </Box>
-                <Box className={'right'}>
-                    <a href="#">See All Agents</a>
-                    <img src="/img/icons/rightup.svg" alt="" />
+                <Box>
+                    <div className="flex items-center justify-end mt-6 text-sm">
+                        <button
+                            type="button"
+                            className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95"
+                        >
+                            <a href="#" className="group-hover:translate-x-1 transition-all">
+                                All Agents
+                            </a>
+                            <svg
+                                className="group-hover:translate-x-3 transition-all"
+                                width="15"
+                                height="11"
+                                viewBox="0 0 15 11"
+                                fill="none"
+                            >
+                                <path
+                                    d="M1 5.5h13.092M8.949 1l5.143 4.5L8.949 10"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+                    </div>
                 </Box>
             </Stack>
-            <Stack className="scroll-box flex flex-col bg-white m-auto p-auto">
+            <Stack className="scroll-box flex flex-col bg-white m-auto p-auto mt-20">
                     <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
                         {topAgent.map((agent, index) => (
                             <div key={index} className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">

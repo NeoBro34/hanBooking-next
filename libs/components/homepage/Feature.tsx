@@ -1,41 +1,18 @@
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 
 const Features = () => {
     return(
         <Container>
-            <h1 className="text-3xl font-semibold text-center mx-auto mt-40">
-                Everything You Need for Hotel Booking
-            </h1>
+            <Stack>
+                <h1 className="text-3xl font-semibold text-center mx-auto mt-40">
+                    Everything You Need for Hotel Booking
+                </h1>
 
-            <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
-                Discover, compare, and book the perfect hotel anywhere — fast, secure, and hassle-free.
-            </p>
-
-            <div className="flex items-center justify-end mt-6 text-sm">
-                <button
-                type="button"
-                className="group flex items-center gap-2 px-8 py-3 cursor-pointer font-medium border border-gray-300 rounded-full text-gray-600 hover:bg-gray-300 transition active:scale-95"
-                >
-                <a href="#">Book a Hotel</a>
-                <svg
-                    className="group-hover:translate-x-1 transition-all"
-                    width="15"
-                    height="11"
-                    viewBox="0 0 15 11"
-                    fill="none"
-                >
-                    <path
-                    d="M1 5.5h13.092M8.949 1l5.143 4.5L8.949 10"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    />
-                </svg>
-                </button>
-            </div>
-
-            <div className="flex items-center justify-center gap-6 mt-10 cursor-pointer">
+                <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
+                    Discover, compare, and book the perfect hotel anywhere — fast, secure, and hassle-free.
+                </p>
+            </Stack>
+            <div className="flex items-center justify-center gap-6 mt-20 px-4 md:px-0 cursor-pointer">
                 {/* Real-Time Availability */}
                 <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-violet-200 gap-6 max-w-sm">
                 <div className="p-6 aspect-square bg-violet-100 rounded-full">

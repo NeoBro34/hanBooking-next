@@ -5,6 +5,7 @@ import styles from '/scss/pc/homepage/Hero.module.scss';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
+import TopUsers from './TopUsers';
 // import styles from '/scss/pc/homepage/SearchBar.module.scss';
 
 const HeaderFilter = () => {
@@ -153,6 +154,7 @@ const HeaderFilter = () => {
                             >
                                 Search Hotels
                             </Button>
+                            <TopUsers/>
                         </Box>
                     </Box>
                 </Box>

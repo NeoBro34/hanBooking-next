@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import { NextPage } from "next";
-import { Container, Stack } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 
@@ -82,16 +82,55 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
    return (
     <>
         <Container>
-            <p
-                className="title text-3xl font-semibold text-center mx-auto mt-40"
+            <Stack 
+                style={{
+                    display: "flex", 
+                    flexDirection: "row", 
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    marginTop: "100px"
+                }}
             >
-                PopularDestination
-            </p>
-            <p
-                className="title-desc text-sm text-slate-500 text-center mt-2 max-w-md mx-auto"
-            >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, officiis eveniet 
-            </p>
+                <Box>
+                    <p
+                    className="title text-3xl font-semibold"
+                    >
+                        Popular Destination
+                    </p>
+                    <p
+                        className="title-desc text-sm text-slate-500  mt-2"
+                    >
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                </Box>
+                <Box>
+                    <div className="flex items-center justify-end mt-6 text-sm">
+                        <button
+                            type="button"
+                            className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95"
+                        >
+                            <a href="#" className="group-hover:translate-x-1 transition-all">
+                                See All Destination
+                            </a>
+                            <svg
+                                className="group-hover:translate-x-3 transition-all"
+                                width="15"
+                                height="11"
+                                viewBox="0 0 15 11"
+                                fill="none"
+                            >
+                                <path
+                                    d="M1 5.5h13.092M8.949 1l5.143 4.5L8.949 10"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </Box>
+            </Stack>
             <Stack className="popular-destanation">
                 <div className="overflow-hidden w-full relative max-w-6xl mx-auto rounded-full" onMouseEnter={() => setStopScroll(true)} onMouseLeave={() => setStopScroll(false)}>
                     <div className="absolute left-0 top-0 h-full w-35 z-50 pointer-events-none bg-gradient-to-r from-white to-transparent" />
