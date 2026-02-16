@@ -8,7 +8,7 @@ const topAgent = [1,2,3,4,5,6,7,8,9];
 
 const TopAgents = () => {
     return (
-        <Container className="top-agents">
+        <div className="top-agents">
             <Stack 
                 style={{
                     display: "flex", 
@@ -22,7 +22,7 @@ const TopAgents = () => {
                     <p
                     className="title text-3xl font-semibold"
                     >
-                        Featured Stays
+                        Top Agents
                     </p>
                     <p
                         className="title-desc text-sm text-slate-500  mt-2"
@@ -82,7 +82,7 @@ const TopAgents = () => {
                         ))}
                     </div>
                 </Stack>
-        </Container>
+        </div>
     );
 }
 

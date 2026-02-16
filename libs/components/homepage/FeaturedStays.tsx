@@ -119,7 +119,7 @@ const FeaturedStays: NextPage = () => {
     ];
 
     return (
-        <Container>
+        <>
             <Stack 
                 style={{
                     display: "flex", 
@@ -188,12 +188,12 @@ const FeaturedStays: NextPage = () => {
                                     className="cardImage"
                                 />
                                 <Box className="rating">
-                                    {/* <Badge badgeContent={5} style={{color: "#bfbcbc"}}>
+                                    <Badge badgeContent={5} style={{color: "#bfbcbc"}}>
                                         <FavoriteIcon style={{ color: "red" }} />
                                     </Badge>
                                     <Badge badgeContent={5} style={{color: "#bfbcbc"}}>
                                         <RemoveRedEyeIcon sx={{ color: true ? "gray" : "white", }}/>
-                                    </Badge> */}
+                                    </Badge>
                                     {false ? <BookmarkAddedIcon sx={{ color: "white", cursor: "pointer"}}/> : <BookmarkAddIcon sx={{ color: "gray", cursor: "pointer"}}/> }
                                 </Box>
                             </Stack>
@@ -282,7 +282,7 @@ const FeaturedStays: NextPage = () => {
                     // onChange={handleChange} 
                 />
             </Stack>
-        </Container>
+        </>
     );
 };
 

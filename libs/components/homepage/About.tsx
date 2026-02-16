@@ -2,7 +2,7 @@ import { Container, Stack } from "@mui/material";
 
 export default function About() {
     return (
-        <Container className="mt-20px">
+        <div className="mt-20px">
             <section className="flex flex-col md:flex-row items-center justify-center gap-10 mt-70 mb-50">
                 <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
                     <img className="max-w-md w-full object-cover rounded-2xl"
@@ -56,6 +56,6 @@ export default function About() {
                     </button>
                 </div>
             </section>
-        </Container>
+        </div>
     );
 };

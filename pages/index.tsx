@@ -7,6 +7,7 @@ import FeaturedStays from '@/libs/components/homepage/FeaturedStays';
 import TopAgents from '@/libs/components/homepage/TopAgents';
 import About from '@/libs/components/homepage/About';
 import NewStays from '@/libs/components/homepage/NewStays';
+import CommunityBoard from '@/libs/components/homepage/CommunityBoard';
 
 const Home: NextPage = () => {
   return (
@@ -18,6 +19,7 @@ const Home: NextPage = () => {
           <About/>
           <TopAgents />
           <NewStays/>
+          <CommunityBoard/>
         </Stack>
       </Container>
   );

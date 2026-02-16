@@ -2,7 +2,7 @@ import { Container, Stack } from "@mui/material";
 
 const Features = () => {
     return(
-        <Container>
+        <>
             <Stack>
                 <h1 className="text-3xl font-semibold text-center mx-auto mt-40">
                     Everything You Need for Hotel Booking
@@ -94,7 +94,7 @@ const Features = () => {
                 </div>
                 </div>
             </div>
-        </Container>
+        </>
     );
 };
 

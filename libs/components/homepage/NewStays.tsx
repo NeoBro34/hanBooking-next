@@ -133,7 +133,7 @@ export default function NewStays() {
         },
     ];
   return (
-    <Container>
+    <>
         <Stack 
             style={{
                 display: "flex", 
@@ -416,6 +416,6 @@ export default function NewStays() {
                 </Stack>
             </Stack>
         </Stack>
-    </Container>
+    </>
   );
 }
