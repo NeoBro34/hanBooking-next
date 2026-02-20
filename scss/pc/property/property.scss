@@ -1,0 +1,311 @@
+#pc-wrap {
+	#property-list-page {
+		padding-bottom: 40px;
+		background: #f6f6f6;
+		.container {
+			.right {
+				position: absolute;
+				right: 0;
+				top: 3%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				z-index: 2;
+				button {
+					margin-left: 10px;
+					color: #181a20;
+					font-family: $font;
+					font-size: 14px;
+					font-style: normal;
+					font-weight: bold;
+					line-height: 26px;
+					&:hover {
+						background: none;
+					}
+				}
+			}
+			.property-page {
+				position: relative;
+				width: 100%;
+				flex-direction: row;
+				gap: 25px;
+				padding-top: 96px;
+				.filter-config {
+					width: 400px;
+					height: auto;
+					.filter-main {
+						width: 100%;
+						padding: 30px 24px;
+						border-radius: 12px;
+						background: #fff;
+						box-shadow: 0 1px 4px 0 rgba(24, 26, 32, 0.07);
+						.find-your-home {
+							position: relative;
+							width: 100%;
+							gap: 10px;
+							.property-location {
+								gap: 10px;
+								height: 115px;
+								overflow: hidden;
+								transition: 1s;
+								&:hover {
+									height: 253px;
+								}
+							}
+							.title-main {
+								width: 100%;
+								height: 25px;
+								color: #181a20;
+								font-family: $font;
+								font-size: 15px;
+								font-style: normal;
+								font-weight: 600;
+								line-height: normal;
+							}
+							.title {
+								width: auto;
+								height: auto;
+								color: #181a20;
+								font-family: $font;
+								font-size: 14px;
+								font-style: normal;
+								font-weight: 600;
+								line-height: normal;
+							}
+							.input-box {
+								position: relative;
+								width: 100%;
+								flex-direction: row;
+								align-items: center;
+								svg {
+									cursor: pointer;
+								}
+								.search-input {
+									width: 100%;
+									height: 53px;
+									border-radius: 8px;
+									border: 1px solid #ddd;
+									background: #fff;
+									outline: none;
+									padding-left: 43px;
+									color: #717171;
+									font-family: $font;
+									font-size: 14px;
+									font-style: normal;
+									font-weight: 400;
+									line-height: 26px;
+								}
+								img {
+									position: absolute;
+									width: 18px;
+									height: 17px;
+									top: 18px;
+									left: 15px;
+								}
+								.property-checkbox {
+									width: 16px;
+									height: 15px;
+									border-radius: 12px;
+									margin-right: 10px;
+									svg {
+										width: 19px;
+									}
+								}
+							}
+							.city-select {
+								width: 100%;
+								height: 49px;
+								border-radius: 8px;
+								border: 1px solid #ddd;
+								background: #fff;
+								outline: none;
+								padding-left: 15px;
+								appearance: none;
+								cursor: pointer;
+								box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+								color: #717171;
+								font-family: $font;
+								font-size: 14px;
+								font-style: normal;
+								font-weight: 400;
+								line-height: 26px;
+							}
+							.divider {
+								position: absolute;
+								height: 48px;
+								border-left: 1px solid #ddd;
+								right: 39px;
+								top: 31px;
+							}
+							.arrow-down {
+								position: absolute;
+								width: 15px;
+								height: 8px;
+								color: #ddd;
+								right: 13px;
+								top: 52px;
+							}
+							.property-type {
+								color: #181a20;
+								font-family: $font;
+								font-size: 14px;
+								font-style: normal;
+								font-weight: 400;
+								line-height: 19px;
+							}
+							.square-year-input {
+								width: 100%;
+								gap: 10px;
+								flex-direction: row;
+								align-items: center;
+								.central-divider {
+									width: 22px;
+									border: 1px solid black;
+								}
+								input {
+									width: 100%;
+									height: 49px;
+									border-radius: 8px;
+									border: 1px solid #ddd;
+									background: #fff;
+									outline: none;
+									padding-left: 15px;
+								}
+								label {
+									line-height: 13px;
+								}
+								input::placeholder {
+									color: #717171;
+									font-family: $font;
+									font-size: 14px;
+									font-style: normal;
+									font-weight: 400;
+									line-height: 26px;
+								}
+							}
+						}
+					}
+				}
+				.main-config {
+					width: 936px;
+					align-items: center;
+					gap: 20px;
+					.list-config {
+						display: flex;
+						width: 100%;
+						height: 1300px;
+						flex-direction: column;
+						overflow-y: scroll;
+						scrollbar-width: none;
+						border-radius: 20px;
+						padding: 20px;
+						.new-stay-box-left {
+							width: 100%;
+							height: auto;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							padding: 10px;
+							.new-stay-card {
+								transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+								border: 1px solid rgba(0, 0, 0, 0.06);
+								margin: 15px;
+								&:hover {
+									transform: translateY(-8px);
+									box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+								}
+								.cardImageWrapper {
+									position: relative;
+									overflow: hidden;
+									cursor: pointer;
+									.top-icon{
+										display: flex;
+										flex-direction: row;
+										position: absolute;
+										justify-content: center;
+										align-items: center;
+										padding: 5px;
+										left: 10px;
+										margin-top: 5px;
+										color: gold;
+										text-shadow: 0px 8px 3px rgba(255, 255, 255, 0.25);
+										z-index: 2;
+									}
+									.cardImage {
+										height: 300px;
+										width: 400px;
+										transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+										background-size: cover;
+										border-radius: 15px;
+									}
+								}
+							}
+							.obsion-box {
+								display: flex;
+								flex-direction: row;
+								width: 100%;
+								.info-box {
+									width: 95%;
+									margin-left: 10px;
+								}
+								.rating-box {
+									display: flex;
+									flex-direction: column;
+								}
+							}
+							.amenities {
+								display: flex;
+								flex-direction: row;
+								margin-bottom: 5px;
+								.amenity {
+									display: flex;
+									align-items: center;
+									margin-right: 20px;
+									color: rgb(48, 82, 168);
+									font-size: 0.55rem;
+								}
+							}
+							.border {
+								width: 100%;
+								border: 0.05px solid gray ;
+								border-radius: 50%;
+								margin-bottom: 5px;
+							}
+							.cardFooter {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								align-items: center;
+								.priceWrapper {
+									display: flex;
+									flex-direction: row;
+									align-items: end;
+									.price {
+										color: rgb(48, 82, 168);
+										font-weight: 700 !important;
+										font-size: 2.2rem !important;
+										line-height: 1 !important;
+									}
+									.priceLabel {
+										color: var(--text-secondary);
+										font-size: 1rem;
+									}
+								}
+								.bookButton {
+									width: 150px;
+									padding: 10px 24px !important;
+									border-radius: 40px !important;
+									font-weight: 600 !important;
+									box-shadow: 0 4px 12px rgba(201, 148, 86, 0.2) !important;
+									&:hover {
+										box-shadow: 0 6px 16px rgba(201, 148, 86, 0.3) !important;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
