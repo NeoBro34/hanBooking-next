@@ -5,12 +5,13 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Stack, Box, Pagination, TextField, Button, Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AgentCard from '@/libs/components/agent/AgentCard';
 
 const AgentList: NextPage = () => {
 	const device = useDeviceDetect();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
-	const [filterSortName, setFilterSortName] = useState('New');
+	const [filterSortName, setFilterSortName] = useState('Recent');
 
 
 	/** HANDLERS **/
@@ -47,39 +48,42 @@ const AgentList: NextPage = () => {
 										{filterSortName}
 									</Button>
 									<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-										<MenuItem
-											// onClick={sortingHandler}
-											id={'new'}
-											disableRipple
-											sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+										<MenuItem 
+											// onClick={sortingHandler} 
+											id={'recent'} disableRipple
 										>
-											New
+											Recent
 										</MenuItem>
-										<MenuItem
-											// onClick={sortingHandler}
-											id={'lowest'}
-											disableRipple
-											sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+										<MenuItem 
+											// onClick={sortingHandler} 
+											id={'old'} disableRipple
 										>
-											Lowest Price
+											Oldest
 										</MenuItem>
-										<MenuItem
-											// onClick={sortingHandler}
-											id={'highest'}
-											disableRipple
-											sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+										<MenuItem 
+											// onClick={sortingHandler} 
+											id={'likes'} disableRipple
 										>
-											Highest Price
+											Likes
+										</MenuItem>
+										<MenuItem 
+											// onClick={sortingHandler} 
+											id={'views'} disableRipple
+										>
+											Views
 										</MenuItem>
 									</Menu>
 								</div>
 							</Box>
 						</Stack>
 					<Stack className='agent-card-box'>
-
+						{[1,2,3,4,5].map((agent, index) => (
+							<AgentCard/>
+						))}
 					</Stack>
 					<Stack>
 						<Pagination count={2}
+							style={{marginBottom: "30px"}}
 						// page={page} 
 						// onChange={handleChange} 
 						/>
