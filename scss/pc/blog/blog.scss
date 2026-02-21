@@ -13,7 +13,6 @@
                     margin-bottom: 20px;
                     border-radius: 50%;
                     padding: 8px;
-
                     background: linear-gradient(5deg,
                         #feda75,
                         #fa7e1e,
@@ -22,8 +21,8 @@
                         #4f5bd5
                     );
                     img {
-                        width: 200px;
-                        height: 200px;
+                        width: 230px;
+                        height: 230px;
                         border-radius: 50%;
                         animation: heartbeat 2s infinite ease-in-out;
                         @keyframes heartbeat {
@@ -47,10 +46,25 @@
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
+                    margin-bottom: 50px;
                     .category-button {
                         width: 160px;
                         border-radius: 30px;
                         background-color: rgb(70, 62, 62);
+                    }
+                }
+                .blog-search {
+                    width: 95%;
+                    height: 60px;
+                    border: 2px solid;
+                    border-radius: 20px;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    flex-direction: row;
+                    .write-button {
+                        height: 40px;
+                        border-radius: 20px;
                     }
                 }
             }
@@ -60,7 +74,9 @@
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                margin-top: 50px;
+                margin-top:-30px;
+                padding: 40px;
+                gap: 20px;
                 .community-general-card-config {
                     position: relative;
                     height: auto;
@@ -160,6 +176,11 @@
                         }
                     }
                 }
+            }
+            .blog-buttom-section {
+                display: flex;
+                flex-direction: column;
+                padding: 50px;
             }
         }
     }
