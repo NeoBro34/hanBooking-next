@@ -50,7 +50,16 @@
                     .category-button {
                         width: 160px;
                         border-radius: 30px;
-                        background-color: rgb(70, 62, 62);
+                        background: linear-gradient(90deg, #D4A017 0%, #462e01 100%);
+                        color: #fff;
+                        padding: 8px 22px;
+                        text-transform: none;
+                        font-weight: 600;
+                        box-shadow: none;
+                        &:hover{
+                            background: linear-gradient(90deg, #C99614 0%, #553700 100%);
+                            box-shadow: none;
+                        }
                     }
                 }
                 .blog-search {

@@ -51,9 +51,9 @@ const Top = () => {
                                         className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Agents</span>
                                 </a>
                                 <a href="/blog" className="relative overflow-hidden h-6 group">
-                                    <span className="block group-hover:-translate-y-full transition-transform duration-300">Blog</span>
+                                    <span className="block group-hover:-translate-y-full transition-transform duration-300">CommunityBlog</span>
                                     <span
-                                        className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Blog</span>
+                                        className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">CommunityBlog</span>
                                 </a>
                                 <a href="/about" className="relative overflow-hidden h-6 group">
                                     <span className="block group-hover:-translate-y-full transition-transform duration-300">About</span>
