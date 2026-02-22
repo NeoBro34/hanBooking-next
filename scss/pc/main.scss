@@ -8,12 +8,23 @@
 
 @import '/scss/pc/agent/agent.scss';
 // @import '/scss/pc/agent/detail.scss';
+@import '/scss/pc/mypage/addNewProperty.scss';
+@import '/scss/pc/mypage/myPage.scss';
+@import '/scss/pc/mypage/myProfile.scss';
+@import '/scss/pc/mypage/myProperties.scss';
+@import '/scss/pc/mypage/myFavorites.scss';
+@import '/scss/pc/mypage/myArticles.scss';
+@import '/scss/pc/mypage/writeArticle.scss';
+
 
 @import '/scss/pc/blog/blog.scss';
+
 
 @import '/scss/pc/about/about.scss';
 
 @import '/scss/pc/cs/cs.scss';
+
+@import '/scss/pc/member/memberFollows.scss';
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -41,60 +52,93 @@
                     flex-direction: row; 
                     align-items: center; 
                     justify-content: space-between;
-                    .logo-box {
-                        img {
-                            height: 250px;
-                            cursor: pointer;
-                        }
-                    }
-                    .router-box {
-                        position: relative;
+                    .left-box {
                         display: flex;
                         flex-direction: row;
-                        justify-content: space-between;
-                        div {
-                            position: relative; 
-                            color: #eeeeeeed; 
-                            font-family: $font; 
-                            font-size: 15px; 
-                            font-style: normal; 
-                            font-weight: 600;
-                            line-height: normal; 
-                            cursor: pointer;
-                        }
-                    }
-                    .user-box {
-                        display: flex; 
-                        flex-direction: row; 
-                        justify-content: flex-end;
-                        .join-box { 
-                            width: 184px; 
-                            height: 47px; 
-                            display: flex;
-                            align-items: center; 
-                            justify-content: center; 
-                            border-radius: 60px;
-                            border: 1px solid #ffffff;
-                            cursor: pointer;
-                            svg {
-                                color: #ffffff;
-                                margin-right: 10px;
+                        .logo-box {
+                            img {
+                                height: 250px;
+                                cursor: pointer;
                             }
-                            span {
+                        }
+                        .router-box {
+                            position: relative;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            div {
+                                position: relative; 
+                                color: #eeeeeeed; 
                                 font-family: $font; 
-                                font-size: 14px; 
+                                font-size: 15px; 
                                 font-style: normal; 
                                 font-weight: 600;
                                 line-height: normal; 
-                                color: #ffffff;
+                                cursor: pointer;
+                            }
+                        }   
+                    }
+                    .right-box {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        .user-box {
+                            display: flex; 
+                            flex-direction: row; 
+                            justify-content: flex-end;
+                            .join-box { 
+                                width: 184px; 
+                                height: 47px; 
+                                display: flex;
+                                align-items: center; 
+                                justify-content: center; 
+                                border-radius: 60px;
+                                border: 1px solid #ffffff;
+                                cursor: pointer;
+                                svg {
+                                    color: #ffffff;
+                                    margin-right: 10px;
+                                }
+                                span {
+                                    font-family: $font; 
+                                    font-size: 14px; 
+                                    font-style: normal; 
+                                    font-weight: 600;
+                                    line-height: normal; 
+                                    color: #ffffff;
+                                }
+                            }
+                            .login-user {
+                                img {
+                                    width: 52px;
+                                    height: 52px;
+                                    border-radius: 50%;
+                                    object-fit: cover;
+                                }
                             }
                         }
-                        .login-user {
-                            img {
-                                width: 42px;
-                                height: 42px;
-                                border-radius: 50%;
-                                object-fit: cover;
+                        .lan-box {
+                            margin-left: 18px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            .notification-icon {
+                                color: white;
+                                cursor: pointer;
+                            }
+                            .btn-lang {
+                                border-radius: 4px;
+                                img {
+                                    width: 20px;
+                                    height: 15px;
+                                    border-radius: 2px;
+                                }
+                            }
+                            .img-flag {
+                                width: 24px;
+                                height: 17px;
+                                border-radius: 2px;
+                                margin-right: 8px;
                             }
                         }
                     }
