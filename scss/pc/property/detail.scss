@@ -18,119 +18,14 @@
 					height: auto;
 					flex-direction: row;
 					justify-content: space-between;
+					align-items: end;
 					.left-box {
-						width: 50%;
-						height: auto;
-						.title-main {
-							color: #181a20;
-							font-family: $font;
-							font-size: 30px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							letter-spacing: 0.6px;
-							text-transform: capitalize;
-						}
-						.top-box {
-							width: auto;
-							height: auto;
-							flex-direction: row;
-							align-items: center;
-							gap: 10px;
-							margin-bottom: 17px;
-							.city {
-								color: #717171;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-							}
-							.divider {
-								width: 1px;
-								height: 20px;
-								background: #ddd;
-							}
-							.buy-rent-box {
-								flex-direction: row;
-								align-items: center;
-								gap: 7px;
-								.buy-rent {
-									color: #eb6753;
-									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-								}
-							}
-							.date {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
-							}
-						}
-						.bottom-box {
-							width: auto;
-							height: auto;
-							flex-direction: row;
-							gap: 15px;
-							.option {
-								width: auto;
-								height: auto;
-								flex-direction: row;
-								gap: 8px;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-								}
-							}
-						}
+						
 					}
 					.right-box {
 						width: auto;
 						height: auto;
 						align-items: flex-end;
-						.buttons {
-							width: auto;
-							height: auto;
-							flex-direction: row;
-							align-items: center;
-							gap: 11px;
-							margin: 0 10px 27px 0;
-							p {
-								color: #181a20;
-								text-align: right;
-								font-family: $font;
-								font-size: 18px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-								letter-spacing: 0.52px;
-								text-transform: capitalize;
-							}
-							.button-box {
-								flex-direction: row;
-								gap: 5px;
-								align-items: center;
-							}
-						}
-						img {
-							width: 28px;
-							height: 27px;
-						}
-						svg {
-							width: 28px;
-							height: 27px;
-							cursor: pointer;
-						}
 						p {
 							color: #181a20;
 							text-align: right;
@@ -140,18 +35,6 @@
 							font-weight: 600;
 							line-height: normal;
 							letter-spacing: 0.52px;
-							text-transform: capitalize;
-						}
-						span {
-							color: #181a20;
-							text-align: right;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: normal;
-							letter-spacing: 0.3px;
-							text-transform: capitalize;
 						}
 					}
 				}
@@ -197,57 +80,21 @@
 					width: 960px;
 					height: auto;
 					gap: 40px;
-					.options-config {
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						gap: 47.5px;
-						.option {
-							width: auto;
-							height: auto;
-							flex-direction: row;
-							gap: 17px;
-							.svg-box {
-								width: 56px;
-								height: 50px;
-								align-items: center;
-								justify-content: center;
-								border-radius: 12px;
-								border: 1px solid #ddd;
-								img {
-									width: 35px;
-									height: auto;
-								}
-							}
-							.option-includes {
-								width: auto;
-								height: auto;
-								.title {
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-								}
-								.option-data {
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-								}
-							}
-						}
-					}
 					.prop-desc-config {
 						width: 100%;
 						height: auto;
 						gap: 50px;
 						padding: 29px 38px 50px 38px;
 						border-radius: 12px;
-						border: 1px solid #c4c4c4;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
 						.top {
 							width: 100%;
 							height: auto;
@@ -270,53 +117,6 @@
 								max-height: 104px;
 							}
 						}
-						.bottom {
-							width: 100%;
-							height: auto;
-							gap: 30px;
-							.title {
-								color: #181a20;
-								font-family: $font;
-								font-size: 17px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-							.info-box {
-								width: 100%;
-								height: auto;
-								flex-direction: row;
-								gap: 230px;
-								.left,
-								.right {
-									.info {
-										width: auto;
-										height: auto;
-										display: flex;
-										flex-direction: row;
-										gap: 38px;
-										.title {
-											width: 121px;
-											color: #181a20;
-											font-family: $font;
-											font-size: 14px;
-											font-style: normal;
-											font-weight: 600;
-											line-height: 35px;
-										}
-										.data {
-											width: 88px;
-											color: #181a20;
-											font-family: $font;
-											font-size: 14px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: 35px;
-										}
-									}
-								}
-							}
-						}
 					}
 					.floor-plans-config {
 						width: 100%;
@@ -325,6 +125,15 @@
 						padding: 30px 38px;
 						border-radius: 12px;
 						border: 1px solid #c4c4c4;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
 						.title {
 							color: #181a20;
 							font-family: $font;
@@ -333,14 +142,27 @@
 							font-weight: 600;
 							line-height: normal;
 						}
-						.image-box {
-							width: 100%;
-							height: 510px;
-							border: 1px solid #c4c4c4;
-							img {
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
+						.amenities-box {
+							display: flex;
+							flex-direction: row;
+							flex-wrap: wrap;
+							gap: 25px;
+							.icons-box {
+								width: 200px;
+								height: 70px;
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								.check-icon {
+									font-size: 30px;
+									color: green;
+									margin-right: 20px;
+								}
+								.main-icon {
+									font-size: 35px;
+									margin-right: 10px;
+									color: #2637ca;
+								}
 							}
 						}
 					}
@@ -351,6 +173,15 @@
 						padding: 30px 38px;
 						border-radius: 12px;
 						border: 1px solid #c4c4c4;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
 						.title {
 							color: #181a20;
 							font-family: $font;
@@ -373,6 +204,15 @@
 						padding: 30px 38px 45px 38px;
 						border-radius: 12px;
 						border: 1px solid #c4c4c4;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
 						.filter-box {
 							width: 100%;
 							height: auto;
@@ -503,6 +343,15 @@
 						background: #fff;
 						box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 						padding: 30px 38px;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
 						.main-title {
 							color: #181a20;
 							font-family: $font;
@@ -539,7 +388,7 @@
 							display: flex;
 							justify-content: flex-end;
 							button:disabled {
-								background: #dfdfdf;
+								background: linear-gradient(90deg, #D4A017 0%, #462e01 100%);
 							}
 							.submit-review {
 								display: flex;
@@ -549,7 +398,7 @@
 								justify-content: center;
 								align-items: center;
 								gap: 10px;
-								border-radius: 12px;
+								border-radius: 30px;
 								border: 1px solid #c4c4c4;
 								cursor: pointer;
 								.title {
@@ -573,6 +422,15 @@
 					border: 1px solid rgba(196, 196, 196, 0.79);
 					background: #fff;
 					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+					transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+					border: 2px solid rgba(0, 0, 0, 0.06);
+					&:hover {
+						transform: translateY(-8px);
+						box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+						.cardImage {
+						transform: scale(1.1);
+						}
+					}
 					.info-box {
 						position: relative;
 						width: 100%;
@@ -689,8 +547,12 @@
 							justify-content: center;
 							align-items: center;
 							gap: 10px;
-							border-radius: 12px;
-							background: #eb6753;
+							border-radius: 30px;
+							background: linear-gradient(90deg, #D4A017 0%, #462e01 100%);
+							&:hover{
+                                background: linear-gradient(90deg,  #5d4415 0%, #8a6a18 100%);
+                                box-shadow: none;
+                            }
 							.title {
 								color: #fff;
 								font-family: $font;
@@ -734,21 +596,124 @@
 							line-height: 26px;
 						}
 					}
-					.pagination-box {
-						flex-direction: row;
-						align-items: center;
-						gap: 22px;
-					}
 				}
 				.cards-box {
 					width: 100%;
 					padding-bottom: 10px;
-					.similar-homes-swiper {
-						width: 100%;
-						.similar-homes-slide {
-							width: 411px;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-around;
+					margin-bottom: 20px;
+					.roomCard {
+						width: 30%;
+						height: 470px;
+						margin: 18px;
+						display: flex;
+						flex-direction: column;
+						border-radius: 16px !important;
+						overflow: hidden;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 1px solid rgba(0, 0, 0, 0.06);
+						&:hover {
+							transform: translateY(-8px);
+							box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							.cardImage {
+							transform: scale(1.1);
+							}
+						}
+						.cardImageWrapper {
+							position: relative;
+							overflow: hidden;
+							.top-icon{
+								display: flex;
+								flex-direction: row;
+								position: absolute;
+								justify-content: center;
+								align-items: center;
+								padding: 12px;
+								color: red;
+								text-shadow: 0px 4px 4px rgba(249, 249, 249, 0.25);
+								z-index: 2;
+								
+							}
+							.cardImage {
+								height: 250px;
+								transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+								background-size: cover;
+							}
+							.rating {
+								display: flex;
+								flex-direction: column;
+								position: absolute;
+								padding: 5px;
+								top: 16px;
+								right: 16px;
+								border-radius: 50%;
+								display: flex;
+								align-items: center;
+								gap: 9px;
+								font-weight: 600;
+								font-size: 0.9rem;
+								z-index: 2;
+							}
+						}
+						.cardContent {
+							padding: 20px;
+							display: flex;
+							flex-direction: column;
+							.roomName {
+								font-size: 1.5rem !important;
+								color: rgb(0, 0, 0);
+								font-weight: 600 !important;
+								margin-bottom: 5px;
+							}
+							.amenities {
+								display: flex;
+								flex-direction: row;
+								margin-bottom: 15px;
+								margin-top: 20px;
+								.amenity {
+									display: flex;
+									align-items: center;
+									margin-right: 10px;
+									color: rgb(48, 82, 168);
+									font-size: 0.85rem;
+									.amenityIcon {
+										font-size: 1.1rem !important;
+										color: var(--primary-main);
+									}
+								}
+							}
+							.border {
+								width: 100%;
+								border: 0.05px solid gray ;
+								border-radius: 50%;
+								margin-bottom: 10px;
+							}
+							.cardFooter {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								align-items: center;
+								.priceWrapper {
+									display: flex;
+									flex-direction: row;
+									align-items: end;
+									.price {
+										color: rgb(48, 82, 168);
+										font-weight: 700 !important;
+										font-size: 1.8rem !important;
+										line-height: 1 !important;
+									}
+									.priceLabel {
+										color: var(--text-secondary);
+										font-size: 0.85rem;
+									}
+								}
+							}
 						}
 					}
+						
 				}
 			}
 		}

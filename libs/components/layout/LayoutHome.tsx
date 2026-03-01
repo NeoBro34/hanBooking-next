@@ -20,6 +20,7 @@ const withLayoutMain = (Component: any) => {
             <>
                 <Head>
                     <title>HanBooking</title>
+                    <meta name={'title'} content={`HanBooking`} />
                 </Head>
                 <Stack id="pc-wrap">
                     <Stack id= {"top"}>

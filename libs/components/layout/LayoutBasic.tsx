@@ -96,7 +96,7 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
+						<title>HanBooking</title>
 						<meta name={'title'} content={`Hanbooking`} />
 					</Head>
 					<Stack id="mobile-wrap">
@@ -131,7 +131,7 @@ const withLayoutBasic = (Component: any) => {
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								boxShadow: 'inset 40px 50px 140px 160px rgb(24 22 36)',
+								boxShadow: 'inset 40px 50px 100px 120px rgb(24 22 36)',
 							}}
 						>
 							<Stack className={'container'}>

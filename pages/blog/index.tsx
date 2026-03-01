@@ -31,22 +31,31 @@ const BlogList: NextPage = () => {
 						<Stack className='img-box'>
 							<img src="/img/logo/community.png" alt="" />
 						</Stack>
-						<Stack className='catrgory-box'>
-							<Button className='category-button' variant="contained">Free Board</Button>
-							<Button className='category-button' variant="contained">Recommendation</Button>
-							<Button className='category-button' variant="contained">News</Button>
-							<Button className='category-button' variant="contained">Humor</Button>
+						<Stack className='search-box'>
+							<Stack className='blog-search'>
+								<Box className='search-input'>
+									<TextField
+										style={{width: "100%"}}
+										variant="standard"
+										placeholder='search article'
+										InputProps={{
+											disableUnderline: true,
+										}}
+									/>
+									<IconButton className='search-chip' >
+										<SearchIcon color='secondary' />
+									</IconButton>
+								</Box>
+								
+							</Stack>
+							<Stack className='catrgory-box'>
+								<Button className='category-button' variant="contained">Free Board</Button>
+								<Button className='category-button' variant="contained">Recommendation</Button>
+								<Button className='category-button' variant="contained">News</Button>
+								<Button className='category-button' variant="contained">Humor</Button>
+							</Stack>
 						</Stack>
-						<Stack className='blog-search'>
-							<TextField
-								style={{width: "75%"}}
-								variant="standard"
-								placeholder='search article'
-								InputProps={{
-									disableUnderline: false,
-									startAdornment: <SearchIcon style={{marginRight: "10px"}} />,
-								}}
-							/>
+						<Box style={{width: "100%", display: "flex", justifyContent: "end"}}>
 							<Button 
 								variant="contained"
 								color='secondary'
@@ -54,7 +63,7 @@ const BlogList: NextPage = () => {
 							>
 								<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/> Write
 							</Button>
-						</Stack>
+						</Box>
 					</Stack>
 					<Stack className='main-section'>
 						{[1,2,3,4,5,].map(() => (

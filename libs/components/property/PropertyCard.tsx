@@ -94,7 +94,7 @@ export function StayBookingCard() {
                         <Stack className='obsion-box'>
                             <Box className='info-box'>
                                 <h2 className="text-3xl font-bold text-gray-900 mb-3 mt-2">
-                                    <a href="#">{room.name}</a>
+                                    <a href="/stays/detail">{room.name}</a>
                                 </h2>
                                 <div className="flex items-center gap-1 text-gray-600 mb-3">
                                     <LocationOnIcon sx={{ fontSize: 20 }} />

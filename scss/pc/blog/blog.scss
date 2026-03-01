@@ -41,40 +41,69 @@
                         }
                     }
                 }
-                .catrgory-box {
-                    width: 55%;
+                .search-box {
+                    width: 85%;
+                    height: 180px;
                     display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    margin-bottom: 50px;
-                    .category-button {
-                        width: 160px;
-                        border-radius: 30px;
-                        background: linear-gradient(90deg, #D4A017 0%, #462e01 100%);
-                        color: #fff;
-                        padding: 8px 22px;
-                        text-transform: none;
-                        font-weight: 600;
-                        box-shadow: none;
-                        &:hover{
-                            background: linear-gradient(90deg, #C99614 0%, #553700 100%);
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                    border-radius: 50px;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    border: 2px solid rgba(0, 0, 0, 0.06);
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+                    .blog-search {
+                        width: 95%;
+                        height: 60px;
+                        border-radius: 20px;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        flex-direction: row;
+                        .search-input {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                            .search-chip {
+                                width: 55px;
+                                height: 55px;
+                                background: linear-gradient(90deg, #C99614 0%, #553700 100%);
+                                &:hover {
+                                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                                    transform: translateY(-5px);
+                                }
+                            }
+                        }
+                    }
+                    .catrgory-box {
+                        width: 70%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        .category-button {
+                            width: 160px;
+                            border-radius: 30px;
+                            background: linear-gradient(90deg, #D4A017 0%, #462e01 100%);
+                            color: #fff;
+                            padding: 8px 22px;
+                            text-transform: none;
+                            font-weight: 600;
                             box-shadow: none;
+                            &:hover{
+                                background: linear-gradient(90deg, #C99614 0%, #553700 100%);
+                                box-shadow: none;
+                            }
                         }
                     }
                 }
-                .blog-search {
-                    width: 95%;
-                    height: 60px;
-                    border: 2px solid;
+                .write-button {
+                    height: 40px;
                     border-radius: 20px;
-                    display: flex;
-                    justify-content: space-around;
-                    align-items: center;
-                    flex-direction: row;
-                    .write-button {
-                        height: 40px;
-                        border-radius: 20px;
-                    }
+                    margin-top: 10px;
+                    margin-right: 25px;
                 }
             }
             .main-section {
@@ -83,13 +112,13 @@
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                margin-top:-30px;
+                margin-top:-60px;
                 padding: 40px;
                 gap: 20px;
                 .community-general-card-config {
                     position: relative;
                     height: auto;
-                    gap: 20px;
+                    gap: 22px;
                     width: 350px;
                     margin: 18px;
                     display: flex;
