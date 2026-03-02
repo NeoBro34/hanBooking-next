@@ -7,43 +7,10 @@
                 justify-content: center;
                 align-items: center;
                 margin: 20px;
-                .img-box {
-                    width: 200px;
-                    height: 200px;
-                    margin-bottom: 20px;
-                    border-radius: 50%;
-                    padding: 8px;
-                    background: linear-gradient(5deg,
-                        #feda75,
-                        #fa7e1e,
-                        #d62976,
-                        #962fbf,
-                        #4f5bd5
-                    );
-                    img {
-                        width: 230px;
-                        height: 230px;
-                        border-radius: 50%;
-                        animation: heartbeat 2s infinite ease-in-out;
-                        @keyframes heartbeat {
-
-                            0% {
-                                transform: scale(1);
-                            }
-
-                            50% {
-                                transform: scale(1.04);
-                            }
-
-                            100% {
-                                transform: scale(1);
-                            }
-                        }
-                    }
-                }
                 .search-box {
                     width: 85%;
                     height: 180px;
+                    margin-top: 50px;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;

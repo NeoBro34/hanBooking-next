@@ -2,21 +2,11 @@ import React from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination, TextField } from '@mui/material';
+import { Stack, Box, Button, TextField } from '@mui/material';
 import BlogCard from '@/libs/components/common/blogCard';
 import SearchIcon from '@mui/icons-material/Search';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Avatar,
-  Chip,
-  IconButton,
-  CardActions,
-} from '@mui/material';
-import { Favorite, ChatBubbleOutline, BookmarkBorder } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 const BlogList: NextPage = () => {
 	const device = useDeviceDetect();
@@ -28,9 +18,6 @@ const BlogList: NextPage = () => {
 			<Stack className='blog-list-box'>
 				<Stack className='container'>
 					<Stack className='blog-top-section'>
-						<Stack className='img-box'>
-							<img src="/img/logo/community.png" alt="" />
-						</Stack>
 						<Stack className='search-box'>
 							<Stack className='blog-search'>
 								<Box className='search-input'>

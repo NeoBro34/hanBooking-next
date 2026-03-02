@@ -14,6 +14,10 @@ import { alpha, styled } from '@mui/material/styles';
 import { useRouter } from "next/router";
 import Badge from "@mui/material/Badge";
 import useDeviceDetect from "../hooks/useDeviceDetect";
+import { useReactiveVar } from "@apollo/client";
+import { userVar } from "@/apollo/store";
+import React from "react";
+import { logOut } from "../auth";
 
 
 const Top = () => {
@@ -26,6 +30,12 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const router = useRouter();
 	const drop = Boolean(anchorEl2);
+	const user = useReactiveVar(userVar);
+	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
+	let open = Boolean(anchorEl);
+	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
+	const logoutOpen = Boolean(logoutAnchor);
+
 
 
 
@@ -255,14 +265,36 @@ const Top = () => {
                             </div>
                             <Box component={"div"} className={"user-box"}>
                                 {false ? (
-                                    <button
-                                        className="border border-slate-100 hover:bg-slate-600 hover:text-slate-100 px-3 py-2 rounded-full text-sm text-slate-400 font-medium transition duration-200 cursor-pointer ">
-                                        <AccountCircleOutlinedIcon sx={{marginRight: "10px"}}/>Login / Apply
-                                    </button>
+                                    <Link href={'/account/join'}>
+                                        <button
+                                            className="border border-slate-100 hover:bg-slate-600 hover:text-slate-100 px-3 py-2 rounded-full text-sm text-slate-400 font-medium transition duration-200 cursor-pointer ">
+                                            <AccountCircleOutlinedIcon sx={{marginRight: "10px"}}/>
+                                        <span>
+                                            {t('Login')} / {t('Apply')}
+                                        </span>
+                                        </button>
+                                    </Link>
                                 ) : (
-                                    <div className={"login-user"}>
-                                        <img src={"/img/profile/defaultUser.svg"} alt="" />
-                                    </div>
+                                   <>
+                                        <div className={"login-user"} onClick={(event: any) => setLogoutAnchor(event.currentTarget)} >
+                                            <img src={"/img/profile/defaultUser.svg"} alt="" />
+                                        </div>
+
+                                        <Menu
+                                            id="basic-menu"
+                                            anchorEl={logoutAnchor}
+                                            open={logoutOpen}
+                                            onClose={() => {
+                                                setLogoutAnchor(null);
+                                            }}
+                                            sx={{ mt: '5px' }}
+                                        >
+                                            <MenuItem onClick={() => logOut()}>
+                                                <Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+                                                Logout
+                                            </MenuItem>
+                                        </Menu>
+                                   </>
                                 )}
                             </Box>
                         </Stack>
