@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Stack, Box, Button, Pagination, TextField } from '@mui/material';
-import BlogCard from '@/libs/components/blog/blogCard';
+import BlogCard from '@/libs/components/common/blogCard';
 import SearchIcon from '@mui/icons-material/Search';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import {
@@ -65,75 +65,9 @@ const BlogList: NextPage = () => {
 							</Button>
 						</Box>
 					</Stack>
-					<Stack className='main-section'>
-						{[1,2,3,4,5,].map(() => (
-							<BlogCard/>
-						))}
-					</Stack>
-					<Stack style={{width: "100%", alignItems: "center"}}>
-						<Pagination count={2}
-							style={{marginBottom: "50px"}}
-						// page={page} 
-						// onChange={handleChange} 
-						/>
-					</Stack>
 					<Stack className='blog-buttom-section'>
 						{[1,2,3].map(() => (
-							<Stack style={{marginBottom: "40px"}}>
-									<Card
-										sx={{
-											height: '100%',
-											display: 'flex',
-											flexDirection: 'column',
-											transition: 'transform 0.2s, box-shadow 0.2s',
-											'&:hover': {
-											transform: 'translateY(-4px)',
-											boxShadow: 6,
-											},
-										}}
-										>
-										<CardMedia component="img" height="200" image="/img/banner/blogheader.jpg"  />
-										<CardContent sx={{ flexGrow: 1 }}>
-											<Box sx={{ mb: 2 }}>
-											<Chip label="Humor" color="primary" size="small" />
-											</Box>
-											<Typography variant="h6" component="h2" gutterBottom>
-											Getting Started
-											</Typography>
-											<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											</Typography>
-											<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-											<Avatar src="/img/banner/seoul.jpg" sx={{ width: 32, height: 32 }} />
-											<Box>
-												<Typography variant="body2">Simoon</Typography>
-												<Typography variant="caption" color="text.secondary">
-												Yanuary 20
-												</Typography>
-											</Box>
-											</Box>
-										</CardContent>
-										<CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
-											<Box sx={{ display: 'flex', gap: 1 }}>
-											<Box sx={{ display: 'flex', alignItems: 'center' }}>
-												<IconButton size="small" color="primary">
-												<Favorite fontSize="small" />
-												</IconButton>
-												<Typography variant="caption">23</Typography>
-											</Box>
-											<Box sx={{ display: 'flex', alignItems: 'center' }}>
-												<IconButton size="small">
-												<ChatBubbleOutline fontSize="small" />
-												</IconButton>
-												<Typography variant="caption">12</Typography>
-											</Box>
-											</Box>
-											<IconButton size="small">
-											<BookmarkBorder fontSize="small" />
-											</IconButton>
-										</CardActions>
-									</Card>
-							</Stack>
+							<BlogCard/>
 						))}
 					</Stack>
 				</Stack>

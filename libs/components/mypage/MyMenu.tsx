@@ -8,9 +8,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -28,22 +28,25 @@ const MyMenu = () => {
 		return (
             <Stack className="my-menu">
                 <Stack className="profile-info-box">
-						<img
-                            className='profile-img'
-							src={
-                                // user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : 
-                                '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
-                        <div className="user-name">Neo</div>
-                        <div className="user-phone"><CallIcon sx={{mr:"4px"}}/>01047564666</div>
-                        {false ? (
-                            <a 
-                                href="/_admin/users" target={'_blank'}
-                                className="user-type">Admin</a>
-                        ) : (
-                            <div className="user-type">Agent</div>
-                        )}
+						<Stack className="profile-img-box">
+                            <img
+                                src={
+                                    // user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : 
+                                    '/img/profile/defaultUser.svg'}
+                                alt={'member-photo'}
+                            />
+                        </Stack>
+                        <Stack>
+                            <div className="user-name">Neo</div>
+                            <div className="user-phone"><CallIcon sx={{mr:"4px"}}/>01047564666</div>
+                            {false ? (
+                                <a 
+                                    href="/_admin/users" target={'_blank'}
+                                    className="user-type">Admin</a>
+                            ) : (
+                                <div className="user-type">Agent</div>
+                            )}
+                        </Stack>
                 </Stack>
                 <Stack className="sections">
                     <Link 
@@ -100,6 +103,17 @@ const MyMenu = () => {
                     >
                             <ManageSearchIcon className="icon"/>
                             <span>Resently Visited</span>
+                    </Link>
+                     <Link 
+                        href={{
+                            pathname: '/mypage',
+                            query: { category: 'myBookings' },
+                        }}
+                        scroll={false}
+                        className={pathname === 'myBookings' ? 'focus' : 'section'}
+                    >
+                            <EventNoteIcon className="icon"/>
+                            <span>My Bookings</span>
                     </Link>
                     {true && (
                         <>

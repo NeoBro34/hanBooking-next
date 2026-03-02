@@ -62,20 +62,18 @@ const TopAgents = () => {
                     <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
                         {topAgent.map((agent, index) => (
                             <div key={index} className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">
-                                <Stack className="bg-white rounded-2xl pb-4 overflow-hidden border border-gray-200 hover:-translate-y-1 transition duration-300">
-                                    <Box className="w-64 flex justify-center pt-10">
-                                        <div className="w-30 h-30 rounded-full overflow-hidden">
-                                            <img className="h-32 object-cover object-top" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200" alt="userImage2"/>
+                                <Stack className="overflow-hidden hover:-translate-y-1 transition duration-300">
+                                    <Box className="w-65 flex justify-center ">
+                                        <div className="bg-black text-white rounded-2xl">
+                                            <div className="relative -mt-px overflow-hidden rounded-2xl">
+                                                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=600" alt="" className="h-[270px] w-full rounded-2xl hover:scale-105 transition-all duration-300 object-cover object-top"/>
+                                                <div className="absolute bottom-0 z-10 h-60 w-full bg-gradient-to-t pointer-events-none from-black to-transparent"></div>
+                                            </div>
+                                            <div className="px-4 pb-6 text-center">
+                                                <p className="mt-4 text-lg">John Doe</p>
+                                                <p className="text-sm font-medium bg-gradient-to-r from-[#8B5CF6] via-[#9938CA] to-[#E0724A] text-transparent bg-clip-text">AGENT</p>
+                                            </div>
                                         </div>
-                                    </Box>
-                                    <FavoriteIcon style={{position:"relative", marginLeft:"160px", marginTop:"-30px", color:"red"}}/>
-                                    <Box className="flex flex-col items-center">
-                                        <p className="font-medium mt-3">Kelvin John</p>
-                                        <p className="text-gray-500 text-sm">kelvin.john@gmail.com</p>
-                                        <button className="flex flex-row border text-sm text-gray-500 bg-yellow-500 hover:bg-yellow-600 border-gray-200 hover:bg-gray-100 transition cursor-pointer px-6 py-1 rounded-full mt-5">
-                                            <img src="img/icons/followers.png" className="w-4 h-4 mr-3" alt="" />
-                                            <p className="">Follow</p>
-                                        </button>
                                     </Box>
                                 </Stack>
                             </div>

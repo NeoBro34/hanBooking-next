@@ -17,6 +17,7 @@ import MyArticles from '@/libs/components/mypage/MyArticles';
 import WriteArticle from '@/libs/components/mypage/WriteArticle';
 import MemberFollowers from '@/libs/components/member/MemberFollowers';
 import MemberFollowings from '@/libs/components/member/MemberFollowings';
+import MyBookings from '@/libs/components/mypage/MyBookings';
 
 const MyPage: NextPage = () => {
 	const device = useDeviceDetect();
@@ -70,6 +71,7 @@ const MyPage: NextPage = () => {
 							{category === 'myFavorites' && <MyFavorites />}
 							{category === 'recentlyVisited' && <RecentlyVisited />}
 							{category === 'myArticles' && <MyArticles />}
+							{category === 'myBookings' && <MyBookings />}
 							{category === 'writeArticle' && <WriteArticle />}
 							{category === 'followers' && (
 								<MemberFollowers

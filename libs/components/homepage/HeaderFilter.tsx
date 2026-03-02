@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Container, Button, TextField, Grid, MenuItem } from '@mui/material';
+import { Box, Typography, Container, Button, TextField, Grid, MenuItem, Stack } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '/scss/pc/homepage/Hero.module.scss';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -41,22 +41,23 @@ const HeaderFilter = () => {
 
 
     return (
-        <section className={styles.hero} id="home">
-            <Container className={styles.heroContainer}>
-                <Box className={styles.heroContent}>
-                    <Typography variant="h1" className={`${styles.heroTitle} fade-in-up`}>
-                        Discover Your Perfect Escape
-                    </Typography>
-                    <Typography variant="h5" className={`${styles.heroSubtitle} fade-in-up`} style={{ animationDelay: '0.2s' }}>
-                        Luxury accommodations in the South Korea most breathtaking destinations
-                    </Typography>
-                    
-                    <Box className={`${styles.searchWrapper} fade-in-up`} style={{ animationDelay: '0.4s' }}>
-                        <Box className={styles.searchBar}>
-                            <Grid container spacing={2} className={styles.searchGrid}>
-                                <Grid item xs={12} sm={6} md={3}>
-                                    <Box className={styles.inputWrapper}>
-                                        <LocationOnIcon className={styles.inputIcon} />
+        <section className={'hero'} id="home">
+            <Container className={'heroContainer'}>
+                <Stack className={'heroContent'}>
+                    <Stack className='hero-left-box'>Header left</Stack>
+                    <Stack className='hero-right-box'>
+                        <Typography variant="h2" className={`${'heroTitle'} fade-in-up`}>
+                            Discover Your Perfect Escape
+                        </Typography>
+                        <Typography variant="h6" className={`${'heroSubtitle'} fade-in-up`} style={{ animationDelay: '0.2s' }}>
+                            Luxury accommodations in the South Korea most breathtaking destinations
+                        </Typography>
+                        
+                        <Box className={`${'searchWrapper'} fade-in-up`} style={{ animationDelay: '0.4s' }}>
+                            <Box className={'searchBar'}>
+                                <Stack className={'searchGrid'}>
+                                    <Box className={'inputWrapper'}>
+                                        <LocationOnIcon className={'inputIcon'} />
                                         <TextField
                                         select
                                         fullWidth
@@ -64,7 +65,7 @@ const HeaderFilter = () => {
                                         onChange={(e) => setDestination(e.target.value)}
                                         placeholder="Where to?"
                                         variant="outlined"
-                                        className={styles.searchInput}
+                                        className={'searchInput'}
                                         SelectProps={{
                                             displayEmpty: true,
                                         }}
@@ -80,58 +81,55 @@ const HeaderFilter = () => {
                                             ))}
                                         </TextField>
                                     </Box>
-                                </Grid>
+                                    {/* <Grid item xs={12} sm={6} md={3}>
+                                        <Box className={'inputWrapper'}>
+                                            <CalendarMonthIcon className={'inputIcon'} />
+                                            <TextField
+                                            type="date"
+                                            fullWidth
+                                            value={checkIn}
+                                            onChange={(e) => setCheckIn(e.target.value)}
+                                            variant="outlined"
+                                            className={'searchInput'}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            inputProps={{
+                                                placeholder: 'Check-in',
+                                            }}
+                                            />
+                                        </Box>
+                                    </Grid>
 
-                                <Grid item xs={12} sm={6} md={3}>
-                                    <Box className={styles.inputWrapper}>
-                                        <CalendarMonthIcon className={styles.inputIcon} />
-                                        <TextField
-                                        type="date"
-                                        fullWidth
-                                        value={checkIn}
-                                        onChange={(e) => setCheckIn(e.target.value)}
-                                        variant="outlined"
-                                        className={styles.searchInput}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        inputProps={{
-                                            placeholder: 'Check-in',
-                                        }}
-                                        />
-                                    </Box>
-                                </Grid>
+                                    <Grid item xs={12} sm={6} md={3}>
+                                        <Box className={'inputWrapper'}>
+                                            <CalendarMonthIcon className={'inputIcon'} />
+                                            <TextField
+                                            type="date"
+                                            fullWidth
+                                            value={checkOut}
+                                            onChange={(e) => setCheckOut(e.target.value)}
+                                            variant="outlined"
+                                            className={'searchInput'}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            inputProps={{
+                                                placeholder: 'Check-out',
+                                            }}
+                                            />
+                                        </Box>
+                                    </Grid> */}
 
-                                <Grid item xs={12} sm={6} md={3}>
-                                    <Box className={styles.inputWrapper}>
-                                        <CalendarMonthIcon className={styles.inputIcon} />
-                                        <TextField
-                                        type="date"
-                                        fullWidth
-                                        value={checkOut}
-                                        onChange={(e) => setCheckOut(e.target.value)}
-                                        variant="outlined"
-                                        className={styles.searchInput}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        inputProps={{
-                                            placeholder: 'Check-out',
-                                        }}
-                                        />
-                                    </Box>
-                                </Grid>
-
-                                <Grid item xs={12} sm={6} md={3}>
-                                    <Box className={styles.inputWrapper}>
-                                        <PeopleIcon className={styles.inputIcon} />
+                                    <Box className={'inputWrapper'}>
+                                        <PeopleIcon className={'inputIcon'} />
                                         <TextField
                                         select
                                         fullWidth
                                         value={guests}
                                         onChange={(e) => setGuests(e.target.value)}
                                         variant="outlined"
-                                        className={styles.searchInput}
+                                        className={'searchInput'}
                                         >
                                         {[1, 2, 3, 4, 5, 6].map((num) => (
                                             <MenuItem key={num} value={num.toString()}>
@@ -140,29 +138,29 @@ const HeaderFilter = () => {
                                         ))}
                                         </TextField>
                                     </Box>
-                                </Grid>
-                            </Grid>
+                                </Stack>
 
-                            <Button
-                                style={{background: '#c67d10',}}
-                                variant="contained"
-                                size="large"
-                                fullWidth
-                                className={styles.searchButton}
-                                onClick={handleSearch}
-                                startIcon={<SearchIcon />}
-                            >
-                                Search Hotels
-                            </Button>
-                            <TopUsers/>
+                                <Button
+                                    style={{background: `linear-gradient(90deg, #D4A017 0%, #462e01 100%)`}}
+                                    variant="contained"
+                                    size="large"
+                                    fullWidth
+                                    className={'searchButton'}
+                                    onClick={handleSearch}
+                                    startIcon={<SearchIcon />}
+                                >
+                                    Search
+                                </Button>
+                            </Box>
                         </Box>
-                    </Box>
-                </Box>
+                    </Stack>
+                </Stack>
+                <TopUsers/>
             </Container>
             
-            <Box className={styles.scrollIndicator}>
-                <Box className={styles.mouse}>
-                <Box className={styles.wheel} />
+            <Box className={'scrollIndicator'}>
+                <Box className={'mouse'}>
+                <Box className={'wheel'} />
                 </Box>
             </Box>
         </section>
