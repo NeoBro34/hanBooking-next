@@ -1,4 +1,5 @@
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import { PropertyAmenity } from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
 
 export interface PropertyInput {
@@ -6,16 +7,15 @@ export interface PropertyInput {
 	propertyLocation: PropertyLocation;
 	propertyAddress: string;
 	propertyTitle: string;
-	propertyPrice: number;
-	propertySquare: number;
+	propertyPricePerNight: number;
+	propertyMaxGuests: number;
 	propertyBeds: number;
 	propertyRooms: number;
 	propertyImages: string[];
+	amenities: PropertyAmenity[];
 	propertyDesc?: string;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
 	memberId?: string;
-	constructedAt?: Date;
+	constructedAt?: string;
 }
 
 interface PISearch {

@@ -108,7 +108,7 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                         type="button"
                         className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95"
                     >
-                        <a href="#" className="group-hover:translate-x-1 transition-all">
+                        <a href="/stays" className="group-hover:translate-x-1 transition-all">
                             See All Destination
                         </a>
                         <svg

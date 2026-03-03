@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, Button, Container, IconButton, Stack } from "@mui/material"
 import Link from "next/link";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -17,7 +17,8 @@ import useDeviceDetect from "../hooks/useDeviceDetect";
 import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/apollo/store";
 import React from "react";
-import { logOut } from "../auth";
+import { getJwtToken, logOut, updateUserInfo } from "../auth";
+import { REACT_APP_API_URL } from "../config";
 
 
 const Top = () => {
@@ -37,7 +38,30 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 
 
+    /** LIFECYCLES **/
+	useEffect(() => {
+		if (localStorage.getItem('locale') === null) {
+			localStorage.setItem('locale', 'en');
+			setLang('en');
+		} else {
+			setLang(localStorage.getItem('locale'));
+		}
+	}, [router]);
 
+	useEffect(() => {
+		switch (router.pathname) {
+			case '/property/detail':
+				setBgColor(true);
+				break;
+			default:
+				break;
+		}
+	}, [router]);
+
+	useEffect(() => {
+		const jwt = getJwtToken();
+		if (jwt) updateUserInfo(jwt);
+	}, []);
 
 
     /** HANDLERS **/
@@ -175,7 +199,7 @@ const Top = () => {
                                             <span
                                                 className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">About</span>
                                         </a>
-                                        {true && (
+                                        {user?._id && (
                                             <a href="/mypage" className="relative overflow-hidden h-6 group">
                                                 <span className="block group-hover:-translate-y-full transition-transform duration-300">MyPage</span>
                                                 <span
@@ -193,7 +217,7 @@ const Top = () => {
                         </Stack>
                         <Stack className="right-box">
                             <div className={'lan-box'}>
-                                {true && <Badge 
+                                {user?._id && <Badge 
                                         badgeContent={3}
                                         color="error"
                                         overlap="circular"
@@ -264,7 +288,7 @@ const Top = () => {
                                 </StyledMenu>
                             </div>
                             <Box component={"div"} className={"user-box"}>
-                                {false ? (
+                                {!user?._id ? (
                                     <Link href={'/account/join'}>
                                         <button
                                             className="border border-slate-100 hover:bg-slate-600 hover:text-slate-100 px-3 py-2 rounded-full text-sm text-slate-400 font-medium transition duration-200 cursor-pointer ">
@@ -277,7 +301,7 @@ const Top = () => {
                                 ) : (
                                    <>
                                         <div className={"login-user"} onClick={(event: any) => setLogoutAnchor(event.currentTarget)} >
-                                            <img src={"/img/profile/defaultUser.svg"} alt="" />
+                                            <img src={ user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : "/img/profile/defaultUser.svg"} alt="" />
                                         </div>
 
                                         <Menu

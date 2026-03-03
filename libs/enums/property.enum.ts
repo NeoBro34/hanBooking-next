@@ -1,8 +1,7 @@
 export enum PropertyType {
-	HOTEL = 'Hotel',
-	RESORT = 'Resort',
-	HOSTEL = 'Hostel'
-
+	HOTEL = 'HOTEL',
+	RESORT = 'RESORT',
+	HOSTEL = 'HOSTEL'
 }
 
 export enum PropertyStatus {
@@ -12,28 +11,30 @@ export enum PropertyStatus {
 }
 
 export enum PropertyLocation {
-	SEOUL = 'Seoul',
-	BUSAN = 'Busan',
-	INCHEON = 'Incheon',
-	DAEGU = 'Daegu',
-	DAEJON = 'Daejon',
-	GWANGJU = 'Gwangju',
-    ULSAN = 'Ulsan',
-    SEJONG = 'Sejong',
-    GYEONGGI = 'Gyeonggi-do',
-    GANGWON = 'Gangwon-do',
-    CHUNGCHEONGBUK = 'Chungcheongbuk-do',
-    CHUNGCHEONGNAM = 'Chungcheongnam-do',
-    JEOLLABUK = 'Jeollabuk-do',
-    JEOLLANAM = 'Jeollanam-do',
-    GYEONGSANGBUK = 'Gyeongsangbuk-do',
-    GYEONGSANGNAM = 'Gyeongsangnam-do',
-	JEJU = 'Jeju',
+	SEOUL = 'SEOUL',
+	BUSAN = 'BUSAN',
+	INCHEON = 'INCHEON',
+	DAEGU = 'DAEGU',
+	DAEJON = 'DAEJON',
+	GWANGJU = 'GWANGJU',
+    ULSAN = 'ULSAN',
+    SEJONG = 'SEJONG',
+    GYEONGGI = 'GYEONGGI',
+    GANGWON = 'GANGWON',
+    CHUNGCHEONGBUK = 'CHUNGCHEONGBUK',
+    CHUNGCHEONGNAM = 'CHUNGCHEONGNAM',
+    JEOLLABUK = 'JEOLLABUK',
+    JEOLLANAM = 'JEOLLANAM',
+    GYEONGSANGBUK = 'GYEONGSANGBUK',
+    GYEONGSANGNAM = 'GYEONGSANGNAM',
+	JEJU = 'JEJU',
 }
 
-export enum PropertyAmenities {
-	PARKING = 'Parking',
-	KITCHEN = 'Kitchen',
-	POOL = 'Pool',
-	SPA = 'Spa',
+export enum PropertyAmenity {
+	WIFI = 'WIFI',
+	POOL = 'POOL',
+	BREAKFAST = 'BREAKFAST',
+	PARKING = 'PARKING',
+	AC = 'AC',
+	GYM = 'GYM',
 }
