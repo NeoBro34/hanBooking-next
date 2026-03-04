@@ -4,9 +4,13 @@ import FeaturedPropertyCard from '../common/FeaturedPropertyCard';
 import { PropertiesInquiry } from '@/libs/types/property/property.input';
 import useDeviceDetect from '@/libs/hooks/useDeviceDetect';
 import { Property } from '@/libs/types/property/property';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '@/apollo/user/query';
 import { T } from '@/libs/types/common';
+import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { Message } from '../../enums/common.enum';
+
 
 interface FeaturedStaysProps {
 	initialInput: PropertiesInquiry;
@@ -18,6 +22,8 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
 	const [featuredStays, setFeaturedStays] = useState<Property[]>([]);
 
     /** APOLLO REQUESTS **/
+    const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
+    
 	const {
 		loading: getFeaturedStaysLoading,
 		data: getFeaturedStaysData,
@@ -35,6 +41,25 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
 		}
 	);
 	/** HANDLERS **/
+    const likePropertyHandler = async (user: T, id: string) => {
+        try {
+            if(!id) return;
+            if(!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+            // execute likeTargetProperty Mutation
+            await likeTargetProperty({
+                variables: { input: id },
+            });
+
+            // execute getFeaturedStaysRefetch
+            await getFeaturedStaysRefetch({ input: initialInput });
+
+            await sweetTopSmallSuccessAlert('success', 800);
+        } catch (err: any) {
+            console.log('ERROR, likePropertyHandler:', err.message);
+            sweetMixinErrorAlert(err.message).then();
+        }
+    };
 
 	if (!featuredStays) return null;
 
@@ -98,7 +123,7 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
                     <Stack className="roomCard-box" >
                         {featuredStays.map((property: Property) => {
                             return (
-                                <FeaturedPropertyCard property={property} />
+                                <FeaturedPropertyCard property={property} likePropertyHandler={likePropertyHandler}/>
                             );
                         })}
                     </Stack>

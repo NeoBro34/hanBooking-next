@@ -316,7 +316,7 @@ export default function NewStays() {
             </Stack>
             <Stack className='new-stay-box-right'>
                 <Stack className='new-stay-box-right-top'>
-                    {topRooms.map((room, index) => (
+                    {/* {topRooms.map((room, index) => (
                         <Stack className='right-card-box'>
                             <Stack className="cardImageWrapper">
                                 {room.featured && (
@@ -360,7 +360,7 @@ export default function NewStays() {
                                 </Box>
                             </Stack>
                         </Stack>
-                    ))}
+                    ))} */}
                 </Stack>
                 <div className='scroll-down flex text-yellow-600 flex-col items-center animate-bounce'>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 9A7 7 0 1 0 5 9v6a7 7 0 1 0 14 0zm-7-3v4" stroke="gray" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

@@ -6,6 +6,13 @@ import { Stack, Box, Pagination, TextField, Button, Menu, MenuItem } from '@mui/
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import AgentCard from '@/libs/components/agent/AgentCard';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export const getStaticProps = async ({ locale }: any) => ({
+	props: {
+		...(await serverSideTranslations(locale, ['common'])),
+	},
+});
 
 const AgentList: NextPage = () => {
 	const device = useDeviceDetect();

@@ -21,10 +21,11 @@ import { PropertyAmenity } from '../../enums/property.enum';
 
 interface FeaturedPropertyCardProps {
     property: Property;
+	likePropertyHandler?: any;
 }
 
 const FeaturedPropertyCard = (props: FeaturedPropertyCardProps) => {
-    const { property } = props;
+    const { property, likePropertyHandler } = props;
     const device = useDeviceDetect();
     const router = useRouter();
     const user = useReactiveVar(userVar);
@@ -32,7 +33,7 @@ const FeaturedPropertyCard = (props: FeaturedPropertyCardProps) => {
     /** HANDLERS **/
 	const pushDetailHandler = async ( propertyId:string ) => {
 		console.log("propertyId:", propertyId);
-		await router.push({ pathname: '/property/detail', query: {id: propertyId}});
+		await router.push({ pathname: '/stays/detail', query: {id: propertyId}});
 	};
 
     if (device === 'mobile') {
@@ -59,10 +60,21 @@ const FeaturedPropertyCard = (props: FeaturedPropertyCardProps) => {
                             onClick={() => { pushDetailHandler(property._id) }}
                         />
                         <Box className="rating">
-                            <Badge badgeContent={property.propertyLikes} style={{color: "#bfbcbc"}}>
-                                <FavoriteIcon style={{ color: "red" }} />
+                            <Badge 
+                                badgeContent={property.propertyLikes} 
+                                sx={{ "& .MuiBadge-badge": { fontWeight: 900,color: "#bfbcbc"} }}
+                                onClick={(e) => {
+									e.stopPropagation();
+									likePropertyHandler(user, property?._id);
+								}}
+                            >
+                                {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon style={{ color: 'red' }} />
+								) : (
+									<FavoriteIcon sx={{color: "gray"}}/>
+								)}
                             </Badge>
-                            <Badge badgeContent={property.propertyViews} style={{color: "#bfbcbc"}}>
+                            <Badge badgeContent={property.propertyViews} sx={{ "& .MuiBadge-badge": { fontWeight: 900,color: "#bfbcbc"} }}>
                                 <RemoveRedEyeIcon sx={{ color: true ? "gray" : "white", }}/>
                             </Badge>
                             {false ? <BookmarkAddedIcon sx={{ color: "white", cursor: "pointer"}}/> : <BookmarkAddIcon sx={{ color: "gray", cursor: "pointer"}}/> }
@@ -78,7 +90,7 @@ const FeaturedPropertyCard = (props: FeaturedPropertyCardProps) => {
                         <div className="flex items-center gap-1 text-gray-600 mb-1">
                             <LocationOnIcon sx={{ fontSize: 20 }} />
                             <span className="text-sm">
-                                {property.propertyAddress}
+                                {property.propertyLocation}
                             </span>
                         </div>
                         <div className="flex items-center gap-2 mb-2">

@@ -23,11 +23,9 @@ interface PISearch {
 	locationList?: PropertyLocation[];
 	typeList?: PropertyType[];
 	roomsList?: Number[];
-	options?: string[];
 	bedsList?: Number[];
 	pricesRange?: Range;
 	periodsRange?: PeriodsRange;
-	squaresRange?: Range;
 	text?: string;
 }
 

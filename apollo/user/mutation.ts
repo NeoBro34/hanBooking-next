@@ -189,18 +189,19 @@ export const LIKE_TARGET_PROPERTY = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
-			propertySquare
+			propertyPricePerNight
+			propertyMaxGuests
 			propertyBeds
 			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
+			propertyPoints
 			propertyImages
+			amenities
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt

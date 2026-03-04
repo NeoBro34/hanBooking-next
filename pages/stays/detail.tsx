@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, CardMedia, Checkbox, MenuItem, Pagination, Rating, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CardMedia, Checkbox, CircularProgress, MenuItem, Pagination, Rating, Stack, TextField, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
 import Review from '../../libs/components/property/Review';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
@@ -29,10 +29,16 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AirIcon from '@mui/icons-material/Air';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import SecurityIcon from '@mui/icons-material/Security';
-import { StayBookingCard } from '@/libs/components/property/PropertyCard';
-import { FeaturedPropertyCard } from '@/libs/components/common/FeaturedPropertyCard';
+import  FeaturedPropertyCard  from '@/libs/components/common/FeaturedPropertyCard';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
+import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '@/apollo/user/query';
+import { T } from '@/libs/types/common';
+import { Direction, Message } from '@/libs/enums/common.enum';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { PropertyAmenity } from '@/libs/enums/property.enum';
+import PropertySmallCard from '@/libs/components/common/PropertySmallCard';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -47,20 +53,88 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [propertyId, setPropertyId] = useState<string | null>(null);
 	const [property, setProperty] = useState<Property | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProperty, setDestinationProperty] = useState<Property[]>([]);
+	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
-	const [checkIn, setCheckIn] = useState('');
-	const [checkOut, setCheckOut] = useState('');
-	const [guests, setGuests] = useState('2');
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
 		commentContent: '',
 		commentRefId: '',
 	});
+	const imagePath: string = property?.propertyImages[0]
+		? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
+		: '/img/property/noimg.png';
 
 	/** APOLLO REQUESTS **/
+	const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
+	const [ createComment ] = useMutation(CREATE_COMMENT);
+	
+	const {
+		loading: getPropertyLoading,
+		data: getPropertyData,
+		error: getPropertyError,
+		refetch: getPropertyRefetch,
+	} = useQuery(
+		GET_PROPERTY, 
+		{
+			fetchPolicy: 'network-only',
+			variables: { input: propertyId },
+			skip: !propertyId,
+			notifyOnNetworkStatusChange: true,
+			onCompleted: (data: T) => {
+				if (data?.getProperty) setProperty(data.getProperty);
+				if (data?.getProperty) setSlideImage(data.getProperty?.propertyImages[0]);
+			}
+		}
+	);
+
+	const {
+		loading: getPropertiesLoading,
+		data: getPropertiesData,
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
+	} = useQuery(
+		GET_PROPERTIES, 
+		{
+			fetchPolicy: 'cache-and-network',
+			variables: { 
+				input: {
+					page: 1,
+					limit: 6,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+					search: {
+						locationList: [property?.propertyLocation],
+					},
+				},
+			},
+			skip: !propertyId && !property,
+			notifyOnNetworkStatusChange: true,
+			onCompleted: (data: T) => {
+				if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
+			},
+		},
+	);
+
+	const {
+		loading: getCommentsLoading,
+		data: getCommentsData,
+		error: getCommentsError,
+		refetch: getCommentsRefetch,
+	} = useQuery(
+		GET_COMMENTS, 
+		{
+			fetchPolicy: 'network-only',
+			variables: { input: initialComment },
+			skip: !commentInquiry.search.commentRefId,
+			notifyOnNetworkStatusChange: true,
+			onCompleted: (data: T) => {
+				if (data?.getComments?.list) setPropertyComments(data?.getComments?.list);
+				setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0 );
+			},
+		},
+	);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -79,17 +153,72 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	}, [router]);
 
-	useEffect(() => {}, [commentInquiry]);
+	useEffect(() => {
+		if (commentInquiry.search.commentRefId) {
+			getCommentsRefetch({ input: commentInquiry })
+		}
+	}, [commentInquiry]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
 	};
 
+	const likePropertyHandler = async (user: T, id: string) => {
+		try {
+			if(!id) return;
+			if(!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			// execute likeTargetProperty Mutation
+			await likeTargetProperty({
+				variables: { input: id },
+			});
+
+			// execute getPropertiesRefetch
+			await getPropertyRefetch({ input: id })
+			await getPropertiesRefetch({ input: {
+					page: 1,
+					limit: 4,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+					search: {
+						locationList: property?.propertyLocation ? [property?.propertyLocation] : [],
+					},
+				}, 
+			});
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likePropertyHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
 	};
+
+	const createCommentHandler = async () => {
+		try {
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			await createComment({ variables: { input: insertCommentData}});
+
+			setInsertCommentData({ ...insertCommentData, commentContent: "" });
+
+			await getCommentsRefetch({ input: commentInquiry });
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
+	if (getPropertyLoading) {
+		return (
+			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
+				<CircularProgress size={'4rem'}/>
+			</Stack>
+		);
+	}
 
 	if (device === 'mobile') {
 		return <div>PROPERTY DETAIL PAGE</div>;
@@ -102,26 +231,30 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
 									<h2 className="text-5xl font-bold text-gray-900 mb-5 mt-2 ">
-										<a className='font-serif' href="#">Stay Name</a>
+										<span className='font-serif'>
+											{property?.propertyTitle}
+										</span>
 									</h2>
 									<div className="flex items-center gap-2 mb-5 ml-2">
 										<Rating 
-											value={5} 
+											value={4.9} 
 											precision={0.1} 
 											readOnly 
 											size="small"
 										/>
 										<span className="text-sm text-gray-600">
-											({23} reviews)
+											({property?.propertyComments} reviews)
 										</span>
 									</div>
 									<div className="flex items-end gap-1 text-gray-600 mb-3">
 										<LocationOnIcon sx={{ fontSize: 30 }} />
-										<span className="text-xl">Seoul</span>
+										<span className="text-xl">
+											{property?.propertyLocation}
+										</span>
 									</div>
 								</Stack>
 								<Stack className={'right-box'}>
-									<Typography>${formatterStr(property?.propertyPrice)}/night</Typography>
+									<Typography>${formatterStr(property?.propertyPricePerNight)}/night</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
@@ -154,36 +287,48 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Stack className={'floor-plans-config'}>
 									<Typography className={'title'}>Stay Amenities</Typography>
 									<Stack className={'amenities-box'}>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<WifiIcon className='main-icon'/>
-											<span>Wifi</span>
-										</Box>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<PoolIcon className='main-icon'/>
-											<span>Pool</span>
-										</Box>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<BreakfastDiningIcon className='main-icon'/>
-											<span>Breakfast</span>
-										</Box>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<LocalParkingIcon className='main-icon'/>
-											<span>Parking</span>
-										</Box>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<AirIcon className='main-icon'/>
-											<span>Air Con..</span>
-										</Box>
-										<Box className='icons-box'>
-											<CheckIcon className='check-icon'/>
-											<FitnessCenterIcon className='main-icon'/>
-											<span>Fitness</span>
-										</Box>
+										{property?.amenities.includes(PropertyAmenity.WIFI) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<WifiIcon className='main-icon'/>
+												<span>Wifi</span>
+											</Box>	
+										)}
+										{property?.amenities.includes(PropertyAmenity.POOL) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<PoolIcon className='main-icon'/>
+												<span>Pool</span>
+											</Box>
+										)}
+										{property?.amenities.includes(PropertyAmenity.BREAKFAST) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<BreakfastDiningIcon className='main-icon'/>
+												<span>Breakfast</span>
+											</Box>
+										)}
+										{property?.amenities.includes(PropertyAmenity.PARKING) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<LocalParkingIcon className='main-icon'/>
+												<span>Parking</span>
+											</Box>
+										)}
+										{property?.amenities.includes(PropertyAmenity.AC) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<AirIcon className='main-icon'/>
+												<span>Air Con..</span>
+											</Box>
+										)}
+										{property?.amenities.includes(PropertyAmenity.GYM) && (
+											<Box className='icons-box'>
+												<CheckIcon className='check-icon'/>
+												<FitnessCenterIcon className='main-icon'/>
+												<span>Fitness</span>
+											</Box>
+										)}
 										<Box className='icons-box'>
 											<CheckIcon className='check-icon'/>
 											<SecurityIcon className='main-icon'/>
@@ -254,6 +399,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Button
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
+											onClick={createCommentHandler}
 										>
 											<Typography className={'title'}>Submit Review</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
@@ -277,16 +423,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Stack className={'info-box'}>
 									<Stack className='top-card-box'>
 										<img
-											src={'/img/property/noimg.png'}
+											src={imagePath}
 											alt={'main-image'}
 										/>
 										<Box className='info-box'>
-											<a href='#' className="text-xm font-bold text-gray-900">
-												Stay Name
-											</a>
+											<span className="text-xm font-bold text-gray-900">
+												{property?.propertyTitle}
+											</span>
 											<div className="flex items-center gap-1 text-gray-600 mb-1">
 												<LocationOnIcon sx={{ fontSize: 10 }} />
-												<span className="text-xs">Seoul</span>
+												<span className="text-xs">
+													{property?.propertyLocation}
+												</span>
 											</div>
 											<div className="flex items-center gap-2 mb-2">
 												<Rating 
@@ -296,7 +444,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													size="small"
 												/>
 												<span className="text-xs text-gray-600">
-													({23} reviews)
+													({property?.propertyComments} reviews)
 												</span>
 											</div>
 										</Box>
@@ -311,8 +459,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<TextField
 											type="date"
 											fullWidth
-											value={checkIn}
-											onChange={(e) => setCheckIn(e.target.value)}
+											// value={checkIn}
+											// onChange={(e) => setCheckIn(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											InputLabelProps={{
@@ -333,8 +481,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<TextField
 											type="date"
 											fullWidth
-											value={checkOut}
-											onChange={(e) => setCheckOut(e.target.value)}
+											// value={checkOut}
+											// onChange={(e) => setCheckOut(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											InputLabelProps={{
@@ -352,8 +500,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                                         <TextField
 											select
 											fullWidth
-											value={guests}
-											onChange={(e) => setGuests(e.target.value)}
+											// value={guests}
+											// onChange={(e) => setGuests(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											>
@@ -373,7 +521,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Typography className={'title'}>You won't be charged yet</Typography>
 								<Stack className='reserve-info'>
 									<p>Per night</p>
-									<span>127$</span>
+									<span>{property?.propertyPricePerNight}$</span>
 								</Stack>
 								<Stack className='reserve-info'>
 									<p>Nights</p>
@@ -400,14 +548,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack style={{alignItems: "center"}}>
 									<Stack className={'cards-box'}>
-										{[1,2,3].map(() => (
-											<FeaturedPropertyCard/>
+										{destinationProperties.map((property: Property) => (
+											<PropertySmallCard 
+												property={property} 
+												key={property?._id}
+											/>
 										))}
 									</Stack>
-									<Pagination count={2}
-									// page={page} 
-									// onChange={handleChange} 
-									/>
 								</Stack>
 							</Stack>
 						)}
