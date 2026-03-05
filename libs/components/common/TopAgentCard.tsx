@@ -16,10 +16,15 @@ const TopAgentCard = (props: TopAgentProps) => {
 		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
+    const pushDetailHandler = async ( memberId:string ) => {
+        await router.push({ pathname: '/agent/detail', query: {agentId: memberId}});
+    };
 
 	if (device === 'mobile') {
 		return (
-			<div className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">
+			<div
+                onClick={() => { pushDetailHandler(agent?._id) }} 
+                className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">
                 <Stack className="overflow-hidden hover:-translate-y-1 transition duration-300">
                     <Box className="w-65 flex justify-center ">
                         <div className="bg-black text-white rounded-2xl">
@@ -38,7 +43,9 @@ const TopAgentCard = (props: TopAgentProps) => {
 		);
 	} else {
 		return (
-			<div className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">
+			<div
+                onClick={() => { pushDetailHandler(agent?._id) }} 
+                className="flex flex-nowrap lg:ml-5 md:ml-5 ml-5 mt-5 cursor-pointer">
                 <Stack className="overflow-hidden hover:-translate-y-1 transition duration-300">
                     <Box className="w-65 flex justify-center ">
                         <div className="bg-black text-white rounded-2xl">

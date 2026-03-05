@@ -2,14 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
+import { PropertyAmenity, PropertyLocation, PropertyType } from '../../enums/property.enum';
 import { REACT_APP_API_URL } from '../../config';
 import { PropertyInput } from '../../types/property/property.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
-import { useReactiveVar } from '@apollo/client';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
+import { GET_PROPERTY } from '../../../apollo/user/query';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -20,26 +22,48 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
+	const amenitiesList: PropertyAmenity[] = [
+		PropertyAmenity.WIFI,
+		PropertyAmenity.PARKING,
+		PropertyAmenity.POOL,
+		PropertyAmenity.GYM,
+		PropertyAmenity.AC,
+	];
 
 	/** APOLLO REQUESTS **/
-	let getPropertyData: any, getPropertyLoading: any;
+	const [createProperty] = useMutation(CREATE_PROPERTY);
+	const [updateProperty] = useMutation(UPDATE_PROPERTY);
+
+	const {
+		loading: getPropertyLoading,
+		data: getPropertyData,
+		error: getPropertyError,
+		refetch: getPropertyRefetch,
+	} = useQuery(
+		GET_PROPERTY, 
+		{
+			fetchPolicy: 'network-only',
+			variables: { 
+				input: router.query.propertyId,
+			},
+		}
+	);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
 		setInsertPropertyData({
 			...insertPropertyData,
 			propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
-			propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
+			propertyPricePerNight: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPricePerNight : 0,
 			propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
 			propertyLocation: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyLocation : '',
 			propertyAddress: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyAddress : '',
-			propertyBarter: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBarter : false,
-			propertyRent: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRent : false,
+			propertyMaxGuests: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyMaxGuests : 0,
 			propertyRooms: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRooms : 0,
 			propertyBeds: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBeds : 0,
-			propertySquare: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySquare : 0,
 			propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
 			propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
+			amenities: getPropertyData?.getProperty ? getPropertyData?.getProperty?.amenities : [],
 		});
 	}, [getPropertyLoading, getPropertyData]);
 
@@ -99,7 +123,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	const doDisabledCheck = () => {
 		if (
 			insertPropertyData.propertyTitle === '' ||
-			insertPropertyData.propertyPrice === 0 || // @ts-ignore
+			insertPropertyData.propertyPricePerNight === 0 || // @ts-ignore
 			insertPropertyData.propertyType === '' || // @ts-ignore
 			insertPropertyData.propertyLocation === '' || // @ts-ignore
 			insertPropertyData.propertyAddress === '' || // @ts-ignore
@@ -107,7 +131,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			insertPropertyData.propertyRent === '' ||
 			insertPropertyData.propertyRooms === 0 ||
 			insertPropertyData.propertyBeds === 0 ||
-			insertPropertyData.propertySquare === 0 ||
+			insertPropertyData.propertyMaxGuests === 0 ||
+			insertPropertyData.amenities.length === 0 ||
 			insertPropertyData.propertyDesc === '' ||
 			insertPropertyData.propertyImages.length === 0
 		) {
@@ -115,13 +140,51 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		}
 	};
 
-	const insertPropertyHandler = useCallback(async () => {}, [insertPropertyData]);
+	const insertPropertyHandler = useCallback(async () => {
+		try {
+			const result = await createProperty({
+				variables: {
+					input: insertPropertyData,
+				},
+			});
 
-	const updatePropertyHandler = useCallback(async () => {}, [insertPropertyData]);
+			await sweetMixinSuccessAlert('This property has been created successfully.');
+			await router.push({
+				pathname: '/mypage',
+				query: {
+					category: 'myProperties',
+				},
+			});
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	}, [insertPropertyData]);
 
-	// if (user?.memberType !== 'AGENT') {
-	// 	router.back();
-	// }
+	const updatePropertyHandler = useCallback(async () => {
+		try {
+			//@ts-ignore
+			insertPropertyData._id = getPropertyData?.getProperty?._id;
+			const result = await updateProperty({
+				variables: {
+					input: insertPropertyData,
+				},
+			});
+
+			await sweetMixinSuccessAlert('This property has been updated successfully.');
+			await router.push({
+				pathname: '/mypage',
+				query: {
+					category: 'myProperties',
+				},
+			});
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	}, [insertPropertyData]);
+
+	if (user?.memberType !== 'AGENT') {
+		router.back();
+	}
 
 	console.log('+insertPropertyData', insertPropertyData);
 
@@ -158,9 +221,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										type="text"
 										className="description-input"
 										placeholder={'Price'}
-										value={insertPropertyData.propertyPrice}
+										value={insertPropertyData.propertyPricePerNight}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyPrice: parseInt(value) })
+											setInsertPropertyData({ ...insertPropertyData, propertyPricePerNight: parseInt(value) })
 										}
 									/>
 								</Stack>
@@ -233,46 +296,25 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Barter</Typography>
+									<Typography className="title">MaxGuests</Typography>
 									<select
 										className={'select-description'}
-										value={insertPropertyData.propertyBarter ? 'yes' : 'no'}
-										defaultValue={insertPropertyData.propertyBarter ? 'yes' : 'no'}
+										value={insertPropertyData.propertyMaxGuests || 'select'}
+										defaultValue={insertPropertyData.propertyMaxGuests || 'select'}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyBarter: value === 'yes' })
+											setInsertPropertyData({ ...insertPropertyData, propertyMaxGuests: parseInt(value) })
 										}
 									>
-										<option disabled={true} selected={true}>
+										<option disabled={true} selected={true} value={'select'}>
 											Select
 										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
+										{[1, 2, 3, 4, 5, 6, 7, 8].map((guest: number) => (
+											<option value={`${guest}`}>{guest}</option>
+										))}
 									</select>
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Rent</Typography>
-									<select
-										className={'select-description'}
-										value={insertPropertyData.propertyRent ? 'yes' : 'no'}
-										defaultValue={insertPropertyData.propertyRent ? 'yes' : 'no'}
-										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyRent: value === 'yes' })
-										}
-									>
-										<option disabled={true} selected={true}>
-											Select
-										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-							</Stack>
-
-							<Stack className="config-row">
 								<Stack className="price-year-after-price">
 									<Typography className="title">Rooms</Typography>
 									<select
@@ -293,8 +335,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
+							</Stack>
+							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Bed</Typography>
+									<Typography className="title">Beds</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyBeds || 'select'}
@@ -314,26 +358,32 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Square</Typography>
-									<select
-										className={'select-description'}
-										value={insertPropertyData.propertySquare || 'select'}
-										defaultValue={insertPropertyData.propertySquare || 'select'}
-										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertySquare: parseInt(value) })
-										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{/* {propertySquare.map((square: number) => {
-											if (square !== 0) {
-												return <option value={`${square}`}>{square}</option>;
-											}
-										})} */}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
+									<Typography className="title">Amenities</Typography>
+									<div style={{display:"flex",justifyContent:"space-around"}}>
+										{amenitiesList.map((amenity) => (
+											<label key={amenity}>
+												<input
+													type="checkbox"
+													value={amenity}
+													checked={insertPropertyData.amenities?.includes(amenity)}
+													onChange={({ target: { checked } }) => {
+														if (checked) {
+															setInsertPropertyData({
+																...insertPropertyData,
+																amenities: [...insertPropertyData.amenities, amenity],
+															});
+														} else {
+															setInsertPropertyData({
+																...insertPropertyData,
+																amenities: insertPropertyData.amenities.filter((a) => a !== amenity),
+															});
+														}
+													}}
+												/>
+												{amenity}
+											</label>
+										))}
+									</div>
 								</Stack>
 							</Stack>
 
@@ -463,17 +513,17 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 AddProperty.defaultProps = {
 	initialValues: {
 		propertyTitle: '',
-		propertyPrice: 0,
+		propertyPricePerNight: 0,
 		propertyType: '',
 		propertyLocation: '',
 		propertyAddress: '',
-		propertyBarter: false,
-		propertyRent: false,
 		propertyRooms: 0,
 		propertyBeds: 0,
-		propertySquare: 0,
 		propertyDesc: '',
 		propertyImages: [],
+		propertyMaxGuests: 0,
+		amenities: [],
+
 	},
 };
 

@@ -61,7 +61,7 @@ query GetMember($input: String!) {
         memberLikes
         memberViews
         memberFollowings
-				memberFollowers
+		memberFollowers
         memberRank
         memberWarnings
         memberBlocks
@@ -70,10 +70,10 @@ query GetMember($input: String!) {
         updatedAt
         accessToken
         meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
+			followingId
+			followerId
+			myFollowing
+		}
     }
 }
 `);
@@ -221,18 +221,19 @@ export const GET_AGENT_PROPERTIES = gql`
 				propertyLocation
 				propertyAddress
 				propertyTitle
-				propertyPrice
-				propertySquare
+				propertyPricePerNight
+				propertyMaxGuests
 				propertyBeds
 				propertyRooms
 				propertyViews
 				propertyLikes
+				propertyComments
+				propertyRank
+				propertyPoints
 				propertyImages
+				amenities
 				propertyDesc
-				propertyBarter
-				propertyRent
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
@@ -255,20 +256,19 @@ export const GET_FAVORITES = gql`
 				propertyLocation
 				propertyAddress
 				propertyTitle
-				propertyPrice
-				propertySquare
+				propertyPricePerNight
+				propertyMaxGuests
 				propertyBeds
 				propertyRooms
 				propertyViews
 				propertyLikes
 				propertyComments
 				propertyRank
+				propertyPoints
 				propertyImages
+				amenities
 				propertyDesc
-				propertyBarter
-				propertyRent
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
@@ -318,20 +318,19 @@ export const GET_VISITED = gql`
 				propertyLocation
 				propertyAddress
 				propertyTitle
-				propertyPrice
-				propertySquare
+				propertyPricePerNight
+				propertyMaxGuests
 				propertyBeds
 				propertyRooms
 				propertyViews
 				propertyLikes
 				propertyComments
 				propertyRank
+				propertyPoints
 				propertyImages
+				amenities
 				propertyDesc
-				propertyBarter
-				propertyRent
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt

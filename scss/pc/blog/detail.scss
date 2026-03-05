@@ -6,74 +6,26 @@
 			padding-top: 100px;
 			flex-direction: column;
 			gap: 64px;
-			.main-box {
+			.back-button {
+				width: 50px;
+				height: 20px;
+				display: flex;
 				flex-direction: row;
+				gap: 15px;
+			}
+			.main-box {
+				width: 100%;
+				align-items: center;
 				gap: 31px;
-				.left-config {
-					width: 266px;
-					height: fit-content;
-					gap: 30px;
-					padding: 30px 15px 57px 21px;
-					margin-top: 100px;
-					border-radius: 12px;
-					border: 1px solid rgba(196, 196, 196, 0.79);
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					.image-info {
-						width: 100%;
-						flex-direction: row;
-						gap: 11px;
-						img {
-							width: 80px;
-							height: 80px;
-							border-radius: 50%;
-							object-fit: cover;
-						}
-						.community-name {
-							.name {
-								margin-top: 15px;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-					}
-					.tab-button {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
-						align-items: center;
-						border-radius: 6px;
-						border: 1px solid #181a20;
-						margin-bottom: 10px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
-					}
-					.tab-button.active {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
-						align-items: center;
-						background-color: #000000;
-						color: #ffffff;
-						border-radius: 6px;
-						margin-bottom: 10px;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
+				.back-box {
+					.back-button {
+						width: 90px;
+						height: 30px;
+						border-radius: 10px;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+						border: 2px solid rgba(0, 0, 0, 0.06);
+						transform: translateY(-8px);
+						box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
 					}
 				}
 				.community-detail-config {
@@ -107,26 +59,22 @@
 							}
 						}
 						.right {
-							width: 91px;
-							height: 32px;
-							border-radius: 4px;
-							background: #eb6753;
-							color: #fff;
-							font-family: $font;
-							font-size: 13px;
-							font-style: normal;
-							font-weight: 500;
-							line-height: normal;
-							letter-spacing: 0.39px;
+							height: 40px;
+							border-radius: 20px;
+							margin-top: 10px;
 						}
 					}
 					.config {
 						.first-box-config {
-							width: 1012px;
+							width: 100%;
 							min-height: 500px;
-							border-radius: 8px 8px 0px 0px;
-							border: 1px solid #eee;
-							box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+							border-radius: 12px;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+							border: 2px solid rgba(0, 0, 0, 0.06);
+							&:hover {
+								transform: translateY(-8px);
+								box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							}
 							.content-and-info {
 								width: 100%;
 								height: 126px;
@@ -232,11 +180,11 @@
 										width: 105.081px;
 										height: 45px;
 										gap: 5px;
-										border-radius: 2px;
-										border: 1px solid #eee;
-										background: #eb6753;
+										border-radius: 12px;
+										transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+										border: 2px solid rgba(0, 0, 0, 0.06);
 										p {
-											color: #fff;
+											color: #aaa3a3;
 											font-family: $font;
 											font-size: 13px;
 											font-style: normal;
@@ -253,6 +201,14 @@
 							height: auto;
 							padding: 30px 24px;
 							gap: 11px;
+							margin-top: 15px;
+							border-radius: 12px;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+							border: 2px solid rgba(0, 0, 0, 0.06);
+							&:hover {
+								transform: translateY(-8px);
+								box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+							}
 							.title-text {
 								align-self: flex-start;
 								color: #000;
@@ -300,10 +256,9 @@
 										letter-spacing: 0.56px;
 									}
 									button {
-										width: 100.077px;
+										width: 115px;
 										height: 100%;
-										border-radius: 0;
-										background: #eb6753;
+										background: #33d028;
 										color: #fff;
 										font-family: $font;
 										font-size: 14px;
@@ -319,7 +274,10 @@
 							width: 100%;
 							height: auto;
 							border: 1px solid #efefef;
-							border-top: none;
+							margin-top: 20px;
+							border-radius: 12px;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+							border: 2px solid rgba(0, 0, 0, 0.06);
 							.comments-title {
 								width: 112.087px;
 								display: flex;
@@ -344,6 +302,9 @@
 							justify-content: center;
 						}
 						.comments-box {
+							border-radius: 12px;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+							border: 2px solid rgba(0, 0, 0, 0.06);
 							.main-comment {
 								width: 100%;
 								height: auto;

@@ -13,12 +13,26 @@ import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useReactiveVar } from "@apollo/client";
+import { userVar } from "@/apollo/store";
+import { REACT_APP_API_URL } from "@/libs/config";
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-    const pathname = router.query.category ?? 'myProfile';
+	const pathname = router.query.category ?? 'myProfile';
 	const category: any = router.query?.category ?? 'myProfile';
+	const user = useReactiveVar(userVar);
+
+	/** HANDLERS **/
+	// const logoutHandler = async () => {
+	// 	try {
+	// 		if (await sweetConfirmAlert('Do you want to logout?')) logOut();
+	// 	} catch (err: any) {
+	// 		console.log('ERROR, logoutHandler:', err.message);
+	// 	}
+	// };
+
 
 
 
@@ -31,20 +45,20 @@ const MyMenu = () => {
 						<Stack className="profile-img-box">
                             <img
                                 src={
-                                    // user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : 
+                                    user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : 
                                     '/img/profile/defaultUser.svg'}
                                 alt={'member-photo'}
                             />
                         </Stack>
                         <Stack>
-                            <div className="user-name">Neo</div>
-                            <div className="user-phone"><CallIcon sx={{mr:"4px"}}/>01047564666</div>
-                            {false ? (
+                            <div className="user-name">{user?.memberNick}</div>
+                            <div className="user-phone"><CallIcon sx={{mr:"4px"}}/>{user?.memberPhone}</div>
+                            {user?.memberType === 'ADMIN' ? (
                                 <a 
                                     href="/_admin/users" target={'_blank'}
-                                    className="user-type">Admin</a>
+                                    className="user-type">{user?.memberType}</a>
                             ) : (
-                                <div className="user-type">Agent</div>
+                                <div className="user-type">{user?.memberType}</div>
                             )}
                         </Stack>
                 </Stack>
@@ -115,7 +129,7 @@ const MyMenu = () => {
                             <EventNoteIcon className="icon"/>
                             <span>My Bookings</span>
                     </Link>
-                    {true && (
+                    {user?.memberType === 'AGENT' && (
                         <>
                             <Link 
                                 href={{

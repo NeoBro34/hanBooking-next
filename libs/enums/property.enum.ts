@@ -6,7 +6,7 @@ export enum PropertyType {
 
 export enum PropertyStatus {
 	ACTIVE = 'ACTIVE',
-	SOLD = 'SOLD',
+	PAUSED = 'PAUSED',
 	DELETE = 'DELETE',
 }
 

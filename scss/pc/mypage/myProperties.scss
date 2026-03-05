@@ -105,7 +105,7 @@
 						line-height: normal;
 					}
 					:first-child {
-						margin-right: 138px;
+						margin-right: 190px;
 					}
 				}
 				.no-data {
@@ -119,12 +119,15 @@
 				.property-card-box {
 					width: 100%;
 					height: auto;
+					display: flex;
 					flex-direction: row;
+					align-items: center;
+					padding: 10px;
 					margin-top: 30px;
 					padding-bottom: 30px;
 					border-bottom: 1px solid #ddd;
 					.image-box {
-						width: 110px;
+						width: 150px;
 						height: 90px;
 						overflow: hidden;
 						margin-right: 25px;
@@ -188,24 +191,43 @@
 						align-items: center;
 						justify-content: center;
 						margin-right: 60px;
-						.coloured-box {
+						.status-active {
 							width: 93px;
 							height: 36px;
 							align-items: center;
 							justify-content: center;
 							border-radius: 60px;
+							background-color: rgb(53, 205, 53);
 							cursor: pointer;
 							.status {
 								font-family: $font;
 								font-size: 12px;
 								font-style: normal;
-								font-weight: 400;
+								font-weight: 600;
 								line-height: 26px;
+								color: #ddd;
+							}
+						}
+						.status-paused {
+							width: 93px;
+							height: 36px;
+							align-items: center;
+							justify-content: center;
+							border-radius: 60px;
+							background-color: rgb(181, 190, 8);
+							cursor: pointer;
+							.status {
+								font-family: $font;
+								font-size: 12px;
+								font-style: normal;
+								font-weight: 600;
+								line-height: 26px;
+								color: #ddd;
 							}
 						}
 					}
 					.views-box {
-						width: 35px;
+						width: 55px;
 						height: 100%;
 						align-items: center;
 						justify-content: center;
@@ -215,7 +237,7 @@
 							font-family: $font;
 							font-size: 12px;
 							font-style: normal;
-							font-weight: 400;
+							font-weight: 600;
 							line-height: 26px;
 						}
 					}

@@ -12,16 +12,55 @@ import {
   CardActions,
 } from '@mui/material';
 import { Favorite, ChatBubbleOutline, BookmarkBorder } from '@mui/icons-material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { BoardArticle } from '@/libs/types/board-article/board-article';
+import { useRouter } from 'next/router';
+import { useReactiveVar } from '@apollo/client';
+import { userVar } from '@/apollo/store';
+import { REACT_APP_API_URL } from '@/libs/config';
 
-const BlogCard = () => {
+interface BlogCardProps {
+	boardArticle: BoardArticle;
+	size?: string;
+	likeArticleHandler: any;
+}
+
+const BlogCard = (props: BlogCardProps) => {
+	const { boardArticle, size = 'normal', likeArticleHandler } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
+	const user = useReactiveVar(userVar);
+	const imagePath: string = boardArticle?.articleImage
+		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
+		: '/img/blog/blogImg.jpg';
+
+	/** HANDLERS **/
+	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
+		router.push(
+			{
+				pathname: '/blog/detail',
+				query: { articleCategory: boardArticle?.articleCategory, id: boardArticle?._id },
+			},
+			undefined,
+			{ shallow: true },
+		);
+	};
+
+	const goMemberPage = (id: string) => {
+		if (id === user?._id) router.push('/mypage');
+		else router.push(`/member?memberId=${id}`);
+	};
     
     if (device === 'mobile') {
 		return <div>COMMUNITY CARD MOBILE</div>;
 	} else {
 		return (
-            <Stack style={{marginBottom: "40px"}}>
+            <Stack 
+				style={{marginBottom: "40px"}}
+				onClick={(e: any) => chooseArticleHandler(e, boardArticle)}
+			>
 				<Card
 					sx={{
 						height: '100%',
@@ -34,23 +73,27 @@ const BlogCard = () => {
 						},
 					}}
 					>
-					<CardMedia component="img" height="200" image="/img/banner/blogheader.jpg"  />
+					<CardMedia component="img" height="200" image={imagePath}  />
 					<CardContent sx={{ flexGrow: 1 }}>
 						<Box sx={{ mb: 2 }}>
-						<Chip label="Humor" color="primary" size="small" />
+						<Chip label={boardArticle?.articleCategory} color="primary" size="small" />
 						</Box>
 						<Typography variant="h6" component="h2" gutterBottom>
-						Getting Started
+						{boardArticle?.articleTitle}
 						</Typography>
 						<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						{boardArticle?.articleContent}
 						</Typography>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
 						<Avatar src="/img/banner/seoul.jpg" sx={{ width: 32, height: 32 }} />
 						<Box>
-							<Typography variant="body2">Simoon</Typography>
+							<Typography variant="body2">{boardArticle?.memberData?.memberNick}</Typography>
 							<Typography variant="caption" color="text.secondary">
-							Yanuary 20
+							{new Date(boardArticle.createdAt).toLocaleDateString('en-US', {
+								month: 'long',
+								day: 'numeric',
+								year: 'numeric',
+							})}
 							</Typography>
 						</Box>
 						</Box>
@@ -58,22 +101,26 @@ const BlogCard = () => {
 					<CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
 						<Box sx={{ display: 'flex', gap: 1 }}>
 							<Box sx={{ display: 'flex', alignItems: 'center' }}>
-								<IconButton size="small" color="primary">
-								<Favorite fontSize="small" />
+								<IconButton size="small" color="primary" onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}>
+									{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+										<FavoriteIcon sx={{color: '#ef4444'}} />
+									) : (
+										<FavoriteBorderIcon />
+									)}
 								</IconButton>
-								<Typography variant="caption">23</Typography>
+								<Typography variant="caption">{boardArticle?.articleLikes}</Typography>
 							</Box>
 							<Box sx={{ display: 'flex', alignItems: 'center' }}>
 								<IconButton size="small">
 								<ChatBubbleOutline fontSize="small" />
 								</IconButton>
-								<Typography variant="caption">12</Typography>
+								<Typography variant="caption">{boardArticle?.articleComments}</Typography>
 							</Box>
 							<Box sx={{ display: 'flex', alignItems: 'center' }}>
 								<IconButton size="small">
 								<RemoveRedEyeIcon fontSize="small" />
 								</IconButton>
-								<Typography variant="caption">12</Typography>
+								<Typography variant="caption">{boardArticle?.articleViews}</Typography>
 							</Box>
 						</Box>
 						<IconButton size="small">

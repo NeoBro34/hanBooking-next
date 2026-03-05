@@ -14,13 +14,16 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
+import SendIcon from '@mui/icons-material/Send';
 import { Comment } from '../../libs/types/comment/comment';
 import dynamic from 'next/dynamic';
 import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { T } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
@@ -51,7 +54,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [searchFilter, setSearchFilter] = useState<CommentsInquiry>({
 		...initialInput,
 	});
-	const [memberImage, setMemberImage] = useState<string>('/img/community/articleImg.png');
+	const [memberImage, setMemberImage] = useState<string>('/img/blog/defaultUser.svg');
 	const [anchorEl, setAnchorEl] = useState<any | null>(null);
 	const open = Boolean(anchorEl);
 	const id = open ? 'simple-popover' : undefined;
@@ -115,10 +118,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const tabChangeHandler = (event: React.SyntheticEvent, value: string) => {
 		router.replace(
 			{
-				pathname: '/community',
+				pathname: '/blog',
 				query: { articleCategory: value },
 			},
-			'/community',
+			'/blog',
 			{ shallow: true },
 		);
 	};
@@ -206,7 +209,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 	const getCommentMemberImage = (imageUrl: string | undefined) => {
 		if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
-		else return '/img/community/articleImg.png';
+		else return '/img/blog/defaultUser.svg';
 	};
 
 	const goMemberPage = (id: any) => {
@@ -237,43 +240,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			<div id="community-detail-page">
 				<div className="container">
 					<Stack className="main-box">
-						<Stack className="left-config">
-							<Stack className={'image-info'}>
-								<img src={'/img/logo/logoText.svg'} />
-								<Stack className={'community-name'}>
-									<Typography className={'name'}>Community Board Article</Typography>
-								</Stack>
-							</Stack>
-							<Tabs
-								orientation="vertical"
-								aria-label="lab API tabs example"
-								TabIndicatorProps={{
-									style: { display: 'none' },
-								}}
-								onChange={tabChangeHandler}
-								value={articleCategory}
-							>
-								<Tab
-									value={'FREE'}
-									label={'Free Board'}
-									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'RECOMMEND'}
-									label={'Recommendation'}
-									className={`tab-button ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'NEWS'}
-									label={'News'}
-									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'HUMOR'}
-									label={'Humor'}
-									className={`tab-button ${articleCategory === 'HUMOR' ? 'active' : ''}`}
-								/>
-							</Tabs>
+						<Stack className='back-box' sx={{width:"80%"}}>
+							<a href='/blog' className='back-button'><ArrowBackIcon/>Back</a>
 						</Stack>
 						<div className="community-detail-config">
 							<Stack className="title-box">
@@ -284,6 +252,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									</Typography>
 								</Stack>
 								<Button
+									variant="contained"
+									color='success'
 									onClick={() =>
 										router.push({
 											pathname: '/mypage',
@@ -294,7 +264,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									}
 									className="right"
 								>
-									Write
+									<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/>Write
 								</Button>
 							</Stack>
 							<div className="config">
@@ -373,7 +343,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										/>
 										<Stack className="button-box">
 											<Typography>{wordsCnt}/100</Typography>
-											<Button onClick={creteCommentHandler}>comment</Button>
+											<Button onClick={creteCommentHandler}>comment <SendIcon sx={{ml:"5px"}}/></Button>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -467,17 +437,19 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																			<Typography variant="subtitle1" color={'#b9b9b9'}>
 																				{updatedCommentWordsCnt}/100
 																			</Typography>
-																			<Stack sx={{ flexDirection: 'row', alignSelf: 'flex-end', gap: '10px' }}>
+																			<Stack sx={{ flexDirection: 'row', alignSelf: 'flex-end', gap: '10px', alignItems:"center" }}>
 																				<Button
 																					variant="outlined"
-																					color="inherit"
+																					color="error"
+																					sx={{borderRadius:"20px", height:"36px"}}
 																					onClick={() => cancelButtonHandler()}
 																				>
 																					Cancel
 																				</Button>
 																				<Button
 																					variant="contained"
-																					color="inherit"
+																					color="success"
+																					sx={{borderRadius:"20px", height:"36px"}}
 																					onClick={() => updateButtonHandler(updatedCommentId, undefined)}
 																				>
 																					Update

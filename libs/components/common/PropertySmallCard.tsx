@@ -34,7 +34,7 @@ const PropertySmallCard = (props: PropertySmallCardProps) => {
     } else {
         return (
             <Stack 
-                onClick={() => { pushDetailHandler(property._id) }} 
+                onClick={() => { pushDetailHandler(property?._id) }} 
                 className='right-card-box-small'>
                 <Stack className="cardImageWrapper">
                     {property && property?.propertyRank > topPropertyRank && (

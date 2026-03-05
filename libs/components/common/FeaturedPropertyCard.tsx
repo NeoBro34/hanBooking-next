@@ -9,6 +9,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Badge from "@mui/material/Badge";
 import PoolIcon from '@mui/icons-material/Pool';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Property } from '@/libs/types/property/property';
@@ -71,7 +72,7 @@ const FeaturedPropertyCard = (props: FeaturedPropertyCardProps) => {
                                 {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
-									<FavoriteIcon sx={{color: "gray"}}/>
+									<FavoriteBorderIcon style={{ color: 'gray' }} />
 								)}
                             </Badge>
                             <Badge badgeContent={property.propertyViews} sx={{ "& .MuiBadge-badge": { fontWeight: 900,color: "#bfbcbc"} }}>
