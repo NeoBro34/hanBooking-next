@@ -33,13 +33,12 @@ const withLayoutMain = (Component: any) => {
                             loop
                             playsInline
                             ref={videoRef}
-                            className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
+                            className="absolute inset-[100px] w-[calc(100%-200px)] h-[calc(100%-200px)] object-cover rounded-3xl"
                         >
                             <source src="/video/home-bg.mp4" type="video/mp4" />
                         </video>
-
-                        <Stack className="relative z-10  top-1/8  flex items-center justify-center h-full text-white">
-                           <Stack className={"container"}>
+                        <Stack className="absolute inset-0 z-10 flex items-center justify-center text-white px-6">
+                            <Stack className="container max-w-5xl">
                                 <HeaderFilter />
                             </Stack>
                         </Stack>

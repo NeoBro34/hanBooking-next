@@ -175,41 +175,41 @@ const Top = () => {
                                 <nav className="flex items-center  max-md:w-full max-md:justify-between border-slate-700 px-6 py-4 rounded-full text-white text-sm">
                                     <div className="hidden md:flex items-center gap-6 ml-7">
                                         <a href="/" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">Home</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Home</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Home</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Home</span>
                                         </a>
                                         <a href="/stays" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">Stays</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Stays</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Stays</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Stays</span>
                                         </a>
                                         <a href="/agent" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">Agents</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Agents</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Agents</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Agents</span>
                                         </a>
                                         <a href="/blog" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">Blog</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Blog</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Blog</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Blog</span>
                                         </a>
                                         <a href="/about" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">About</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">About</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">About</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">About</span>
                                         </a>
                                         {user?._id && (
                                             <a href="/mypage" className="relative overflow-hidden h-6 group">
-                                                <span className="block group-hover:-translate-y-full transition-transform duration-300">MyPage</span>
+                                                <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">MyPage</span>
                                                 <span
-                                                    className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">MyPage</span>
+                                                    className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">MyPage</span>
                                             </a>
                                         )}
                                         <a href="/cs" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300">Support</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Support</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300">Support</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Support</span>
                                         </a>
                                     </div>
                                 </nav>
@@ -230,13 +230,13 @@ const Top = () => {
                                     </Badge>
                                 }
                                 <IconButton 
-                                    style={{width: "30px", height: "30px", marginLeft: "8px"}}
+                                    style={{width: "30px", height: "30px", marginLeft: "20px"}}
                                         onClick={handleMode}
                                     >
                                         {isMode ? (
                                             <DarkModeIcon sx={{ fontSize: 20, color: 'gray' }} />
                                         ) : (
-                                            <LightModeIcon sx={{ fontSize: 20, color: 'white' }} />
+                                            <LightModeIcon sx={{ fontSize: 20, color: 'gray' }} />
                                         )}
                                 </IconButton>
                                 <Button
@@ -244,7 +244,7 @@ const Top = () => {
                                     className="btn-lang"
                                     variant="text"
                                     onClick={langClick}
-                                    endIcon={<CaretDown size={14} color="white" />}
+                                    endIcon={<CaretDown size={14} color="gray" />}
                                 >
                                     <Box component={'div'} >
                                         {lang !== null ? (

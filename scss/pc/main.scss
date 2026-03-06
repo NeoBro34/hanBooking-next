@@ -133,7 +133,7 @@
                             align-items: center;
                             justify-content: center;
                             .notification-icon {
-                                color: white;
+                                color: grey;
                                 cursor: pointer;
                             }
                             .btn-lang {
@@ -160,107 +160,99 @@
         .hero {
             position: relative;
             width: 100%;
-            min-height: 840px ;
+            min-height: auto ;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            padding: 20px;
             overflow: hidden;
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
+            .heroContent {
                 width: 100%;
                 height: 100%;
-            }
-            .heroContainer {
-                position: relative;
-                z-index: 2;
-                .heroContent {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    .hero-left-box{
-                        width: 50%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-top: 90px;
+                .hero-left-box{
+                    width: 50%;
+                }
+                .hero-right-box {
+                    width: 40%;
+                    height: 100%;
+                    padding-top: 30px;
+                    .heroTitle {
+                        color: #f09f24 !important;
+                        margin-bottom: 24px !important;
+                        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                        line-height: 1.2 !important;
+                        text-align: center;
                     }
-                    .hero-right-box {
-                        width: 40%;
-                        .heroTitle {
-                            color: #f09f24 !important;
-                            margin-bottom: 24px !important;
-                            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-                            line-height: 1.2 !important;
-                            text-align: center;
-                        }
-                        .heroSubtitle {
-                            color: #f9f9f9 !important;
-                            margin-bottom: 48px !important;
-                            font-family: 'Manrope', sans-serif !important;
-                            font-weight: 400 !important;
-                            text-align: center;
-                            font-size: 18px;
-                        }
-                        .searchWrapper {
-                            margin-bottom: 50px;
-                            .searchBar {
-                                border-radius: 20px;
-                                padding: 32px;
-                                .searchGrid {
-                                    width: 100%;
+                    .heroSubtitle {
+                        color: #f9f9f9 !important;
+                        margin-bottom: 48px !important;
+                        font-family: 'Manrope', sans-serif !important;
+                        font-weight: 400 !important;
+                        text-align: center;
+                        font-size: 18px;
+                    }
+                    .searchWrapper {
+                        .searchBar {
+                            border-radius: 20px;
+                            padding: 32px;
+                            .searchGrid {
+                                width: 100%;
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-around;
+                                margin-bottom: 30px !important;
+                                .inputWrapper {
+                                    width: 45%;
+                                    position: relative;
                                     display: flex;
-                                    flex-direction: row;
-                                    justify-content: space-around;
-                                    margin-bottom: 30px !important;
-                                    .inputWrapper {
-                                        width: 45%;
-                                        position: relative;
-                                        display: flex;
-                                        align-items: center;
-                                        .inputIcon {
-                                            position: absolute;
-                                            left: 16px;
-                                            color: black;
-                                            z-index: 1;
-                                            pointer-events: none;
+                                    align-items: center;
+                                    .inputIcon {
+                                        position: absolute;
+                                        left: 16px;
+                                        color: black;
+                                        z-index: 1;
+                                        pointer-events: none;
+                                    }
+                                    .searchInput {
+                                        .MuiOutlinedInput-root {
+                                            padding-left: 48px;
+                                            background: #fff;
+                                            transition: 0.3s ease;
+                                            &:hover {
+                                                background: #f7fafc;
+                                            }
+                                            &.Mui-focused .MuiOutlinedInput-notchedOutline {
+                                                border-color: var(--accent-gold);
+                                                border-width: 2px;
+                                            }
                                         }
-                                        .searchInput {
-                                            .MuiOutlinedInput-root {
-                                                padding-left: 48px;
-                                                background: #fff;
-                                                transition: 0.3s ease;
-                                                &:hover {
-                                                    background: #f7fafc;
-                                                }
-                                                &.Mui-focused .MuiOutlinedInput-notchedOutline {
-                                                    border-color: var(--accent-gold);
-                                                    border-width: 2px;
-                                                }
-                                            }
-                                            .MuiOutlinedInput-notchedOutline {
-                                                transition: 0.3s ease;
-                                            }
-                                            .MuiOutlinedInput-input {
-                                                padding: 14px 16px 14px 0;
-                                                font-weight: 500;
-                                            }
+                                        .MuiOutlinedInput-notchedOutline {
+                                            transition: 0.3s ease;
+                                        }
+                                        .MuiOutlinedInput-input {
+                                            padding: 14px 16px 14px 0;
+                                            font-weight: 500;
                                         }
                                     }
                                 }
-                                .searchButton {
-                                    padding: 16px !important;
-                                    font-size: 1.1rem !important;
-                                    font-weight: 600 !important;
-                                    border-radius: 12px !important;
-                                    box-shadow: 0 8px 24px rgba(201, 148, 86, 0.3) !important;
-                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                                    &:hover {
-                                        transform: translateY(-2px);
-                                        box-shadow: 0 12px 32px rgba(201, 148, 86, 0.4) !important;
-                                    }
-                                    &:active {
-                                        transform: translateY(0);
-                                    }
+                            }
+                            .searchButton {
+                                padding: 16px !important;
+                                font-size: 1.1rem !important;
+                                font-weight: 600 !important;
+                                border-radius: 12px !important;
+                                box-shadow: 0 8px 24px rgba(201, 148, 86, 0.3) !important;
+                                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                                &:hover {
+                                    transform: translateY(-2px);
+                                    box-shadow: 0 12px 32px rgba(201, 148, 86, 0.4) !important;
+                                }
+                                &:active {
+                                    transform: translateY(0);
                                 }
                             }
                         }

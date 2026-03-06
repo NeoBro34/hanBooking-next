@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Stack, Pagination } from '@mui/material';
-import FeaturedPropertyCard from '../common/FeaturedPropertyCard';
 import { PropertiesInquiry } from '@/libs/types/property/property.input';
 import useDeviceDetect from '@/libs/hooks/useDeviceDetect';
 import { Property } from '@/libs/types/property/property';
@@ -10,6 +9,7 @@ import { T } from '@/libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import { Message } from '../../enums/common.enum';
+import SmallStayBookingCard from '../common/SmallPropertyCard';
 
 
 interface FeaturedStaysProps {
@@ -20,6 +20,7 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
     const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [featuredStays, setFeaturedStays] = useState<Property[]>([]);
+    const [page, setPage] = useState(initialInput.page || 1);
 
     /** APOLLO REQUESTS **/
     const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
@@ -33,13 +34,23 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
 		GET_PROPERTIES, 
 		{
 			fetchPolicy: 'cache-and-network',
-			variables: { input: initialInput },
+			variables: {
+                input: {
+                    ...initialInput,
+                    page: page,
+                }
+            },
 			notifyOnNetworkStatusChange: true,
 			onCompleted: (data: T) => {
 				setFeaturedStays(data?.getProperties?.list);
 			}
 		}
 	);
+
+    const total = getFeaturedStaysData?.getProperties?.metaCounter?.[0]?.total ?? 0;
+    const limit = initialInput.limit ?? 6;
+    const pageCount = Math.ceil(total / limit);
+
 	/** HANDLERS **/
     const likePropertyHandler = async (user: T, id: string) => {
         try {
@@ -59,6 +70,10 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
             console.log('ERROR, likePropertyHandler:', err.message);
             sweetMixinErrorAlert(err.message).then();
         }
+    };
+
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
     };
 
 	if (!featuredStays) return null;
@@ -123,13 +138,16 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
                     <Stack className="roomCard-box" >
                         {featuredStays.map((property: Property) => {
                             return (
-                                <FeaturedPropertyCard property={property} likePropertyHandler={likePropertyHandler}/>
+                                <SmallStayBookingCard property={property} likePropertyHandler={likePropertyHandler} key={property._id}/>
                             );
                         })}
                     </Stack>
-                    <Pagination count={4} style={{marginTop: "35px"}}
-                        // page={page} 
-                        // onChange={handleChange} 
+                    <Pagination
+                        page={page}
+                        count={pageCount}
+                        onChange={handlePageChange}
+                        color="primary"
+                        sx={{ display: "flex", justifyContent: "center", mt: 4 }}
                     />
                 </Stack>
             </>
@@ -140,7 +158,7 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
 FeaturedStays.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 9,
+		limit: 6,
 		sort: 'propertyViews',
 		direction: 'DESC',
 		search: {},

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Box, Button, CardMedia, IconButton, Rating, Stack, Typography } from '@mui/material';
+import { Box, CardMedia, IconButton, Rating, Stack, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BedIcon from '@mui/icons-material/Bed';
+import WifiIcon from '@mui/icons-material/Wifi';
 import PoolIcon from '@mui/icons-material/Pool';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -10,7 +11,8 @@ import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
+import AirIcon from '@mui/icons-material/Air';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import { Property } from '@/libs/types/property/property';
@@ -106,28 +108,40 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                     <div className="text-gray-700 text-sm leading-relaxed line-clamp-2">
                                         <Stack className="amenities">
                                             <Box className="amenity">
-                                                <MeetingRoomIcon />
+                                                <MeetingRoomIcon className='amenityIcon' />
                                                 <span>{property.propertyRooms} Room</span>
                                             </Box>
                                             <Box className="amenity">
-                                                <BedIcon />
+                                                <BedIcon className='amenityIcon'/>
                                                 <span>{property.propertyBeds} Beds</span>
                                             </Box>
+                                            {property.amenities.includes(PropertyAmenity.WIFI) && (
+                                                <Box className="amenity">
+                                                    <WifiIcon className='amenityIcon'/>
+                                                    <span>Wifi</span>
+                                                </Box>
+                                            )}
                                             {property.amenities.includes(PropertyAmenity.POOL) && (
                                                 <Box className="amenity">
-                                                    <PoolIcon />
+                                                    <PoolIcon className='amenityIcon'/>
                                                     <span> Pool</span>
                                                 </Box>
                                             )}
-                                            {property.amenities.includes(PropertyAmenity.WIFI) && (
+                                            {property.amenities.includes(PropertyAmenity.GYM) && (
                                                 <Box className="amenity">
-                                                    <SelfImprovementIcon />
-                                                    <span>Spa</span>
+                                                    <FitnessCenterIcon className='amenityIcon'/>
+                                                    <span> Gym</span>
+                                                </Box>
+                                            )}
+                                            {property.amenities.includes(PropertyAmenity.AC) && (
+                                                <Box className="amenity">
+                                                    <AirIcon className='amenityIcon'/>
+                                                    <span> Air</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.PARKING) && (
                                                 <Box className="amenity">
-                                                    <LocalParkingIcon  />
+                                                    <LocalParkingIcon  className='amenityIcon'/>
                                                     <span>Parking</span>
                                                 </Box>
                                             )}
@@ -147,7 +161,7 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                                 ) : property?.meLiked && property?.meLiked[0]?.myFavorite ? ( 
                                                     <FavoriteIcon sx={{ fontSize: 25, color: '#ef4444' }} /> 
                                                 ) : ( 
-                                                    <FavoriteBorderIcon sx={{ fontSize: 35}} /> 
+                                                    <FavoriteBorderIcon sx={{ fontSize: 25}} /> 
                                                 )}
                                         </Badge>
                                     </IconButton>
@@ -185,7 +199,7 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                 >
                                     <button
                                         type="button"
-                                        className="group flex items-center gap-2 px-3 py-2 cursor-pointer font-medium   text-gray-400  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-1 px-3 rounded-full text-white hover:translate-x-0.5 transition"
+                                        className="group flex items-center gap-2 px-3 py-1.5 cursor-pointer font-medium   text-gray-400  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-1 px-3 rounded-full text-white hover:translate-x-0.5 transition"
                                     >
                                         <p className="group-hover:translate-x-0.5 transition-all">
                                             Book Now
