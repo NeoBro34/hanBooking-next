@@ -195,3 +195,55 @@ export const GET_COMMENTS = gql`
 		}
 	}
 `;
+
+
+/**************************
+ *         BOOKING        *
+ *************************/
+
+export const GET_ALL_BOOKINGS_BY_ADMIN = gql`
+	query GetAllBookingsByAdmin($input: AllBookingsInquiry!) {
+		getAllBookingsByAdmin(input: $input) {
+			list {
+				_id
+				memberId
+				propertyId
+				guests
+				checkInDate
+				checkOutDate
+				totalPrice
+				bookingStatus
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;

@@ -11,13 +11,7 @@ export interface CreateBookingInput {
 }
 
 interface BokISearch {
-  memberId?: string;
-  locationList?: PropertyLocation[];
-  typeList?: PropertyType[];
-  roomsList?: Number[];
-  bedsList?: Number[];
-  bookingsRange?: BookingRange;
-  text?: string;
+  bookingStatus?: OrderStatus;
 }
 
 export interface BookingsInquiry {

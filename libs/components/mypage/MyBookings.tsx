@@ -3,31 +3,124 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 // import CommunityCard from '../common/CommunityCard';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { Booking, Bookings } from '@/libs/types/booking/booking';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PeopleIcon from '@mui/icons-material/People';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { BookingsInquiry } from '@/libs/types/booking/booking.input';
+import { useRouter } from 'next/router';
+import { GET_MY_BOOKINGS } from '@/apollo/user/query';
+import { OrderStatus } from '@/libs/enums/booking.enum';
+import { sweetConfirmAlert, sweetErrorHandling } from '@/libs/sweetAlert';
+import { CANCEL_BOOKING, COMPLETE_BOOKING, CONFIRM_BOOKING } from '@/apollo/user/mutation';
+import { MyBookingCard } from './MyBookingCard';
 
 const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
     const device = useDeviceDetect();
     const user = useReactiveVar(userVar);
-    const [searchBookings, setSearchBookings] = useState({
-        ...initialInput,
-        search: { memberId: user._id },
-    });
-    const [bookings, setBookings] = useState<Bookings[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
+    const [searchFilter, setSearchFilter] = useState<BookingsInquiry>(initialInput);
+    const [myBookings, setMyBookings] = useState<Booking[]>([]);
+    const [total, setTotal] = useState<number>(0);
+    const router = useRouter();
 
     /** APOLLO REQUESTS **/
+    const [confirmBooking] = useMutation(CONFIRM_BOOKING);
+    const [completeBooking] = useMutation(COMPLETE_BOOKING);
+    const [cancelBooking] = useMutation(CANCEL_BOOKING);
+    
+
+    const {
+            loading: getMyBookingLoading,
+            data: getMyBookingData,
+            error: getMyBookingError,
+            refetch: getMyBookingRefetch,
+        } = useQuery(
+            GET_MY_BOOKINGS, 
+            {
+                fetchPolicy: 'network-only',
+                variables: { input: searchFilter },
+                notifyOnNetworkStatusChange: true,
+                onCompleted: (data: T) => {
+                    setMyBookings(data?.getMyBookings?.list);
+                    setTotal(data?.getMyBookings?.metaCounter[0]?.total ?? 0);
+                }
+            }
+        );
 
     /** HANDLERS **/
     const paginationHandler = (e: T, value: number) => {
-        setSearchBookings({ ...searchBookings, page: value });
+        setSearchFilter({ ...searchFilter, page: value });
     };
+
+    const changeStatusHandler = async (value: OrderStatus) => {
+        const newFilter = {
+            ...searchFilter,
+            page: 1,
+            search: {
+                ...searchFilter.search,
+                bookingStatus: value,
+            },
+        };
+
+        setSearchFilter(newFilter);
+
+        await getMyBookingRefetch({
+            input: newFilter,
+        });
+    };
+
+    const confirmBookingHandler = async (id: string) => {
+        console.log("booking id:", id);
+        try {
+            if (await sweetConfirmAlert("Are you sure to CONFIRM this booking?")) {
+                await confirmBooking({
+                    variables: {
+                        bookingId: id
+                    },
+                });
+
+                await getMyBookingRefetch({ input: searchFilter });
+            }
+        } catch (err: any) {
+            await sweetErrorHandling(err);
+        }
+    };
+
+    const completeBookingHandler = async (id: string) => {
+        try {
+            if (await sweetConfirmAlert("Are you sure to COMPLETE this booking?")) {
+                await completeBooking({
+                    variables: {
+                        bookingId: id,
+                    },
+                });
+
+                await getMyBookingRefetch({ input: searchFilter });
+            }
+        } catch (err: any) {
+            await sweetErrorHandling(err);
+        }
+    };
+
+    const cancelBookingHandler = async (id: string) => {
+        try {
+            if (await sweetConfirmAlert("Are you sure to CANCEL this booking?")) {
+                await cancelBooking({
+                    variables: {
+                        bookingId: id,
+                    },
+                });
+
+                await getMyBookingRefetch({ input: searchFilter });
+            }
+        } catch (err: any) {
+            await sweetErrorHandling(err);
+        }
+    };
+
+    
 
     if (device === 'mobile') {
         return <>ARTICLE PAGE MOBILE</>;
@@ -36,61 +129,83 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
             <div id="my-bookings-page">
                 <Stack className="main-title-box">
                     <Stack className="right-box">
-                        <Typography className="main-title">Article</Typography>
+                        <Typography className="main-title">My Bookings</Typography>
                         <Typography className="sub-title">We are glad to see you again!</Typography>
                     </Stack>
                 </Stack>
-                <Stack className="article-list-box">
-                    {true ? (
-                        [1,2,3].map(() => (
-                            <Stack className='card-box'>
-                            <img src="/img/property/noimg.png" alt="" />
-                            <Stack className='item-info'>
-                                <h1>Hotel Name</h1>
-                                <h4><LocationOnIcon sx={{mr:"6px"}}/>Location</h4>
-                                <span><PeopleIcon sx={{mr:"6px"}}/>Guests: <strong>2</strong></span>
-                                <strong>Total: <span>$357</span></strong>
-                            </Stack>
-                            <Stack className='check-box'>
-                                <Box className='checking'>
-                                    <strong>Check-In:</strong>
-                                    <span>Tue Mar 03 2026</span>
-                                </Box>
-                                 <Box className='checking'>
-                                    <strong>Check-Out:</strong>
-                                    <span>Tue Mar 06 2026</span>
-                                </Box>
-                                <Box className='pay-box'>
-                                    <span><RadioButtonCheckedIcon sx={{mr:"7px"}}/>Unpaid</span>
-                                    <Button color='secondary' className='pay-button'><p>Pay Now</p></Button>
-                                </Box>
-                            </Stack>
-                        </Stack>
-                        ))
-                    ) : (
-                        <div className={'no-data'}>
-                            <img src="/img/icons/icoAlert.svg" alt="" />
-                            <p>No Articles found!</p>
-                        </div>
-                    )}
-                </Stack>
-
-                {bookings?.length > 0 && (
-                    <Stack className="pagination-conf">
-                        <Stack className="pagination-box">
-                            <Pagination
-                                count={Math.ceil(totalCount / searchBookings.limit)}
-                                page={searchBookings.page}
-                                shape="circular"
-                                color="primary"
-                                onChange={paginationHandler}
-                            />
-                        </Stack>
-                        <Stack className="total">
-                            <Typography>Total {totalCount ?? 0} booking(s) available</Typography>
-                        </Stack>
+                <Stack className="property-list-box">
+                    <Stack className="tab-name-box">
+                        <Typography
+                            onClick={() => changeStatusHandler(OrderStatus.PENDING)}
+                            className={searchFilter.search.bookingStatus === 'PENDING' ? 'active-tab-name' : 'tab-name'}
+                        >
+                            Pending
+                        </Typography>
+                        <Typography
+                            onClick={() => changeStatusHandler(OrderStatus.CONFIRMED)}
+                            className={searchFilter.search.bookingStatus === 'CONFIRMED' ? 'active-tab-name' : 'tab-name'}
+                        >
+                            Confirmed
+                        </Typography>
+                        <Typography
+                            onClick={() => changeStatusHandler(OrderStatus.COMPLETED)}
+                            className={searchFilter.search.bookingStatus === 'COMPLETED' ? 'active-tab-name' : 'tab-name'}
+                        >
+                            Completed
+                        </Typography>
+                        <Typography
+                            onClick={() => changeStatusHandler(OrderStatus.CANCELLED)}
+                            className={searchFilter.search.bookingStatus === 'CANCELLED' ? 'active-tab-name' : 'tab-name'}
+                        >
+                            Cancelled
+                        </Typography>
                     </Stack>
-                )}
+                    <Stack className="list-box">
+                        <Stack className="listing-title-box">
+                            <Typography className="title-text">Listing title</Typography>
+                            <Typography className="title-text">Date Published</Typography>
+                            <Typography className="title-text">Status</Typography>
+                            <Typography className="title-text">View</Typography>
+                            <Typography className="title-text">Action</Typography>
+                        </Stack>
+
+                        {myBookings?.length === 0 ? (
+                            <div className={'no-data'}>
+                                <img src="/img/icons/icoAlert.svg" alt="" />
+                                <p>No Property found!</p>
+                            </div>
+                        ) : (
+                            myBookings.map((myBooking: Booking) => {
+                                return (
+                                    <MyBookingCard
+                                        memberPage={true}
+                                        myBooking={myBooking}
+                                        confirmBookingHandler={confirmBookingHandler}
+                                        completeBookingHandler={completeBookingHandler}
+                                        cancelBookingHandler={cancelBookingHandler}
+                                    />
+                                );
+                            })
+                        )}
+
+                        {myBookings.length !== 0 && (
+                            <Stack className="pagination-config">
+                                <Stack className="pagination-box">
+                                    <Pagination
+                                        count={Math.ceil(total / searchFilter.limit)}
+                                        page={searchFilter.page}
+                                        shape="circular"
+                                        color="primary"
+                                        onChange={paginationHandler}
+                                    />
+                                </Stack>
+                                <Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
+                                    <Typography>{total} property available</Typography>
+                                </Stack>
+                            </Stack>
+                        )}
+                    </Stack>
+                </Stack>
             </div>
         );
 };
@@ -101,7 +216,9 @@ MyBookings.defaultProps = {
         limit: 6,
         sort: 'createdAt',
         direction: 'DESC',
-        search: {},
+        search: {
+            bookingStatus: 'PENDING'
+        },
     },
 };
 

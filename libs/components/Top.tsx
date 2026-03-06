@@ -50,7 +50,7 @@ const Top = () => {
 
 	useEffect(() => {
 		switch (router.pathname) {
-			case '/property/detail':
+			case '/stays/detail':
 				setBgColor(true);
 				break;
 			default:

@@ -331,3 +331,68 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+
+/**************************
+ *         BOOKING        *
+ *************************/
+
+export const CREATE_BOOKING = gql`
+	mutation CreateBooking($input: CreateBookingInput!) {
+		createBooking(input: $input) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+`;
+
+export const CONFIRM_BOOKING = gql`
+	mutation ConfirmBooking($bookingId: String!) {
+		confirmBooking(bookingId: $bookingId) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+`;
+
+export const CANCEL_BOOKING = gql`
+	mutation ConfirmBooking($bookingId: String!) {
+		cancelBooking(bookingId: $bookingId) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+`;
+
+export const COMPLETE_BOOKING = gql`
+	mutation CompleteBooking($bookingId: String!) {
+		completeBooking(bookingId: $bookingId) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+`;

@@ -64,7 +64,7 @@ const CommunityBoard = () => {
                     <p
                     className="title text-3xl font-semibold"
                     >
-                        Our CommunityBoard
+                        Our CommunityBlog
                     </p>
                     <p
                         className="title-desc text-sm text-slate-500  mt-2"
@@ -79,7 +79,7 @@ const CommunityBoard = () => {
                             className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium text-gray-500  transition active:scale-95"
                         >
                             <a href="/blog" className="group-hover:translate-x-1 transition-all">
-                                CommunityBoard
+                                Our Blog
                             </a>
                             <svg
                                 className="group-hover:translate-x-3 transition-all"

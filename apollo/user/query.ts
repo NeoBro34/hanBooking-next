@@ -627,3 +627,128 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 		}
 	}
 `;
+
+/**************************
+ *         BOOKING        *
+ *************************/
+
+
+export const GET_MY_BOOKINGS = gql`
+	query GetMyBookings($input: AllBookingsInquiry!) {
+		getMyBookings(input: $input) {
+			list {
+				_id
+				memberId
+				propertyId
+				guests
+				checkInDate
+				checkOutDate
+				totalPrice
+				bookingStatus
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+				propertyData {
+					_id
+					propertyType
+					propertyStatus
+					propertyLocation
+					propertyAddress
+					propertyTitle
+					propertyPricePerNight
+					propertyMaxGuests
+					propertyBeds
+					propertyRooms
+					propertyViews
+					propertyLikes
+					propertyComments
+					propertyRank
+					propertyPoints
+					propertyImages
+					amenities
+					propertyDesc
+					memberId
+					deletedAt
+					constructedAt
+					createdAt
+					updatedAt
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+
+export const GET_AGENT_BOOKINGS = gql`
+	query GetAgentBookings($input: AgentBookingInquiry!) {
+		getAgentBookings(input: $input) {
+			list {
+				_id
+				memberId
+				propertyId
+				guests
+				checkInDate
+				checkOutDate
+				totalPrice
+				bookingStatus
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;

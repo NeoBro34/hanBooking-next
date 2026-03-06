@@ -3,9 +3,28 @@ import { NextPage } from "next";
 import { Box, Container, Stack } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
+import { useRouter } from 'next/router';
 
 const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
     const [popularDestination, setPopularDestination] = useState<number[]>(initialInput);
+    const router = useRouter();
+
+    const handleDestinationClick = (location: string) => {
+        const input = {
+            page: 1,
+            limit: 6,
+            search: {
+                locationList: [location.toUpperCase()]
+            }
+        };
+
+        router.push({
+            pathname: "/stays",
+            query: {
+                input: JSON.stringify(input)
+            }
+        });
+    };
 
     const [stopScroll, setStopScroll] = React.useState(false);
     const cardData = [
@@ -42,35 +61,35 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
             image: "img/destinations/sejong.png",
         },
         {
-            title: "Gyeonggi-do",
+            title: "Gyeonggi",
             image: "img/destinations/gyeonggi-do.png",
         },
         {
-            title: "Gangwon-do",
+            title: "Gangwon",
             image: "img/destinations/Gangwon-do.png",
         },
         {
-            title: "Chungcheongbuk-do",
+            title: "Chungcheongbuk",
             image: "img/destinations/Chungcheongbuk-do.png",
         },
         {
-            title: "Chungcheongnam-do",
+            title: "Chungcheongnam",
             image: "img/destinations/Chungcheongnam-do.png",
         },
         {
-            title: "Jeollabuk-do",
+            title: "Jeollabuk",
             image: "img/destinations/Jeollabuk-do.png",
         },
         {
-            title: "Jeollanam-do",
+            title: "Jeollanam",
             image: "img/destinations/Jeollanam-do.png",
         },
         {
-            title: "Gyeongsangbuk-do",
+            title: "Gyeongsangbuk",
             image: "img/destinations/Gyeongsangbuk-do.png",
         },
         {
-            title: "Gyeongsangnam-do",
+            title: "Gyeongsangnam",
             image: "img/destinations/Gyeongsangnam-do.png",
         },
         {
@@ -137,7 +156,10 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                     <div className="flex">
                         {[...cardData, ...cardData].map((card, index) => (
                             <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems: "center"}}>
-                                <div key={index} className="w-56 mx-4 h-[18rem] relative group hover:scale-90 transition-all duration-300">
+                                <div
+                                    onClick={() => handleDestinationClick(card.title)} 
+                                    key={index} 
+                                    className="w-56 mx-4 h-[18rem] relative group hover:scale-90 transition-all duration-300">
                                     <img src={card.image} alt="card" className="w-full h-full object-cover rounded-full" />
                                     <div className="flex items-end justify-center px-4 opacity-0 group-hover:opacity-100 transition-all duration-300 absolute bottom-0 backdrop-blur-md left-0 w-full h-full bg-black/20 rounded-full">
                                         <a href='#' className="flex justify-center  text-white text-lg mb-10 cursor-pointer gap-2">

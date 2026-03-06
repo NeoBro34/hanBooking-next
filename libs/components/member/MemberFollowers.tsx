@@ -164,7 +164,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 								color="primary"
 							/>
 						</Stack>
-						<Stack className="total-result">
+						<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
 							<Typography>{total} followers</Typography>
 						</Stack>
 					</Stack>

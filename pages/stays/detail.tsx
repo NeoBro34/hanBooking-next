@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Box, Button, CardMedia, Checkbox, CircularProgress, MenuItem, Pagination, Rating, Stack, TextField, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
@@ -17,8 +17,6 @@ import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
-import Link from 'next/link';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckIcon from '@mui/icons-material/Check';
@@ -29,14 +27,13 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AirIcon from '@mui/icons-material/Air';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import SecurityIcon from '@mui/icons-material/Security';
-import  FeaturedPropertyCard  from '@/libs/components/common/FeaturedPropertyCard';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
+import { CREATE_BOOKING, CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '@/apollo/user/query';
 import { T } from '@/libs/types/common';
 import { Direction, Message } from '@/libs/enums/common.enum';
-import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { sweetConfirmAlert, sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import { PropertyAmenity } from '@/libs/enums/property.enum';
 import PropertySmallCard from '@/libs/components/common/PropertySmallCard';
 
@@ -69,6 +66,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** APOLLO REQUESTS **/
 	const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
 	const [ createComment ] = useMutation(CREATE_COMMENT);
+	const [checkIn, setCheckIn] = useState("");
+	const [checkOut, setCheckOut] = useState("");
+	const [guests, setGuests] = useState("1");
+
+	const [createBooking] = useMutation(CREATE_BOOKING);
+	const pricePerNight = property?.propertyPricePerNight ?? 0;
+	const nights = useMemo(() => {
+		if (!checkIn || !checkOut) return 0;
+
+		const start = new Date(checkIn).getTime();
+		const end = new Date(checkOut).getTime();
+
+		const diff = end - start;
+
+		return diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : 0;
+	}, [checkIn, checkOut]);
+	const totalPrice = nights * pricePerNight;
 	
 	const {
 		loading: getPropertyLoading,
@@ -212,6 +226,27 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
+	const handleReserve = async () => {
+		try {
+			if (await sweetConfirmAlert("Are you Booking this stay?")) {
+				await createBooking({
+					variables: {
+						input: {
+							propertyId: property?._id,
+							checkInDate: checkIn,
+							checkOutDate: checkOut,
+							guests: Number(guests),
+						},
+					},
+				});
+
+				await router.push('/mypage?category=myBookings');
+			}
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
 	if (getPropertyLoading) {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
@@ -247,7 +282,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</span>
 									</div>
 									<div className="flex items-end gap-1 text-gray-600 mb-3">
-										<LocationOnIcon sx={{ fontSize: 30 }} />
+										<LocationOnIcon sx={{ fontSize: 30, color:'#394094' }} />
 										<span className="text-xl">
 											{property?.propertyLocation}
 										</span>
@@ -280,8 +315,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'left-config'}>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Property Description</Typography>
-										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
+										<Typography className={'title'}>Address</Typography>
+										<Typography className={'desc'}><LocationOnIcon sx={{mb:'8px', color:'#394094'}}/>{property?.propertyAddress ?? 'No Address!'}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'floor-plans-config'}>
@@ -337,7 +372,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								</Stack>
 								<Stack className={'address-config'}>
-									<Typography className={'title'}>Address</Typography>
+									<Typography className={'title'}>Road Map</Typography>
 									<Stack className={'map-box'}>
 										<iframe
 											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
@@ -459,8 +494,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<TextField
 											type="date"
 											fullWidth
-											// value={checkIn}
-											// onChange={(e) => setCheckIn(e.target.value)}
+											value={checkIn}
+											onChange={(e) => setCheckIn(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											InputLabelProps={{
@@ -481,8 +516,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<TextField
 											type="date"
 											fullWidth
-											// value={checkOut}
-											// onChange={(e) => setCheckOut(e.target.value)}
+											value={checkOut}
+											onChange={(e) => setCheckOut(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											InputLabelProps={{
@@ -500,8 +535,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                                         <TextField
 											select
 											fullWidth
-											// value={guests}
-											// onChange={(e) => setGuests(e.target.value)}
+											value={guests}
+											onChange={(e) => setGuests(e.target.value)}
 											variant="outlined"
 											className={'searchInput'}
 											>
@@ -514,7 +549,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                                     </Box>
 								</Stack>
 								<Stack className={'info-box'}>
-									<Button className={'reserve-button'}>
+									<Button 
+										onClick={handleReserve}
+										className={'reserve-button'}>
 										<Typography className={'title'}>Reserve</Typography>
 									</Button>
 								</Stack>
@@ -523,18 +560,27 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<p>Per night</p>
 									<span>{property?.propertyPricePerNight}$</span>
 								</Stack>
+
 								<Stack className='reserve-info'>
 									<p>Nights</p>
-									<span>3 x<span>127$</span></span>
+									<span>
+										{nights} x <span>{property?.propertyPricePerNight}$</span>
+									</span>
 								</Stack>
+
 								<Stack className='reserve-info'>
 									<p>Guests</p>
-									<span style={{display:"flex", justifyContent: "center"}}><PeopleIcon sx={{mr: "10px"}}/>2</span>
+									<span style={{ display: "flex", justifyContent: "center", alignItems:"center" }}>
+										<PeopleIcon sx={{ mr: "10px" }} />
+										{guests}
+									</span>
 								</Stack>
+
 								<span className='line'></span>
+
 								<Stack className='reserve-info'>
 									<strong>Total</strong>
-									<strong>381$</strong>
+									<strong>{totalPrice}$</strong>
 								</Stack>
 							</Stack>
 						</Stack>

@@ -9,6 +9,13 @@ export interface Booking {
     checkOutDate: Date;
     totalPrice: number;
     bookingStatus?: OrderStatus;
+    propertyData: {
+        _id: string;
+        propertyTitle: string;
+        propertyLocation: string;
+        propertyPricePerNight: number;
+        propertyImages: string[];
+    };
 }
 
 export interface TotalCounter {

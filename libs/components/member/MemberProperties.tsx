@@ -96,7 +96,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 										onChange={paginationHandler}
 									/>
 								</Stack>
-								<Stack className="total-result">
+								<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
 									<Typography>{total} property available</Typography>
 								</Stack>
 							</Stack>

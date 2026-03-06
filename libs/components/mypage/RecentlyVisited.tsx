@@ -95,7 +95,7 @@ const RecentlyVisited: NextPage = () => {
 								onChange={paginationHandler}
 							/>
 						</Stack>
-						<Stack className="total-result">
+						<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
 							<Typography>
 								Total {total} recently visited propert{total > 1 ? 'ies' : 'y'}
 							</Typography>
