@@ -4,6 +4,7 @@ import { Stack } from "@mui/material"
 import Head from "next/head"
 import HeaderFilter from "../homepage/HeaderFilter";
 import { useEffect, useRef } from "react";
+import Chat from "../Chat";
 
 
 const withLayoutMain = (Component: any) => {
@@ -49,6 +50,7 @@ const withLayoutMain = (Component: any) => {
                         <Component {...props}/>
                     </Stack>
 
+                    <Chat/>
 
                     <Stack id={"footer"}>
                         <Footer />

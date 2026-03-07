@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from "@/apollo/store";
 import { getJwtToken, updateUserInfo } from "@/libs/auth";
+import Chat from "../Chat";
 
 
 const withLayoutBasic = (Component: any) => {
@@ -78,10 +79,10 @@ const withLayoutBasic = (Component: any) => {
 		}, [router.pathname]);
 
 		/** LIFECYCLES **/
-		// useEffect(() => {
-		// 	const jwt = getJwtToken();
-		// 	if (jwt) updateUserInfo(jwt);
-		// }, []);
+		useEffect(() => {
+			const jwt = getJwtToken();
+			if (jwt) updateUserInfo(jwt);
+		}, []);
 
 		/** HANDLERS **/
 
@@ -139,6 +140,7 @@ const withLayoutBasic = (Component: any) => {
                             <Component {...props}/>
                         </Stack>
 
+						<Chat/>
 
                         <Stack id={"footer"}>
                             <Footer />
