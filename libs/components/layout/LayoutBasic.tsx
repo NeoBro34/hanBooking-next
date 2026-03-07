@@ -33,32 +33,32 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/agent':
 					title = 'Agents';
-					desc = 'Home / For Rent';
+					desc = 'Home / Our Agents';
 					bgImage = '/img/banner/agentheader.jpg';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
-					desc = 'Home / For Rent';
+					desc = 'Home / Agent Page';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
+					title = 'My page';
+					desc = 'Home / My Page';
 					bgImage = '/img/banner/mypageheader.jpg';
 					break;
 				case '/blog':
 					title = 'Blog';
-					desc = 'Home / For Rent';
+					desc = 'Home / Our Blog';
 					bgImage = '/img/banner/blogheader.jpg';
 					break;
 				case '/blog/detail':
-					title = 'Community Detail';
-					desc = 'Home / For Rent';
+					title = 'Blog Detail';
+					desc = 'Home / Our Blog';
 					bgImage = '/img/banner/header2.svg';
 					break;
                 case '/about':
-					title = 'Community Detail';
-					desc = 'About /';
+					title = 'About';
+					desc = 'About / Us';
 					bgImage = '/img/banner/aboutheader.jpg';
 					break;
 				case '/cs':
@@ -68,7 +68,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/member':
 					title = 'Member Page';
-					desc = 'Home / For Rent';
+					desc = 'Home / Member Page';
 					bgImage = '/img/banner/header1.svg';
 					break;
 				default:
@@ -126,12 +126,12 @@ const withLayoutBasic = (Component: any) => {
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								boxShadow: 'inset 40px 50px 100px 120px rgb(24 22 36)',
+								boxShadow: 'inset 40px 50px 400px 120px rgb(61, 61, 61)',
 							}}
 						>
 							<Stack className={'container'}>
 								<strong>{t(memoizedValues.title)}</strong>
-								<span>{t(memoizedValues.desc)}</span>
+								<span style={{color:'gray'}}>{t(memoizedValues.desc)}</span>
 							</Stack>
 						</Stack>
 

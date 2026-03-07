@@ -37,65 +37,6 @@ const Footer: React.FC = () => {
 
   return (
     <div className="footer-bg text-white mt-auto">
-      {/* Newsletter Section */}
-      <div 
-        className="py-12"
-        style={{
-          background: 'linear-gradient(135deg, rgba(245, 183, 56, 0.1) 0%, rgba(240, 159, 36, 0.05) 100%)',
-          borderTop: '1px solid rgba(245, 183, 56, 0.2)',
-        }}
-      >
-          <div className='container '>
-            <Grid container spacing={4} alignItems="center">
-              <Grid item xs={12} md={6}>
-                <h3 className="font-display text-3xl font-bold mb-2">
-                  Subscribe to Our Newsletter
-                </h3>
-                <p className="text-gray-400">
-                  Get exclusive deals and travel inspiration delivered to your inbox
-                </p>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <div className="flex gap-2">
-                  <TextField
-                    fullWidth
-                    placeholder="Enter your email"
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        color: 'white',
-                        '& fieldset': {
-                          borderColor: 'rgba(245, 183, 56, 0.3)',
-                        },
-                        '&:hover fieldset': {
-                          borderColor: 'rgba(245, 183, 56, 0.5)',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#f5b738',
-                        },
-                      },
-                      '& .MuiOutlinedInput-input': {
-                        color: 'white',
-                        '&::placeholder': {
-                          color: 'rgba(255, 255, 255, 0.5)',
-                        },
-                      },
-                    }}
-                  />
-                  <Button
-                    variant="contained"
-                    endIcon={<Send />}
-                    className='group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-3 px-8 rounded-full text-white hover:translate-x-1 transition mt-10'
-                  >
-                    Subscribe
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-      </div>
-
       {/* Main Footer Content */}
       <div className="container py-12 border-t border-gray-800">
           <Grid container spacing={4}>

@@ -4,10 +4,10 @@
 	"private": true,
 	"license": "ITC",
 	"scripts": {
-			"dev": "next dev",
-			"build": "next build",
-			"start": "next start",
-			"lint": "next lint"
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.5.10",
@@ -50,6 +50,7 @@
 		"next": "14.2.1",
 		"next-i18next": "^14.0.3",
 		"next-images": "^1.8.4",
+		"next-themes": "^0.4.6",
 		"notistack": "^2.0.5",
 		"nouislider-react": "^3.4.1",
 		"numeral": "^2.0.6",

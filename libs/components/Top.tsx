@@ -19,13 +19,13 @@ import { userVar } from "@/apollo/store";
 import React from "react";
 import { getJwtToken, logOut, updateUserInfo } from "../auth";
 import { REACT_APP_API_URL } from "../config";
+import { useTheme } from 'next-themes';
 
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const [colorChange, setColorChange] = useState(false);
 	const [bgColor, setBgColor] = useState<boolean>(false);
-    const [isMode, setIsMode] = useState(false);
 	const { t, i18n } = useTranslation('common');
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
@@ -36,6 +36,8 @@ const Top = () => {
 	let open = Boolean(anchorEl);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
 
     /** LIFECYCLES **/
@@ -63,6 +65,16 @@ const Top = () => {
 		if (jwt) updateUserInfo(jwt);
 	}, []);
 
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+        const isMode = theme === "dark";
+
+        const handleMode = () => {
+        setTheme(isMode ? "light" : "dark");
+        };
+
 
     /** HANDLERS **/
 	const langClick = (e: any) => {
@@ -82,10 +94,6 @@ const Top = () => {
 		},
 		[router],
 	);
-
-    const handleMode = () => {
-        setIsMode(!isMode);
-    };
 
     const changeNavbarColor = () => {
 		if (window.scrollY >= 50) {
@@ -229,15 +237,17 @@ const Top = () => {
                                             <NotificationsOutlinedIcon className={'notification-icon'}/>
                                     </Badge>
                                 }
-                                <IconButton 
-                                    style={{width: "30px", height: "30px", marginLeft: "20px"}}
-                                        onClick={handleMode}
+                                <IconButton
+                                    style={{ width: "30px", height: "30px", marginLeft: "20px" }}
+                                    onClick={handleMode}
                                     >
-                                        {isMode ? (
-                                            <DarkModeIcon sx={{ fontSize: 20, color: 'gray' }} />
+                                    {mounted && (
+                                        isMode ? (
+                                        <LightModeIcon sx={{ fontSize: 20, color: "gray" }} />
                                         ) : (
-                                            <LightModeIcon sx={{ fontSize: 20, color: 'gray' }} />
-                                        )}
+                                        <DarkModeIcon sx={{ fontSize: 20, color: "gray" }} />
+                                        )
+                                    )}
                                 </IconButton>
                                 <Button
                                     disableRipple
