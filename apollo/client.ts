@@ -68,7 +68,6 @@ function createIsomorphicLink() {
 					...getHeaders(),
 				},
 			}));
-			console.warn('requesting.. ', operation);
 			return forward(operation);
 		});
 
@@ -121,7 +120,7 @@ function createIsomorphicLink() {
 function createApolloClient() {
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',
-		link: createIsomorphicLink(),
+		link: createIsomorphicLink() ?? ApolloLink.empty(),
 		cache: new InMemoryCache(),
 		resolvers: {},
 	});

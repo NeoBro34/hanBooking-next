@@ -446,7 +446,7 @@ const Filter = (props: FilterType) => {
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={searchFilter?.search?.roomsList?.[0] ?? 0}
+								value={searchFilter?.search?.roomsList?.[0] || ''}
 								label="Rooms"
 								onChange={(e: any) => propertyRoomSelectHandler(Number(e.target.value))}
 								MenuProps={MenuProps}
@@ -472,7 +472,7 @@ const Filter = (props: FilterType) => {
 								<Select
 									labelId="demo-simple-select-label"
 									id="demo-simple-select"
-									value={searchFilter?.search?.bedsList?.[0] ?? 0}
+									value={searchFilter?.search?.bedsList?.[0] || ''}
 									label="Min"
 									onChange={(e: any) => propertyBedSelectHandler(Number(e.target.value))}
 									MenuProps={MenuProps}

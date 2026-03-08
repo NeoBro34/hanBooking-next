@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Typography, Box, List, ListItem, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -35,60 +35,62 @@ const MemberMenu = (props: MemberMenuProps) => {
 			variables: { input: memberId },
 			skip: !memberId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setMember(data?.getMember);
-			},
 		}
 	);
+
+	useEffect(() => {
+		if (getMemberData) {
+			setMember(getMemberData?.getMember);
+		}
+	}, [getMemberData]);
 
 	if (device === 'mobile') {
 		return <div>MEMBER MENU MOBILE</div>;
 	} else {
 		return (
-			<Stack width={'100%'} padding={'30px 24px'}>
-				<Stack className={'profile'}>
-					<Box component={'div'} className={'profile-img'}>
-						<img
-							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
-					</Box>
-					<Stack className={'user-info'}>
-						<Typography className={'user-name'}>{member?.memberNick}</Typography>
-						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
-							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
+			<Stack className='profile-box' width={'100%'} padding={'30px 24px'}>
+				<Stack sx={{width:'25%', height:'170px'}} >
+					<Stack className={'profile'}>
+						<Box component={'div'} className={'profile-img'}>
+							<img
+								src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
+								alt={'member-photo'}
+							/>
 						</Box>
-						<Typography className={'view-list'}>{member?.memberType}</Typography>
+						<Stack className={'user-info'}>
+							<Typography className={'user-name'}>{member?.memberNick}</Typography>
+							<Box component={'div'} className={'user-phone'}>
+								<img src={'/img/icons/call.svg'} alt={'icon'} />
+								<Typography className={'p-number'}>{member?.memberPhone}</Typography>
+							</Box>
+							<Typography className={'view-list'}>{member?.memberType}</Typography>
+						</Stack>
 					</Stack>
-				</Stack>
-				<Stack className="follow-button-box">
-					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
-						<>
+					<Stack className="follow-button-box">
+						{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
+							<>
+								<Button
+									variant="outlined"
+									sx={{ background: '#b9b9b9',borderRadius:'30px' }}
+									onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
+								>
+									Unfollow
+								</Button>
+								<Typography>Following</Typography>
+							</>
+						) : (
 							<Button
-								variant="outlined"
-								sx={{ background: '#b9b9b9' }}
-								onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
+								variant="contained"
+								sx={{ background: '#26d22b',borderRadius:'30px', ':hover': { background: '#26d22b',borderRadius:'30px' } }}
+								onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
 							>
-								Unfollow
+								Follow
 							</Button>
-							<Typography>Following</Typography>
-						</>
-					) : (
-						<Button
-							variant="contained"
-							sx={{ background: '#ff5d18', ':hover': { background: '#ff5d18' } }}
-							onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
-						>
-							Followi
-						</Button>
-					)}
+						)}
+					</Stack>
 				</Stack>
 				<Stack className={'sections'}>
 					<Stack className={'section'}>
-						<Typography className="title" variant={'h5'}>
-							Details
-						</Typography>
 						<List className={'sub-section'}>
 							{member?.memberType === 'AGENT' && (
 								<ListItem className={category === 'properties' ? 'focus' : ''}>
@@ -101,11 +103,8 @@ const MemberMenu = (props: MemberMenuProps) => {
 										style={{ width: '100%' }}
 									>
 										<div className={'flex-box'}>
-											{category === 'properties' ? (
-												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
-											)}
+											
+											<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 												Properties
 											</Typography>
@@ -128,7 +127,6 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followers' ? 'white' : 'black'}
 											height="800px"
 											width="800px"
 											version="1.1"
@@ -179,7 +177,6 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followings' ? 'white' : 'black'}
 											height="800px"
 											width="800px"
 											version="1.1"
@@ -218,15 +215,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 									</div>
 								</Link>
 							</ListItem>
-						</List>
-					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '10px' }}>
-						<div>
-							<Typography className="title" variant={'h5'}>
-								Community
-							</Typography>
-							<List className={'sub-section'}>
-								<ListItem className={category === 'articles' ? 'focus' : ''}>
+							<ListItem className={category === 'articles' ? 'focus' : ''}>
 									<Link
 										href={{
 											pathname: '/member',
@@ -236,12 +225,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 										style={{ width: '100%' }}
 									>
 										<div className={'flex-box'}>
-											{category === 'articles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
-											)}
-
+											<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 												Articles
 											</Typography>
@@ -251,8 +235,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 										</div>
 									</Link>
 								</ListItem>
-							</List>
-						</div>
+						</List>
 					</Stack>
 				</Stack>
 			</Stack>

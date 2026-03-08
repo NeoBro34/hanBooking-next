@@ -8,43 +8,46 @@ import { Box, Stack } from "@mui/material";
 import { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommunityCard from "./CommunityCard";
 
 const CommunityBoard = () => {
 	const device = useDeviceDetect();
 	const [searchCommunity, setSearchCommunity] = useState({
-		page: 1,
-		sort: 'createdAt',
-		direction: 'DESC',
-	});
-	const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
+        page: 1,
+        sort: 'createdAt',
+        direction: 'DESC',
+    });
+    const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
     const [page, setPage] = useState(1);
 
-	/** APOLLO REQUESTS **/
-	const {
-		loading: getFreeArticlesLoading,
-		data: getFreeArticlesData,
-		error: getFreeArticlesError,
-		refetch: getFreeArticlesRefetch,
-	} = useQuery(
-		GET_BOARD_ARTICLES, 
-		{
-			fetchPolicy: 'network-only',
-			variables: { 
-				input: {
-					...searchCommunity, 
+    /** APOLLO REQUESTS **/
+    const {
+        loading: getFreeArticlesLoading,
+        data: getFreeArticlesData,
+        error: getFreeArticlesError,
+        refetch: getFreeArticlesRefetch,
+    } = useQuery(
+        GET_BOARD_ARTICLES, 
+        {
+            fetchPolicy: 'network-only',
+            variables: { 
+                input: {
+                    ...searchCommunity, 
                     page: page,
-					limit: 4, 
-					search: {  } 
-				}
-			},
-			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setFreeArticles(data?.getBoardArticles?.list);
-			}
-		}
-	);
+                    limit: 4, 
+                    search: {}
+                }
+            },
+            notifyOnNetworkStatusChange: true,
+        }
+    );
+
+    useEffect(() => {
+        if (getFreeArticlesData) {
+            setFreeArticles(getFreeArticlesData?.getBoardArticles?.list);
+        }
+    }, [getFreeArticlesData]);
     
     if (device === 'mobile') {
 		return <div>BlogList PAGE MOBILE</div>;

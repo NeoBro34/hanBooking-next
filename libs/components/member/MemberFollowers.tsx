@@ -42,12 +42,15 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 			fetchPolicy: 'network-only',
 			variables: { input: followInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted:(data: T) => {
-				setMemberFollowers(data?.getMemberFollowers?.list);
-				setTotal(data?.getMemberFollowers?.metaCounter[0]?.total);
-			},
 		}
 	);
+
+	useEffect(() => {
+		if (getMemberFollowersData) {
+			setMemberFollowers(getMemberFollowersData?.getMemberFollowers?.list);
+			setTotal(getMemberFollowersData?.getMemberFollowers?.metaCounter[0]?.total);
+		}
+	}, [getMemberFollowersData]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -83,7 +86,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 						<Typography className="title-text">Subscription</Typography>
 					</Stack>
 					{memberFollowers?.length === 0 && (
-						<div className={'no-data'}>
+						<div style={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center',flexDirection:'column'}}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
 							<p>No Followers yet!</p>
 						</div>
@@ -132,7 +135,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 												<Typography>Following</Typography>
 												<Button
 													variant="outlined"
-													sx={{ background: '#ed5858', ':hover': { background: '#ee7171' } }}
+													sx={{ background: '#b9b9b9',borderRadius:'30px', ':hover': { background: '#b9b9b9',borderRadius:'30px' } }}
 													onClick={() => unsubscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
 												>
 													Unfollow
@@ -141,7 +144,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 										) : (
 											<Button
 												variant="contained"
-												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
+												sx={{  background: '#26d22b',borderRadius:'30px', ':hover': { background: '#26d22b',borderRadius:'30px' } }}
 												onClick={() => subscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
 											>
 												Follow

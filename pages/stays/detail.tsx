@@ -1,15 +1,12 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { Box, Button, CardMedia, Checkbox, CircularProgress, MenuItem, Pagination, Rating, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, MenuItem, Rating, Stack, TextField, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
 import Review from '../../libs/components/property/Review';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
-import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
@@ -96,10 +93,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			variables: { input: propertyId },
 			skip: !propertyId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				if (data?.getProperty) setProperty(data.getProperty);
-				if (data?.getProperty) setSlideImage(data.getProperty?.propertyImages[0]);
-			}
 		}
 	);
 
@@ -125,10 +118,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			},
 			skip: !propertyId && !property,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
-			},
-		},
+		}
 	);
 
 	const {
@@ -143,14 +133,30 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			variables: { input: initialComment },
 			skip: !commentInquiry.search.commentRefId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				if (data?.getComments?.list) setPropertyComments(data?.getComments?.list);
-				setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0 );
-			},
-		},
+		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getPropertyData) {
+			if (getPropertyData?.getProperty) setProperty(getPropertyData.getProperty);
+			if (getPropertyData?.getProperty) setSlideImage(getPropertyData.getProperty?.propertyImages[0]);
+		}
+	}, [getPropertyData]);
+
+	useEffect(() => {
+		if (getPropertiesData) {
+			if (getPropertiesData?.getProperties?.list) setDestinationProperties(getPropertiesData?.getProperties?.list);
+		}
+	}, [getPropertiesData]);
+
+	useEffect(() => {
+		if (getCommentsData) {
+			if (getCommentsData?.getComments?.list) setPropertyComments(getCommentsData?.getComments?.list);
+			setCommentTotal(getCommentsData?.getComments?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getCommentsData]);
+
 	useEffect(() => {
 		if (router.query.id) {
 			setPropertyId(router.query.id as string);

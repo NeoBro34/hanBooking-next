@@ -254,7 +254,19 @@ const Chat = () => {
 
                   <div key={i} className="message other-message">
 
-                    <Avatar style={{background:"#2a2d7b"}} src="/img/ai.png" />
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'center',
+                      '@keyframes bounce': {
+                          '0%':   { transform: 'translateY(0)' },
+                          '100%': { transform: 'translateY(-10px)' },
+                      },
+                    }}>
+                      <Avatar 
+                          style={{ animation: 'bounce 0.8s infinite alternate ease-in-out' }} 
+                          src="/img/ai.png" 
+                      />
+                    </Box>
 
                     <div className="bubble">{msg.text}</div>
 

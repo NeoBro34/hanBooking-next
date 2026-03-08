@@ -45,14 +45,17 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: propertiesInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setProperties(data?.getAllBookingsByAdmin?.list);
-				setPropertiesTotal(data?.getAllBookingsByAdmin?.metaCounter[0]?.total ?? 0);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getAllPropertiesByAdminData) {
+			setProperties(getAllPropertiesByAdminData?.getAllBookingsByAdmin?.list);
+			setPropertiesTotal(getAllPropertiesByAdminData?.getAllBookingsByAdmin?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getAllPropertiesByAdminData]);
+
 	useEffect(() => {
 		getAllPropertiesByAdminRefetch({ input: propertiesInquiry }).then();
 	}, [propertiesInquiry]);

@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import FeaturedPropertyCard from '../../libs/components/common/FeaturedPropertyCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
@@ -62,28 +61,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			fetchPolicy: 'network-only',
 			variables: { input: agentId },
 			skip: !agentId,
-			onCompleted: (data: T) => {
-				setAgent(data?.getMember);
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						memberId: data?.getMember?._id,
-					},
-				});
-				setCommentInquiry({
-					...commentInquiry,
-					search: {
-						commentRefId: data?.getMember?._id,
-					},
-				});
-				setInsertCommentData({
-					...insertCommentData,
-					commentRefId: data?.getMember?._id,
-				});
-			},
 		}
 	);
 
+	
 	const {
 		loading: getPropertiesLoading,
 		data: getPropertiesData,
@@ -96,11 +77,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			variables: { input: searchFilter },
 			skip: !searchFilter.search.memberId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setAgentProperties(data?.getProperties?.list);
-				setPropertyTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
-			},
-		},
+		}
 	);
 
 	const {
@@ -115,13 +92,47 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			variables: { input: commentInquiry },
 			skip: !commentInquiry.search.commentRefId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setAgentComments(data?.getComments?.list);
-				setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0 );
-			},
-		},
+		}
 	);
+
 	/** LIFECYCLES **/
+
+	useEffect(() => {
+		if (getMemberData) {
+			setAgent(getMemberData?.getMember);
+			setSearchFilter({
+				...searchFilter,
+				search: {
+					memberId: getMemberData?.getMember?._id,
+				},
+			});
+			setCommentInquiry({
+				...commentInquiry,
+				search: {
+					commentRefId: getMemberData?.getMember?._id,
+				},
+			});
+			setInsertCommentData({
+				...insertCommentData,
+				commentRefId: getMemberData?.getMember?._id,
+			});
+		}
+	}, [getMemberData]);
+
+	useEffect(() => {
+		if (getPropertiesData) {
+			setAgentProperties(getPropertiesData?.getProperties?.list);
+			setPropertyTotal(getPropertiesData?.getProperties?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getPropertiesData]);
+
+	useEffect(() => {
+		if (getCommentsData) {
+			setAgentComments(getCommentsData?.getComments?.list);
+			setCommentTotal(getCommentsData?.getComments?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getCommentsData]);
+
 	useEffect(() => {
 		if (router.query.agentId) setAgentId(router.query.agentId as string);
 	}, [router]);

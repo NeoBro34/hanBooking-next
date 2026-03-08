@@ -35,7 +35,6 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [agents, setAgents] = useState<Member[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [searchText, setSearchText] = useState<string>('');
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
@@ -51,13 +50,17 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: searchFilter },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setAgents(data?.getAgents?.list);
-				setTotal(data?.getAgents?.metaCounter[0]?.total);
-			}
 		}
 	);
+
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getAgentsData) {
+			setAgents(getAgentsData?.getAgents?.list);
+			setTotal(getAgentsData?.getAgents?.metaCounter[0]?.total);
+		}
+	}, [getAgentsData]);
+
 	useEffect(() => {
 		if (router.query.input) {
 			const input_obj = JSON.parse(router?.query?.input as string);

@@ -37,8 +37,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
-	const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
-	
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
 		loading: getPropertiesLoading,
@@ -51,12 +50,15 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			fetchPolicy: 'cache-and-network',
 			variables: { input: searchFilter },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setProperties(data?.getProperties?.list);
-				setTotal(data?.getProperties?.metaCounter[0]?.total);
-			}
 		}
 	);
+
+	useEffect(() => {
+		if (getPropertiesData) {
+			setProperties(getPropertiesData?.getProperties?.list);
+			setTotal(getPropertiesData?.getProperties?.metaCounter[0]?.total);
+		}
+	}, [getPropertiesData]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -64,7 +66,6 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			const inputObj = JSON.parse(router?.query?.input as string);
 			setSearchFilter(inputObj);
 		}
-
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
 

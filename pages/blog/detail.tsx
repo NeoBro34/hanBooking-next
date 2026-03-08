@@ -80,12 +80,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			fetchPolicy: 'network-only',
 			variables: { input: articleId },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setBoardArticle(data?.getBoardArticle);
-				if (data?.getBoardArticle?.memberData?.memberImage) {
-					setMemberImage(`${process.env.REACT_APP_API_URL}/${data?.getBoardArticle?.memberData?.memberImage}`);
-				}
-			}
 		}
 	);
 
@@ -100,16 +94,26 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			fetchPolicy: 'cache-and-network',
 			variables: { input: searchFilter },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setComments(data.getComments.list);
-				setTotal(data.getComments?.metaCounter?.[0]?.total || 0 );
-			},
-		},
+		}
 	);
 
-	
-
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getBoardArticleData) {
+			setBoardArticle(getBoardArticleData?.getBoardArticle);
+			if (getBoardArticleData?.getBoardArticle?.memberData?.memberImage) {
+				setMemberImage(`${process.env.REACT_APP_API_URL}/${getBoardArticleData?.getBoardArticle?.memberData?.memberImage}`);
+			}
+		}
+	}, [getBoardArticleData]);
+
+	useEffect(() => {
+		if (getCommentsData) {
+			setComments(getCommentsData?.getComments?.list);
+			setTotal(getCommentsData?.getComments?.metaCounter?.[0]?.total || 0);
+		}
+	}, [getCommentsData]);
+
 	useEffect(() => {
 		if (articleId) setSearchFilter({ ...searchFilter, search: { commentRefId: articleId } });
 	}, [articleId]);

@@ -44,14 +44,17 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: communityInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setArticles(data?.getAllBoardArticlesByAdmin?.list);
-				setArticleTotal(data?.getAllBoardArticlesByAdmin?.metaCounter[0]?.total ?? 0);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getAllBoardArticlesByAdminData) {
+			setArticles(getAllBoardArticlesByAdminData?.getAllBoardArticlesByAdmin?.list);
+			setArticleTotal(getAllBoardArticlesByAdminData?.getAllBoardArticlesByAdmin?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getAllBoardArticlesByAdminData]);
+
 	useEffect(() => {
 		getAllBoardArticlesByAdminRefetch({ input: communityInquiry }).then();
 	}, [communityInquiry]);

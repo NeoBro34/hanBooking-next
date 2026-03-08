@@ -35,12 +35,15 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: searchFilter },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setMemberBoArticles(data?.getBoardArticles?.list);
-				setTotal(data?.getBoardArticles?.metaCounter?.[0]?.total || 0);
-			},
 		}
 	);
+
+	useEffect(() => {
+		if (boardArticlesData) {
+			setMemberBoArticles(boardArticlesData?.getBoardArticles?.list);
+			setTotal(boardArticlesData?.getBoardArticles?.metaCounter?.[0]?.total || 0);
+		}
+	}, [boardArticlesData]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -83,7 +86,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 				<Stack className="articles-list-box">
 					{memberBoArticles?.length === 0 && (
-						<div className={'no-data'}>
+						<div style={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center',flexDirection:'column'}}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
 							<p>No Articles found!</p>
 						</div>

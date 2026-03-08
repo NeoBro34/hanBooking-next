@@ -23,15 +23,15 @@ const Footer: React.FC = () => {
   const footerLinks = {
     Company: [
       { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press', href: '/press' },
+      { label: 'Our Products', href: '/stays' },
+      { label: 'Our Agents', href: '/agent' },
       { label: 'Blog', href: '/blog' },
     ],
     Support: [
-      { label: 'Help Center', href: '/help' },
-      { label: 'Contact Us', href: '/contact' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Help Center', href: '/cs' },
+      { label: 'Contact Us', href: 'cs/?tab=faq' },
+      { label: 'Terms of Service', href: '/cs/?tab=faq' },
+      { label: 'Privacy Policy', href: '/cs' },
     ],
   };
 

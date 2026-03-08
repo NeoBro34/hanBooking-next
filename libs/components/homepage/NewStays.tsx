@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Stack, Pagination } from '@mui/material';
 import { PropertiesInquiry } from '@/libs/types/property/property.input';
 import useDeviceDetect from '@/libs/hooks/useDeviceDetect';
@@ -23,8 +23,8 @@ const NewStays = (props: NewStaysProps) => {
     const [page, setPage] = useState(initialInput.page || 1);
 
     /** APOLLO REQUESTS **/
-    const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
-    
+    const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+
     const {
         loading: getFeaturedStaysLoading,
         data: getFeaturedStaysData,
@@ -41,16 +41,19 @@ const NewStays = (props: NewStaysProps) => {
                 }
             },
             notifyOnNetworkStatusChange: true,
-            onCompleted: (data: T) => {
-                setFeaturedStays(data?.getProperties?.list);
-            }
         }
     );
+
+    useEffect(() => {
+        if (getFeaturedStaysData) {
+            setFeaturedStays(getFeaturedStaysData?.getProperties?.list);
+        }
+    }, [getFeaturedStaysData]);
 
     const total = getFeaturedStaysData?.getProperties?.metaCounter?.[0]?.total ?? 0;
     const limit = initialInput.limit ?? 6;
     const pageCount = Math.ceil(total / limit);
-
+    
     /** HANDLERS **/
     const likePropertyHandler = async (user: T, id: string) => {
         try {

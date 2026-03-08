@@ -44,14 +44,17 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: propertiesInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setProperties(data?.getAllPropertiesByAdmin?.list);
-				setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getAllPropertiesByAdminData) {
+			setProperties(getAllPropertiesByAdminData?.getAllPropertiesByAdmin?.list);
+			setPropertiesTotal(getAllPropertiesByAdminData?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getAllPropertiesByAdminData]);
+
 	useEffect(() => {
 		getAllPropertiesByAdminRefetch({ input: propertiesInquiry }).then();
 	}, [propertiesInquiry]);

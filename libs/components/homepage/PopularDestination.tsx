@@ -155,10 +155,9 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                 <div className="marquee-inner flex w-fit" style={{ animationPlayState: stopScroll ? "paused" : "running", animationDuration: cardData.length * 3000 + "ms" }}>
                     <div className="flex">
                         {[...cardData, ...cardData].map((card, index) => (
-                            <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems: "center"}}>
+                            <div key={index} style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems: "center"}}>
                                 <div
                                     onClick={() => handleDestinationClick(card.title)} 
-                                    key={index} 
                                     className="w-56 mx-4 h-[18rem] relative group hover:scale-90 transition-all duration-300">
                                     <img src={card.image} alt="card" className="w-full h-full object-cover rounded-full" />
                                     <div className="flex items-end justify-center px-4 opacity-0 group-hover:opacity-100 transition-all duration-300 absolute bottom-0 backdrop-blur-md left-0 w-full h-full bg-black/20 rounded-full">

@@ -46,14 +46,17 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 			fetchPolicy: 'network-only',
 			variables: { input: membersInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setMembers(data?.getAllMembersByAdmin?.list);
-				setMembersTotal(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getAllMembersByAdminData) {
+			setMembers(getAllMembersByAdminData?.getAllMembersByAdmin?.list);
+			setMembersTotal(getAllMembersByAdminData?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getAllMembersByAdminData]);
+
 	useEffect(() => {
 		getAllMembersByAdminRefetch({ input: membersInquiry }).then();
 	}, [membersInquiry]);

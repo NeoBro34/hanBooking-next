@@ -42,14 +42,17 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 			fetchPolicy: 'network-only',
 			variables: { input: followInquiry },
 			notifyOnNetworkStatusChange: true,
-			onCompleted(data: T) {
-				setMemberFollowings(data?.getMemberFollowings?.list);
-				setTotal(data?.getMemberFollowings?.metaCounter[0]?.total);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getMemberFollowingsData) {
+			setMemberFollowings(getMemberFollowingsData?.getMemberFollowings?.list);
+			setTotal(getMemberFollowingsData?.getMemberFollowings?.metaCounter[0]?.total);
+		}
+	}, [getMemberFollowingsData]);
+
 	useEffect(() => {
 		if (router.query.memberId)
 			setFollowInquiry({ ...followInquiry, search: { followerId: router.query.memberId as string } });
@@ -132,7 +135,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 												<Typography>Following</Typography>
 												<Button
 													variant="outlined"
-													sx={{ background: '#f78181', ':hover': { background: '#f06363' } }}
+													sx={{ background: '#b9b9b9',borderRadius:'30px', ':hover': { background: '#b9b9b9',borderRadius:'30px' } }}
 													onClick={() => unsubscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
 												>
 													Unfollow
@@ -141,7 +144,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 										) : (
 											<Button
 												variant="contained"
-												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
+												sx={{ background: '#26d22b',borderRadius:'30px', ':hover': { background: '#26d22b',borderRadius:'30px'} }}
 												onClick={() => subscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
 											>
 												Follow

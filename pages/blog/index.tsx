@@ -51,14 +51,18 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 			fetchPolicy: 'cache-and-network',
 			variables: { input: searchCommunity },
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setBoardArticles(data?.getBoardArticles?.list);
-				setTotalCount(data?.getBoardArticles?.metaCounter[0]?.total);
-			}
 		}
 	);
 
+	
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getBoardArticlesData) {
+			setBoardArticles(getBoardArticlesData?.getBoardArticles?.list);
+			setTotalCount(getBoardArticlesData?.getBoardArticles?.metaCounter[0]?.total);
+		}
+	}, [getBoardArticlesData]);
+
 	useEffect(() => {
 		if (!query?.articleCategory)
 			router.push(

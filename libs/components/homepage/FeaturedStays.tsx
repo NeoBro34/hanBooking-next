@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Stack, Pagination } from '@mui/material';
 import { PropertiesInquiry } from '@/libs/types/property/property.input';
 import useDeviceDetect from '@/libs/hooks/useDeviceDetect';
@@ -23,29 +23,32 @@ const FeaturedStays = (props: FeaturedStaysProps) => {
     const [page, setPage] = useState(initialInput.page || 1);
 
     /** APOLLO REQUESTS **/
-    const [ likeTargetProperty ] = useMutation(LIKE_TARGET_PROPERTY);
-    
-	const {
-		loading: getFeaturedStaysLoading,
-		data: getFeaturedStaysData,
-		error: getFeaturedStaysError,
-		refetch: getFeaturedStaysRefetch,
-	} = useQuery(
-		GET_PROPERTIES, 
-		{
-			fetchPolicy: 'cache-and-network',
-			variables: {
+    const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+
+    const {
+        loading: getFeaturedStaysLoading,
+        data: getFeaturedStaysData,
+        error: getFeaturedStaysError,
+        refetch: getFeaturedStaysRefetch,
+    } = useQuery(
+        GET_PROPERTIES, 
+        {
+            fetchPolicy: 'cache-and-network',
+            variables: {
                 input: {
                     ...initialInput,
                     page: page,
                 }
             },
-			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setFeaturedStays(data?.getProperties?.list);
-			}
-		}
-	);
+            notifyOnNetworkStatusChange: true,
+        }
+    );
+
+    useEffect(() => {
+        if (getFeaturedStaysData) {
+            setFeaturedStays(getFeaturedStaysData?.getProperties?.list);
+        }
+    }, [getFeaturedStaysData]);
 
     const total = getFeaturedStaysData?.getProperties?.metaCounter?.[0]?.total ?? 0;
     const limit = initialInput.limit ?? 6;

@@ -31,14 +31,18 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			variables: { input: searchFilter },
 			skip: !searchFilter?.search?.memberId,
 			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setAgentProperties(data?.getProperties?.list);
-				setTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
-			},
 		}
 	);
 
 	/** LIFECYCLES **/
+	useEffect(() => {
+		if (getPropertiesData) {
+			setAgentProperties(getPropertiesData?.getProperties?.list);
+			setTotal(getPropertiesData?.getProperties?.metaCounter[0]?.total ?? 0);
+		}
+	}, [getPropertiesData]);
+
+
 	useEffect(() => {
 		getPropertiesRefetch().then();
 	}, [searchFilter]);
@@ -74,7 +78,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							</Stack>
 						)}
 						{agentProperties?.length === 0 && (
-							<div className={'no-data'}>
+							<div style={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center',flexDirection:'column'}}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No Property found!</p>
 							</div>

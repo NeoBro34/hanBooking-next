@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
@@ -32,12 +32,15 @@ const RecentlyVisited: NextPage = () => {
 			fetchPolicy: 'network-only',
 			variables: { input: searchVisited },
 			notifyOnNetworkStatusChange: true,
-			onCompleted(data: T) {
-				setRecentlyVisited(data.getVisited?.list);
-				setTotal(data?.getVisited?.metaCounter?.[0]?.total || 0);
-			},
 		}
 	);
+
+	useEffect(() => {
+		if (getVisitedData) {
+			setRecentlyVisited(getVisitedData?.getVisited?.list);
+			setTotal(getVisitedData?.getVisited?.metaCounter?.[0]?.total || 0);
+		}
+	}, [getVisitedData]);
 
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {

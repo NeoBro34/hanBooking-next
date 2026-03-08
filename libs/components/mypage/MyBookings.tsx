@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
@@ -32,22 +32,25 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
     
 
     const {
-            loading: getMyBookingLoading,
-            data: getMyBookingData,
-            error: getMyBookingError,
-            refetch: getMyBookingRefetch,
-        } = useQuery(
-            GET_MY_BOOKINGS, 
-            {
-                fetchPolicy: 'network-only',
-                variables: { input: searchFilter },
-                notifyOnNetworkStatusChange: true,
-                onCompleted: (data: T) => {
-                    setMyBookings(data?.getMyBookings?.list);
-                    setTotal(data?.getMyBookings?.metaCounter[0]?.total ?? 0);
-                }
-            }
-        );
+        loading: getMyBookingLoading,
+        data: getMyBookingData,
+        error: getMyBookingError,
+        refetch: getMyBookingRefetch,
+    } = useQuery(
+        GET_MY_BOOKINGS, 
+        {
+            fetchPolicy: 'network-only',
+            variables: { input: searchFilter },
+            notifyOnNetworkStatusChange: true,
+        }
+    );
+
+    useEffect(() => {
+        if (getMyBookingData) {
+            setMyBookings(getMyBookingData?.getMyBookings?.list);
+            setTotal(getMyBookingData?.getMyBookings?.metaCounter[0]?.total ?? 0);
+        }
+    }, [getMyBookingData]);
 
     /** HANDLERS **/
     const paginationHandler = (e: T, value: number) => {

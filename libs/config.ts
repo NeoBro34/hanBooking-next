@@ -10,8 +10,8 @@ for (let i = 1970; i <= thisYear; i++) {
 	propertyYears.push(String(i));
 }
 
-export const rooms = [1, 2, 3, 4];
-export const beds = [1, 2, 3, 4];
+export const rooms = [0, 1, 2, 3, 4];
+export const beds = [0, 1, 2, 3, 4];
 
 export const Messages = {
 	error1: 'Something went wrong!',
