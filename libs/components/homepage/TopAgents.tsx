@@ -98,7 +98,7 @@ const TopAgents = (props: TopAgentsProps) => {
                         </div>
                     </Box>
                 </Stack>
-                <Stack className="scroll-box flex flex-col bg-white m-auto p-auto mt-20">
+                <Stack className="scroll-box flex flex-col m-auto p-auto mt-20">
                         <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
                             {topAgents.map((agent: Member) => (
                                 <TopAgentCard agent={agent} key={agent?.memberNick} />

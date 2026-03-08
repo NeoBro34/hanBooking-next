@@ -46,18 +46,19 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
-			propertySquare
+			propertyPricePerNight
+			propertyMaxGuests
 			propertyBeds
 			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
+			propertyPoints
 			propertyImages
+			amenities
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
@@ -75,18 +76,19 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
-			propertySquare
+			propertyPricePerNight
+			propertyMaxGuests
 			propertyBeds
 			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
+			propertyPoints
 			propertyImages
+			amenities
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
@@ -152,4 +154,39 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
 			updatedAt
 		}
 	}
+`;
+
+/**************************
+ *         BOOKING        *
+ *************************/
+
+export const UPDATE_BOOKING_BY_ADMIN = gql`
+	mutation UpdateBookingsByAdmin($input: BookingUpdate!) {
+		updateBookingsByAdmin(input: $input) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+`;
+
+export const REMOVE_BOOKING_BY_ADMIN = gql`
+	mutation RemoveBookingsByAdmin($input: String!){
+		removeBookingsByAdmin(bookingId: $input) {
+			_id
+			memberId
+			propertyId
+			guests
+			checkInDate
+			checkOutDate
+			totalPrice
+			bookingStatus
+		}
+	}
+
 `;

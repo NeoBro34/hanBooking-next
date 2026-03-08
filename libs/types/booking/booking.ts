@@ -16,6 +16,12 @@ export interface Booking {
         propertyPricePerNight: number;
         propertyImages: string[];
     };
+    memberData: {
+        _id: string;
+        memberNick: string;
+        memberPhone: string;
+        memberImage?: string;
+    };
 }
 
 export interface TotalCounter {

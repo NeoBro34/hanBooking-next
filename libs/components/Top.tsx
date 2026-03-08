@@ -26,7 +26,7 @@ const Top = () => {
 	const device = useDeviceDetect();
 	const [colorChange, setColorChange] = useState(false);
 	const [bgColor, setBgColor] = useState<boolean>(false);
-	const { t, i18n } = useTranslation('common');
+	const { t } = useTranslation("common");
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
 	const router = useRouter();
@@ -86,14 +86,17 @@ const Top = () => {
 	};
 
 	const langChoice = useCallback(
-		async (e: any) => {
-			setLang(e.target.id);
-			localStorage.setItem('locale', e.target.id);
-			setAnchorEl2(null);
-			await router.push(router.asPath, router.asPath, { locale: e.target.id });
-		},
-		[router],
-	);
+        async (locale: string) => {
+            setLang(locale);
+            localStorage.setItem('locale', locale);
+            setAnchorEl2(null);
+
+            await router.push(router.asPath, router.asPath, {
+                locale: locale,
+            });
+        },
+        [router]
+    );
 
     const changeNavbarColor = () => {
 		if (window.scrollY >= 50) {
@@ -183,19 +186,19 @@ const Top = () => {
                                 <nav className="flex items-center  max-md:w-full max-md:justify-between border-slate-700 px-6 py-4 rounded-full text-white text-sm">
                                     <div className="hidden md:flex items-center gap-6 ml-7">
                                         <a href="/" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Home</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Home')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Home</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Home')}</span>
                                         </a>
                                         <a href="/stays" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Stays</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Stays')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Stays</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Stays')}</span>
                                         </a>
                                         <a href="/agent" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Agents</span>
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Agents')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Agents</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Agents')}</span>
                                         </a>
                                         <a href="/blog" className="relative overflow-hidden h-6 group">
                                             <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Blog</span>
@@ -209,9 +212,9 @@ const Top = () => {
                                         </a>
                                         {user?._id && (
                                             <a href="/mypage" className="relative overflow-hidden h-6 group">
-                                                <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">MyPage</span>
+                                                <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('MyPage')}</span>
                                                 <span
-                                                    className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">MyPage</span>
+                                                    className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('MyPage')}</span>
                                             </a>
                                         )}
                                         <a href="/cs" className="relative overflow-hidden h-6 group">
@@ -256,44 +259,44 @@ const Top = () => {
                                     onClick={langClick}
                                     endIcon={<CaretDown size={14} color="gray" />}
                                 >
-                                    <Box component={'div'} >
-                                        {lang !== null ? (
-                                            <img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
-                                        ) : (
-                                            <img src={`/img/flag/langen.png`} alt={'usaFlag'} />
-                                        )}
+                                    <Box>
+                                        <img
+                                            src={`/img/flag/lang${lang || "en"}.png`}
+                                            alt="langFlag"
+                                        />
                                     </Box>
                                 </Button>
-                                <StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-                                    <MenuItem disableRipple onClick={langChoice} id="en">
+                                <StyledMenu
+                                    anchorEl={anchorEl2}
+                                    open={drop}
+                                    onClose={langClose}
+                                    sx={{ position: 'absolute' }}
+                                >
+                                    <MenuItem disableRipple onClick={() => langChoice("en")}>
                                         <img
-                                            style={{width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px"}}
-                                            src={'/img/flag/langen.png'}
-                                            onClick={langChoice}
-                                            id="en"
-                                            alt={'usaFlag'}
+                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
+                                            src={"/img/flag/langen.png"}
+                                            alt="englishFlag"
                                         />
-                                        {t('EN')}
+                                        EN
                                     </MenuItem>
-                                    <MenuItem disableRipple onClick={langChoice} id="kr">
+
+                                    <MenuItem disableRipple onClick={() => langChoice("kr")}>
                                         <img
-                                            style={{width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px"}}
-                                            src={'/img/flag/langkr.png'}
-                                            onClick={langChoice}
-                                            id="uz"
-                                            alt={'koreanFlag'}
+                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
+                                            src={"/img/flag/langkr.png"}
+                                            alt="koreanFlag"
                                         />
-                                        {t('KR')}
+                                        KR
                                     </MenuItem>
-                                    <MenuItem disableRipple onClick={langChoice} id="ru">
+
+                                    <MenuItem disableRipple onClick={() => langChoice("ru")}>
                                         <img
-                                            style={{width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px"}}
-                                            src={'/img/flag/langru.png'}
-                                            onClick={langChoice}
-                                            id="ru"
-                                            alt={'russiaFlag'}
+                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
+                                            src={"/img/flag/langru.png"}
+                                            alt="russianFlag"
                                         />
-                                        {t('RU')}
+                                        RU
                                     </MenuItem>
                                 </StyledMenu>
                             </div>

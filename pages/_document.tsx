@@ -7,7 +7,7 @@ export default function Document() {
         <meta charSet='UTF-8' />
         <meta name='title' content='HanBooking' />
         <meta name='robots' content='index, follow' />
-        <link rel='icon' type='image/png' href='img/logo/titlelogo.png' />
+        <link rel='icon' type='image/png' href='/img/logo/titlelogo.png' />
         <meta name='keyword' content={"hanbooking, HanBooking.uz, devex mern, mern. nestjs fullstack"}/>
         <meta name='description' 
           content={
