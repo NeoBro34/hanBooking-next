@@ -16,6 +16,7 @@ import {
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { useTranslation } from 'next-i18next';
 
 interface Data {
 	category: string;
@@ -80,6 +81,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { onSelectAllClick } = props;
+	const { t } = useTranslation('common');
 
 	return (
 		<TableHead>
@@ -90,7 +92,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 					>
-						{headCell.label}
+						{t(headCell.label)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -109,6 +111,7 @@ interface InquiryPanelListType {
 }
 
 export const InquiryList = (props: InquiryPanelListType) => {
+	const { t } = useTranslation('common');
 	const {
 		dense,
 		membersData,
@@ -138,8 +141,8 @@ export const InquiryList = (props: InquiryPanelListType) => {
 
 							return (
 								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
+									<TableCell align="left">{t('mb id')}</TableCell>
+									<TableCell align="left">{t('member.mb_full_name')}</TableCell>
 									<TableCell align="left" className={'name'}>
 										<Stack direction={'row'}>
 											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
@@ -148,14 +151,14 @@ export const InquiryList = (props: InquiryPanelListType) => {
 												</div>
 											</Link>
 											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
+												<div>{t('member.mb_nick')}</div>
 											</Link>
 										</Stack>
 									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+									<TableCell align="left">{t('member.mb_phone')}</TableCell>
 									<TableCell align="center">
 										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											member.mb_type
+											{t('member.mb_type')}
 										</Button>
 
 										<Menu
@@ -171,12 +174,12 @@ export const InquiryList = (props: InquiryPanelListType) => {
 										>
 											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
 												<Typography variant={'subtitle1'} component={'span'}>
-													MENTOR
+													{t('MENTOR')}
 												</Typography>
 											</MenuItem>
 											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
 												<Typography variant={'subtitle1'} component={'span'}>
-													USER
+													{t('USER')}
 												</Typography>
 											</MenuItem>
 										</Menu>

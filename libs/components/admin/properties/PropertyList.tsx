@@ -19,6 +19,7 @@ import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import { PropertyStatus } from '../../../enums/property.enum';
+import { useTranslation } from 'next-i18next';
 
 interface Data {
 	id: string;
@@ -95,6 +96,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { onSelectAllClick } = props;
+	const { t } = useTranslation('common');
 
 	return (
 		<TableHead>
@@ -105,7 +107,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 					>
-						{headCell.label}
+						{t(headCell.label)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -123,6 +125,7 @@ interface PropertyPanelListType {
 }
 
 export const PropertyPanelList = (props: PropertyPanelListType) => {
+	const { t } = useTranslation('common');
 	const {
 		properties,
 		anchorEl,
@@ -142,7 +145,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 						{properties.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+									<span className={'no-data'}>{t('data not found!')}</span>
 								</TableCell>
 							</TableRow>
 						)}

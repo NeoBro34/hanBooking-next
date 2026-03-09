@@ -12,9 +12,11 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_PROPERTY } from '../../../apollo/user/query';
+import { useTranslation } from 'next-i18next';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
 	const [insertPropertyData, setInsertPropertyData] = useState<PropertyInput>(initialValues);
@@ -74,7 +76,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			const selectedFiles = inputRef.current.files;
 
 			if (selectedFiles.length == 0) return false;
-			if (selectedFiles.length > 5) throw new Error('Cannot upload more than 5 images!');
+			if (selectedFiles.length > 5) throw new Error(t('Cannot upload more than 5 images!'));
 
 			formData.append(
 				'operations',
@@ -148,7 +150,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				},
 			});
 
-			await sweetMixinSuccessAlert('This property has been created successfully.');
+			await sweetMixinSuccessAlert(t('This property has been created successfully.'));
 			await router.push({
 				pathname: '/mypage',
 				query: {
@@ -170,7 +172,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				},
 			});
 
-			await sweetMixinSuccessAlert('This property has been updated successfully.');
+			await sweetMixinSuccessAlert(t('This property has been updated successfully.'));
 			await router.push({
 				pathname: '/mypage',
 				query: {
@@ -189,24 +191,24 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	console.log('+insertPropertyData', insertPropertyData);
 
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		return <div>{t('ADD NEW PROPERTY MOBILE PAGE')}</div>;
 	} else {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Typography className="main-title">{t('Add New Property')}</Typography>
+					<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 				</Stack>
 
 				<div>
 					<Stack className="config">
 						<Stack className="description-box">
 							<Stack className="config-column">
-								<Typography className="title">Title</Typography>
+								<Typography className="title">{t('Title')}</Typography>
 								<input
 									type="text"
 									className="description-input"
-									placeholder={'Title'}
+									placeholder={t('Title')}
 									value={insertPropertyData.propertyTitle}
 									onChange={({ target: { value } }) =>
 										setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
@@ -216,11 +218,11 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Price</Typography>
+									<Typography className="title">{t('Price')}</Typography>
 									<input
 										type="text"
 										className="description-input"
-										placeholder={'Price'}
+										placeholder={t('Price')}
 										value={insertPropertyData.propertyPricePerNight}
 										onChange={({ target: { value } }) =>
 											setInsertPropertyData({ ...insertPropertyData, propertyPricePerNight: parseInt(value) })
@@ -228,7 +230,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Type</Typography>
+									<Typography className="title">{t('Select Type')}</Typography>
 									<select
 										className={'select-description'}
 										defaultValue={insertPropertyData.propertyType || 'select'}
@@ -240,7 +242,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									>
 										<>
 											<option selected={true} disabled={true} value={'select'}>
-												Select
+												{t('Select')}
 											</option>
 											{propertyType.map((type: any) => (
 												<option value={`${type}`} key={type}>
@@ -256,7 +258,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Location</Typography>
+									<Typography className="title">{t('Select Location')}</Typography>
 									<select
 										className={'select-description'}
 										defaultValue={insertPropertyData.propertyLocation || 'select'}
@@ -268,7 +270,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									>
 										<>
 											<option selected={true} disabled={true} value={'select'}>
-												Select
+												{t('Select')}
 											</option>
 											{propertyLocation.map((location: any) => (
 												<option value={`${location}`} key={location}>
@@ -281,11 +283,11 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Address</Typography>
+									<Typography className="title">{t('Address')}</Typography>
 									<input
 										type="text"
 										className="description-input"
-										placeholder={'Address'}
+										placeholder={t('Address')}
 										value={insertPropertyData.propertyAddress}
 										onChange={({ target: { value } }) =>
 											setInsertPropertyData({ ...insertPropertyData, propertyAddress: value })
@@ -296,7 +298,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">MaxGuests</Typography>
+									<Typography className="title">{t('MaxGuests')}</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyMaxGuests || 'select'}
@@ -306,7 +308,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										}
 									>
 										<option disabled={true} selected={true} value={'select'}>
-											Select
+											{t('Select')}
 										</option>
 										{[1, 2, 3, 4, 5, 6, 7, 8].map((guest: number) => (
 											<option value={`${guest}`}>{guest}</option>
@@ -316,7 +318,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Rooms</Typography>
+									<Typography className="title">{t('Rooms')}</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyRooms || 'select'}
@@ -326,7 +328,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										}
 									>
 										<option disabled={true} selected={true} value={'select'}>
-											Select
+											{t('Select')}
 										</option>
 										{[1, 2, 3, 4, 5].map((room: number) => (
 											<option value={`${room}`}>{room}</option>
@@ -338,7 +340,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Beds</Typography>
+									<Typography className="title">{t('Beds')}</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyBeds || 'select'}
@@ -348,7 +350,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										}
 									>
 										<option disabled={true} selected={true} value={'select'}>
-											Select
+											{t('Select')}
 										</option>
 										{[1, 2, 3, 4, 5].map((bed: number) => (
 											<option value={`${bed}`}>{bed}</option>
@@ -358,7 +360,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Amenities</Typography>
+									<Typography className="title">{t('Amenities')}</Typography>
 									<div style={{display:"flex",justifyContent:"space-around"}}>
 										{amenitiesList.map((amenity) => (
 											<label key={amenity}>
@@ -387,9 +389,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								</Stack>
 							</Stack>
 
-							<Typography className="property-title">Property Description</Typography>
+							<Typography className="property-title">{t('Property Description')}</Typography>
 							<Stack className="config-column">
-								<Typography className="title">Description</Typography>
+								<Typography className="title">{t('Description')}</Typography>
 								<textarea
 									name=""
 									id=""
@@ -402,7 +404,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 						</Stack>
 
-						<Typography className="upload-title">Upload photos of your property</Typography>
+						<Typography className="upload-title">{t('Upload photos of your property')}</Typography>
 						<Stack className="images-box">
 							<Stack className="upload-box">
 								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -447,8 +449,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</defs>
 								</svg>
 								<Stack className="text-box">
-									<Typography className="drag-title">Drag and drop images here</Typography>
-									<Typography className="format-title">Photos must be JPEG or PNG format and least 2048x768</Typography>
+									<Typography className="drag-title">{t('Drag and drop images here')}</Typography>
+									<Typography className="format-title">{t('Photos must be JPEG or PNG format and least 2048x768')}</Typography>
 								</Stack>
 								<Button
 									className="browse-button"
@@ -456,7 +458,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										inputRef.current.click();
 									}}
 								>
-									<Typography className="browse-button-text">Browse Files</Typography>
+									<Typography className="browse-button-text">{t('Browse Files')}</Typography>
 									<input
 										ref={inputRef}
 										type="file"
@@ -495,11 +497,11 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						<Stack className="buttons-row">
 							{router.query.propertyId ? (
 								<Button className="next-button" disabled={doDisabledCheck()} onClick={updatePropertyHandler}>
-									<Typography className="next-button-text">Save</Typography>
+									<Typography className="next-button-text">{t('Save')}</Typography>
 								</Button>
 							) : (
 								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertPropertyHandler}>
-									<Typography className="next-button-text">Save</Typography>
+									<Typography className="next-button-text">{t('Save')}</Typography>
 								</Button>
 							)}
 						</Stack>

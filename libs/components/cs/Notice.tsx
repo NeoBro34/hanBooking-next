@@ -8,9 +8,11 @@ import { Notice as NoticeType } from '@/libs/types/notice/notice';
 import { NoticeCategory, NoticeStatus } from '@/libs/enums/notice.enum';
 import Moment from 'react-moment';
 import { Direction } from '@/libs/enums/common.enum';
+import { useTranslation } from 'next-i18next';
 
 const Notice = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
 	const input: NoticesInquiry = {
@@ -33,16 +35,16 @@ const Notice = () => {
 	const notices: NoticeType[] = data?.getNotices?.list ?? [];
 
 	if (device === 'mobile') {
-		return <div>NOTICE MOBILE</div>;
+		return <div>{t('NOTICE MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className={'notice-content'}>
-				<span className={'title'}>Notice</span>
+				<span className={'title'}>{t('Notice')}</span>
 				<Stack className={'main'}>
 					<Box component={'div'} className={'top'}>
-						<span>number</span>
-						<span>title</span>
-						<span>date</span>
+						<span>{t('number')}</span>
+						<span>{t('title')}</span>
+						<span>{t('date')}</span>
 					</Box>
 					<Stack className={'bottom'}>
 						{notices.length ? (
@@ -58,7 +60,7 @@ const Notice = () => {
 						) : (
 							<div className={'notice-card'}>
 								<span className={'notice-number'}>-</span>
-								<span className={'notice-title'}>No notices found</span>
+								<span className={'notice-title'}>{t('No notices found')}</span>
 								<span className={'notice-date'}>-</span>
 							</div>
 						)}

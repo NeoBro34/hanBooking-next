@@ -7,6 +7,7 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { REACT_APP_API_URL, topPropertyRank } from '@/libs/config';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 
 
@@ -16,6 +17,7 @@ interface PropertySmallCardProps {
 const PropertySmallCard = (props: PropertySmallCardProps) => {
     const { property } = props;
     const device = useDeviceDetect();
+    const { t } = useTranslation('common');
     const router = useRouter();
     const imagePath: string = property?.propertyImages[0]
             ? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
@@ -29,7 +31,7 @@ const PropertySmallCard = (props: PropertySmallCardProps) => {
 
     if (device === 'mobile') {
         return (
-            <div>Mobile</div>
+            <div>{t('Mobile')}</div>
         );
     } else {
         return (
@@ -41,7 +43,7 @@ const PropertySmallCard = (props: PropertySmallCardProps) => {
                         <Box className='top-icon'>
                             <Box><BoltIcon/></Box>
                             <Typography style={{fontSize:"10px", fontWeight: "bold"}}>
-                                Top
+                                {t('Top')}
                             </Typography>
                         </Box>
                     )}
@@ -69,7 +71,7 @@ const PropertySmallCard = (props: PropertySmallCardProps) => {
                                 size="small"
                             />
                             <span className="text-xs text-gray-600">
-                                ({property.propertyComments} reviews)
+                                ({property.propertyComments} {t('reviews')})
                             </span>
                         </div>
                     </Box>

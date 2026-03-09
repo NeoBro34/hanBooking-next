@@ -18,6 +18,7 @@ import { Stack } from '@mui/material';
 import { Member } from '../../../types/member/member';
 import { REACT_APP_API_URL } from '../../../config';
 import { MemberStatus, MemberType } from '../../../enums/member.enum';
+import { useTranslation } from 'next-i18next';
 
 interface Data {
 	id: string;
@@ -111,6 +112,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { onSelectAllClick } = props;
+	const { t } = useTranslation('common');
 
 	return (
 		<TableHead>
@@ -121,7 +123,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 					>
-						{headCell.label}
+						{t(headCell.label)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -138,6 +140,7 @@ interface MemberPanelListType {
 }
 
 export const MemberPanelList = (props: MemberPanelListType) => {
+	const { t } = useTranslation('common');
 	const { members, anchorEl, menuIconClickHandler, menuIconCloseHandler, updateMemberHandler } = props;
 
 	return (
@@ -150,7 +153,7 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 						{members.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+									<span className={'no-data'}>{t('data not found!')}</span>
 								</TableCell>
 							</TableRow>
 						)}

@@ -22,6 +22,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '@/apollo/user/mutation';
 import { Messages } from '@/libs/config';
 import { getJwtToken, updateUserInfo } from '@/libs/auth';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -31,6 +32,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const MyPage: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const category: any = router.query?.category ?? 'myProfile';
@@ -118,7 +120,7 @@ const MyPage: NextPage = () => {
 
 
 	if (device === 'mobile') {
-		return <div>MyPage MOBILE</div>;
+		return <div>{t('MyPage MOBILE')}</div>;
 	} else {
 		return (
 			<Stack id='mypage-list'>

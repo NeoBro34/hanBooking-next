@@ -9,9 +9,11 @@ import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { useTranslation } from 'next-i18next';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const { memberId } = router.query;
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
@@ -58,29 +60,29 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR PROPERTIES MOBILE</div>;
+		return <div>{t('NESTAR PROPERTIES MOBILE')}</div>;
 	} else {
 		return (
 			<div id="member-properties-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Properties</Typography>
+						<Typography className="main-title">{t('Properties')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="properties-list-box">
 					<Stack className="list-box">
 						{agentProperties?.length > 0 && (
 							<Stack className="listing-title-box">
-								<Typography className="title-text">Listing title</Typography>
-								<Typography className="title-text">Date Published</Typography>
-								<Typography className="title-text">Status</Typography>
-								<Typography className="title-text">View</Typography>
+								<Typography className="title-text">{t('Listing title')}</Typography>
+								<Typography className="title-text">{t('Date Published')}</Typography>
+								<Typography className="title-text">{t('Status')}</Typography>
+								<Typography className="title-text">{t('View')}</Typography>
 							</Stack>
 						)}
 						{agentProperties?.length === 0 && (
 							<div style={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center',flexDirection:'column'}}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Property found!</p>
+								<p>{t('No Property found!')}</p>
 							</div>
 						)}
 						{agentProperties?.map((property: Property) => {
@@ -101,7 +103,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
-									<Typography>{total} property available</Typography>
+									<Typography>{total} {t('property available')}</Typography>
 								</Stack>
 							</Stack>
 						)}

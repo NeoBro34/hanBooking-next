@@ -1,37 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  Container,
-  Grid,
-  IconButton,
-  TextField,
-  Button,
-} from '@mui/material';
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  LinkedIn,
-  Hotel,
-  Email,
-  Phone,
-  LocationOn,
-  Send,
-} from '@mui/icons-material';
+import { Grid, IconButton } from '@mui/material';
+import { Facebook, Twitter, Instagram, LinkedIn, Email, Phone, LocationOn } from '@mui/icons-material';
+import { useTranslation } from 'next-i18next';
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation('common');
+
   const footerLinks = {
-    Company: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Our Products', href: '/stays' },
-      { label: 'Our Agents', href: '/agent' },
-      { label: 'Blog', href: '/blog' },
+    [t('Company')]: [
+      { label: t('About Us'), href: '/about' },
+      { label: t('Our Products'), href: '/stays' },
+      { label: t('Our Agents'), href: '/agent' },
+      { label: t('Blog'), href: '/blog' },
     ],
-    Support: [
-      { label: 'Help Center', href: '/cs' },
-      { label: 'Contact Us', href: 'cs/?tab=faq' },
-      { label: 'Terms of Service', href: '/cs/?tab=faq' },
-      { label: 'Privacy Policy', href: '/cs' },
+    [t('Support')]: [
+      { label: t('Help Center'), href: '/cs' },
+      { label: t('Contact Us'), href: '/cs/?tab=faq' },
+      { label: t('Terms of Service'), href: '/cs/?tab=faq' },
+      { label: t('Privacy Policy'), href: '/cs' },
     ],
   };
 
@@ -41,13 +28,12 @@ const Footer: React.FC = () => {
       <div className="container py-12 border-t border-gray-800">
           <Grid container spacing={4}>
             {/* Brand Column */}
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={3} sx={{ ml: { md: 3 }, pl: { md: 1 } }}>
               <div className="flex items-center gap-2 mb-4">
                 <Link href={"/"}><img src="/img/logo/logoWhiteF.png" width={"200px"} alt="" /></Link>
               </div>
               <p className="text-gray-400 mb-4 leading-relaxed">
-                Discover extraordinary stays around the world. From luxury hotels to cozy retreats, 
-                we help you find your perfect accommodation.
+                {t('Discover extraordinary stays across South Korea. From luxury hotels to cozy retreats, we help you find your perfect accommodation.')}
               </p>
               <div className="flex gap-2">
                 {[Facebook, Twitter, Instagram, LinkedIn].map((Icon, index) => (
@@ -92,13 +78,13 @@ const Footer: React.FC = () => {
             {/* Contact Column */}
             <Grid marginTop={"80px"} item xs={12} md={3}>
               <h4 className="font-display text-lg font-semibold mb-4 text-yellow-600">
-                Contact Info
+                {t('Contact Info')}
               </h4>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <LocationOn className="text-yellow-600 mt-1" />
                   <span className="text-gray-400">
-                    South Korea, Seoul
+                    {t('South Korea, Seoul')}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -123,20 +109,20 @@ const Footer: React.FC = () => {
       >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mr-6 ml-6">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} StayLuxe. All rights reserved.
+              © {new Date().getFullYear()} {t('StayLuxe. All rights reserved.')}
             </p>
             <div className="flex gap-6 text-sm">
               <Link href="/terms" className="text-gray-400 hover:text-yellow-600 no-underline">
-                Terms
+                {t('Terms')}
               </Link>
               <Link href="/privacy" className="text-gray-400 hover:text-yellow-600 no-underline">
-                Privacy
+                {t('Privacy')}
               </Link>
               <Link href="/cookies" className="text-gray-400 hover:text-yellow-600 no-underline">
-                Cookies
+                {t('Cookies')}
               </Link>
               <Link href="/sitemap" className="text-gray-400 hover:text-yellow-600 no-underline">
-                Sitemap
+                {t('Sitemap')}
               </Link>
             </div>
           </div>

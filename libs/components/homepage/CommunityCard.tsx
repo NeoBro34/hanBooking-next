@@ -4,6 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box } from '@mui/material';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../types/board-article/board-article';
+import { useTranslation } from 'next-i18next';
 
 interface CommunityCardProps {
 	vertical: boolean;
@@ -14,12 +15,13 @@ interface CommunityCardProps {
 const CommunityCard = (props: CommunityCardProps) => {
 	const { vertical, article, index } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const articleImage = article?.articleImage
 		? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
 		: '/img/blog/blogImg.jpg';
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY CARD (MOBILE)</div>;
+		return <div>{t('COMMUNITY CARD (MOBILE)')}</div>;
 	} else {
 		return (
 			<Link href={`/blog/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} className="relative group flex-grow transition-all w-56 h-[400px] duration-500 hover:w-full">

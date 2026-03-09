@@ -12,11 +12,13 @@ import { useMutation } from '@apollo/client';
 import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import { useTranslation } from 'next-i18next';
 
 const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
 		token = getJwtToken(),
 		router = useRouter();
+	const { t } = useTranslation('common');
 	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
 
 	/** APOLLO REQUESTS **/
@@ -97,7 +99,7 @@ const TuiEditor = () => {
 				},
 			});
 
-			await sweetTopSuccessAlert('Article is created successfully', 700);
+			await sweetTopSuccessAlert(t('Article is created successfully'), 700);
 			await router.push({
 				pathname: '/mypage',
 				query: {
@@ -121,7 +123,7 @@ const TuiEditor = () => {
 			<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
 				<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
 					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Category
+						{t('Category')}
 					</Typography>
 					<FormControl sx={{ width: '100%', background: 'white' }}>
 						<Select
@@ -131,30 +133,30 @@ const TuiEditor = () => {
 							inputProps={{ 'aria-label': 'Without label' }}
 						>
 							<MenuItem value={BoardArticleCategory.FREE}>
-								<span>Free</span>
+								<span>{t('Free')}</span>
 							</MenuItem>
-							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
-							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
-							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
+							<MenuItem value={BoardArticleCategory.HUMOR}>{t('Humor')}</MenuItem>
+							<MenuItem value={BoardArticleCategory.NEWS}>{t('News')}</MenuItem>
+							<MenuItem value={BoardArticleCategory.RECOMMEND}>{t('Recommendation')}</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
 				<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
 					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Title
+						{t('Title')}
 					</Typography>
 					<TextField
 						onChange={articleTitleHandler}
 						id="filled-basic"
-						label="Type Title"
+						label={t('Type Title')}
 						style={{ width: '300px', background: 'white' }}
 					/>
 				</Box>
 			</Stack>
 
 			<Editor
-				initialValue={'Type here'}
-				placeholder={'Type here'}
+				initialValue={t('Type here')}
+				placeholder={t('Type here')}
 				previewStyle={'vertical'}
 				height={'640px'}
 				// @ts-ignore
@@ -196,7 +198,7 @@ const TuiEditor = () => {
 					}}
 					onClick={handleRegisterButton}
 				>
-					Register
+					{t('Register')}
 				</Button>
 			</Stack>
 		</Stack>

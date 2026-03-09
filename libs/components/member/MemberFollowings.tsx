@@ -11,6 +11,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
 import { GET_MEMBER_FOLLOWINGS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 interface MemberFollowingsProps {
 	initialInput: FollowInquiry;
@@ -23,6 +24,7 @@ interface MemberFollowingsProps {
 const MemberFollowings = (props: MemberFollowingsProps) => {
 	const { initialInput, subscribeHandler, unsubscribeHandler, redirectToMemberPageHandler, likeMemberHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [total, setTotal] = useState<number>(0);
 	const category: any = router.query?.category ?? 'properties';
@@ -70,25 +72,25 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
+		return <div>{t('NESTAR FOLLOWS MOBILE')}</div>;
 	} else {
 		return (
 			<div id="member-follows-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">{category === 'followers' ? 'Followers' : 'Followings'}</Typography>
+						<Typography className="main-title">{category === 'followers' ? t('Followers') : t('Followings')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="follows-list-box">
 					<Stack className="listing-title-box">
-						<Typography className="title-text">Name</Typography>
-						<Typography className="title-text">Details</Typography>
-						<Typography className="title-text">Subscription</Typography>
+						<Typography className="title-text">{t('Name')}</Typography>
+						<Typography className="title-text">{t('Details')}</Typography>
+						<Typography className="title-text">{t('Subscription')}</Typography>
 					</Stack>
 					{memberFollowings?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followings yet!</p>
+							<p>{t('No Followings yet!')}</p>
 						</div>
 					)}
 					{memberFollowings.map((follower: Following) => {
@@ -107,11 +109,11 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								</Stack>
 								<Stack className={'details-box'}>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
+										<p>{t('Followers')}</p>
 										<span>({follower?.followingData?.memberFollowers})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
+										<p>{t('Followings')}</p>
 										<span>({follower?.followingData?.memberFollowings})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
@@ -132,13 +134,13 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
-												<Typography>Following</Typography>
+												<Typography>{t('Following')}</Typography>
 												<Button
 													variant="outlined"
 													sx={{ background: '#b9b9b9',borderRadius:'30px', ':hover': { background: '#b9b9b9',borderRadius:'30px' } }}
 													onClick={() => unsubscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
 												>
-													Unfollow
+													{t('Unfollow')}
 												</Button>
 											</>
 										) : (
@@ -147,7 +149,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 												sx={{ background: '#26d22b',borderRadius:'30px', ':hover': { background: '#26d22b',borderRadius:'30px'} }}
 												onClick={() => subscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
 											>
-												Follow
+												{t('Follow')}
 											</Button>
 										)}
 									</Stack>
@@ -168,7 +170,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 							/>
 						</Stack>
 						<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
-							<Typography>{total} followings</Typography>
+							<Typography>{total} {t('followings')}</Typography>
 						</Stack>
 					</Stack>
 				)}

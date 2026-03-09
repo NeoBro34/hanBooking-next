@@ -11,9 +11,11 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Messages } from '../../config';
 import CommunityCard from '../common/CommunityCard';
+import { useTranslation } from 'next-i18next';
 
 const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [searchCommunity, setSearchCommunity] = useState({
 		...initialInput,
@@ -64,7 +66,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			});
 			await boardArticlesRefetch({ input: searchCommunity });
 
-			await sweetTopSmallSuccessAlert('Success!', 750);
+			await sweetTopSmallSuccessAlert(t('Success!'), 750);
 		} catch (err: any) {
 			console.log('ERROR, likeBoArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -72,14 +74,14 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <>ARTICLE PAGE MOBILE</>;
+		return <>{t('ARTICLE PAGE MOBILE')}</>;
 	} else
 		return (
 			<div id="my-articles-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Article</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('Article')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="article-list-box">
@@ -97,7 +99,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+							<p>{t('No Articles found!')}</p>
 						</div>
 					)}
 				</Stack>
@@ -114,7 +116,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							/>
 						</Stack>
 						<Stack className="total">
-							<Typography>Total {totalCount ?? 0} article(s) available</Typography>
+							<Typography>{t('Total')} {totalCount ?? 0} {t('article(s) available')}</Typography>
 						</Stack>
 					</Stack>
 				)}

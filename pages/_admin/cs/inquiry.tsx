@@ -14,8 +14,10 @@ import { NoticeCategory } from '@/libs/enums/notice.enum';
 import { userVar } from '@/apollo/store';
 import { useReactiveVar } from '@apollo/client';
 import { sweetMixinErrorAlert } from '@/libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const InquiryArticles: NextPage = () => {
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [selectedInquiryId, setSelectedInquiryId] = useState<string>('');
 	const [newMessage, setNewMessage] = useState('');
@@ -61,8 +63,8 @@ const InquiryArticles: NextPage = () => {
 
 	const sendMessageHandler = async () => {
 		try {
-			if (!selectedInquiryId) throw new Error('Please choose inquiry');
-			if (!newMessage.trim()) throw new Error('Please type message');
+			if (!selectedInquiryId) throw new Error(t('Please choose inquiry'));
+			if (!newMessage.trim()) throw new Error(t('Please type message'));
 
 			await sendInquiryMessage({
 				variables: {
@@ -76,19 +78,19 @@ const InquiryArticles: NextPage = () => {
 			await messageRefetch({ inquiryId: selectedInquiryId });
 			await refetch({ input });
 		} catch (err: any) {
-			sweetMixinErrorAlert(err?.message ?? 'Error').then();
+			sweetMixinErrorAlert(err?.message ?? t('Error')).then();
 		}
 	};
 
 	return (
 		<Box component={'div'} className={'content cs-admin-page'}>
 			<Typography variant={'h2'} sx={{ mb: '12px' }}>
-				1:1 Inquiry Chat
+				{t('1:1 Inquiry Chat')}
 			</Typography>
 
 			<Stack direction={'row'} gap={2}>
 				<Stack sx={{ width: '34%', border: '1px solid #ececec', borderRadius: '10px', background: '#fff' }}>
-					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>Inquiry Rooms</Box>
+					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>{t('Inquiry Rooms')}</Box>
 					<Divider />
 					<Stack>
 						{inquiryList.map((ele: Notice) => (
@@ -103,20 +105,20 @@ const InquiryArticles: NextPage = () => {
 								}}
 							>
 								<div style={{ fontWeight: 600 }}>{ele.noticeTitle}</div>
-								<div style={{ fontSize: 12, color: '#757575' }}>{ele.memberData?.memberNick ?? 'Unknown user'}</div>
+								<div style={{ fontSize: 12, color: '#757575' }}>{ele.memberData?.memberNick ?? t('Unknown user')}</div>
 							</Box>
 						))}
 					</Stack>
 				</Stack>
 
 				<Stack sx={{ width: '66%', border: '1px solid #ececec', borderRadius: '10px', background: '#fff' }}>
-					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>Chat</Box>
+					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>{t('Chat')}</Box>
 					<Divider />
 					<Stack sx={{ p: '12px', minHeight: 360, maxHeight: 430, overflowY: 'auto' }} gap={1}>
 						{selectedInquiry && (
 							<Box sx={{ mb: 1, p: '10px', borderRadius: '8px', background: '#fafafa', border: '1px solid #eee' }}>
 								<div style={{ fontSize: 12, color: '#757575' }}>
-									Question from: {selectedInquiry.memberData?.memberNick ?? 'Unknown user'}
+									{t('Question from')}: {selectedInquiry.memberData?.memberNick ?? t('Unknown user')}
 								</div>
 								<div style={{ fontWeight: 600, marginTop: 4 }}>{selectedInquiry.noticeTitle}</div>
 								<div style={{ fontSize: 13, marginTop: 4, whiteSpace: 'pre-wrap' }}>{selectedInquiry.noticeContent}</div>
@@ -136,7 +138,7 @@ const InquiryArticles: NextPage = () => {
 													background: isMine ? '#ffe6b3' : '#f6f6f6',
 												}}
 											>
-												<div style={{ fontSize: 13, marginBottom: 4 }}>{msg.senderData?.memberNick ?? 'Unknown'}</div>
+												<div style={{ fontSize: 13, marginBottom: 4 }}>{msg.senderData?.memberNick ?? t('Unknown')}</div>
 												<div>{msg.message}</div>
 												<div style={{ fontSize: 11, color: '#9e9e9e', marginTop: 3 }}>
 													{new Date(msg.createdAt).toLocaleString()}
@@ -146,10 +148,10 @@ const InquiryArticles: NextPage = () => {
 									);
 								})
 							) : (
-								<Typography color={'text.secondary'}>No messages yet</Typography>
+								<Typography color={'text.secondary'}>{t('No messages yet')}</Typography>
 							)
 						) : (
-							<Typography color={'text.secondary'}>Choose inquiry room</Typography>
+							<Typography color={'text.secondary'}>{t('Choose inquiry room')}</Typography>
 						)}
 					</Stack>
 					<Divider />
@@ -157,14 +159,14 @@ const InquiryArticles: NextPage = () => {
 						<TextField
 							fullWidth
 							size={'small'}
-							placeholder={'Type a message'}
+							placeholder={t('Type a message')}
 							value={newMessage}
 							onChange={(e) => setNewMessage(e.target.value)}
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') sendMessageHandler();
 							}}
 						/>
-						<Button variant={'contained'} onClick={sendMessageHandler}>Send</Button>
+						<Button variant={'contained'} onClick={sendMessageHandler}>{t('Send')}</Button>
 					</Stack>
 				</Stack>
 			</Stack>

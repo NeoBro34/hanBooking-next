@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useTranslation } from 'next-i18next';
 
 interface MyArticleCardProps {
 	boardArticle: BoardArticle;
@@ -21,6 +22,7 @@ interface MyArticleCardProps {
 const MyArticleCard = (props: MyArticleCardProps) => {
 	const { boardArticle, size = 'normal', likeArticleHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = boardArticle?.articleImage
@@ -45,7 +47,7 @@ const MyArticleCard = (props: MyArticleCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY CARD MOBILE</div>;
+		return <div>{t('COMMUNITY CARD MOBILE')}</div>;
 	} else {
 		return (
 			<Stack

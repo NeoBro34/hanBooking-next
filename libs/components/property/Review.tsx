@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next';
 
 interface ReviewProps {
 	comment: Comment;
@@ -15,6 +16,7 @@ interface ReviewProps {
 const Review = (props: ReviewProps) => {
 	const { comment } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [value, setValue] = React.useState<number | null>(2);
@@ -28,7 +30,7 @@ const Review = (props: ReviewProps) => {
 		else router.push(`/member?memberId=${id}`);
 	};
 	if (device === 'mobile') {
-		return <div>REVIEW</div>;
+		return <div>{t('REVIEW')}</div>;
 	} else {
 		return (
 			<Stack className={'review-config'}>

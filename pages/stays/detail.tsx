@@ -33,6 +33,7 @@ import { Direction, Message } from '@/libs/enums/common.enum';
 import { sweetConfirmAlert, sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import { PropertyAmenity } from '@/libs/enums/property.enum';
 import PropertySmallCard from '@/libs/components/common/PropertySmallCard';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -42,6 +43,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [propertyId, setPropertyId] = useState<string | null>(null);
@@ -207,7 +209,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				}, 
 			});
 
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert(t('success'), 800);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -234,7 +236,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const handleReserve = async () => {
 		try {
-			if (await sweetConfirmAlert("Are you Booking this stay?")) {
+			if (await sweetConfirmAlert(t('Are you Booking this stay?'))) {
 				await createBooking({
 					variables: {
 						input: {
@@ -262,7 +264,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>PROPERTY DETAIL PAGE</div>;
+		return <div>{t('PROPERTY DETAIL PAGE')}</div>;
 	} else {
 		return (
 			<div id={'property-detail-page'}>
@@ -284,7 +286,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											size="small"
 										/>
 										<span className="text-sm text-gray-600">
-											({property?.propertyComments} reviews)
+											({property?.propertyComments} {t('reviews')})
 										</span>
 									</div>
 									<div className="flex items-end gap-1 text-gray-600 mb-3">
@@ -321,64 +323,64 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'left-config'}>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Address</Typography>
-										<Typography className={'desc'}><LocationOnIcon sx={{mb:'8px', color:'#394094'}}/>{property?.propertyAddress ?? 'No Address!'}</Typography>
+										<Typography className={'title'}>{t('Address')}</Typography>
+										<Typography className={'desc'}><LocationOnIcon sx={{mb:'8px', color:'#394094'}}/>{property?.propertyAddress ?? t('No Address!')}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Stay Amenities</Typography>
+									<Typography className={'title'}>{t('Stay Amenities')}</Typography>
 									<Stack className={'amenities-box'}>
 										{property?.amenities.includes(PropertyAmenity.WIFI) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<WifiIcon className='main-icon'/>
-												<span>Wifi</span>
+												<span>{t('Wifi')}</span>
 											</Box>	
 										)}
 										{property?.amenities.includes(PropertyAmenity.POOL) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<PoolIcon className='main-icon'/>
-												<span>Pool</span>
+												<span>{t('Pool')}</span>
 											</Box>
 										)}
 										{property?.amenities.includes(PropertyAmenity.BREAKFAST) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<BreakfastDiningIcon className='main-icon'/>
-												<span>Breakfast</span>
+												<span>{t('Breakfast')}</span>
 											</Box>
 										)}
 										{property?.amenities.includes(PropertyAmenity.PARKING) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<LocalParkingIcon className='main-icon'/>
-												<span>Parking</span>
+												<span>{t('Parking')}</span>
 											</Box>
 										)}
 										{property?.amenities.includes(PropertyAmenity.AC) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<AirIcon className='main-icon'/>
-												<span>Air Con..</span>
+												<span>{t('Air Con..')}</span>
 											</Box>
 										)}
 										{property?.amenities.includes(PropertyAmenity.GYM) && (
 											<Box className='icons-box'>
 												<CheckIcon className='check-icon'/>
 												<FitnessCenterIcon className='main-icon'/>
-												<span>Fitness</span>
+												<span>{t('Fitness')}</span>
 											</Box>
 										)}
 										<Box className='icons-box'>
 											<CheckIcon className='check-icon'/>
 											<SecurityIcon className='main-icon'/>
-											<span>24/7 Secur..</span>
+											<span>{t('24/7 Secur..')}</span>
 										</Box>
 									</Stack>
 								</Stack>
 								<Stack className={'address-config'}>
-									<Typography className={'title'}>Road Map</Typography>
+									<Typography className={'title'}>{t('Road Map')}</Typography>
 									<Stack className={'map-box'}>
 										<iframe
 											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
@@ -408,7 +410,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} reviews</Typography>
+												<Typography className={'reviews'}>{commentTotal} {t('reviews')}</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -428,8 +430,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								)}
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Leave A Review</Typography>
-									<Typography className={'review-title'}>Review</Typography>
+									<Typography className={'main-title'}>{t('Leave A Review')}</Typography>
+									<Typography className={'review-title'}>{t('Review')}</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -442,7 +444,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>{t('Submit Review')}</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path
@@ -485,7 +487,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													size="small"
 												/>
 												<span className="text-xs text-gray-600">
-													({property?.propertyComments} reviews)
+													({property?.propertyComments} {t('reviews')})
 												</span>
 											</div>
 										</Box>
@@ -495,7 +497,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Box className={'inputWrapper'}>
 										<Box sx={{mb:"10px",display:"flex", alignItems:"center"}}>
 											<CalendarMonthIcon className={'inputIcon'} />
-											Check-in
+											{t('Check-in')}
 										</Box>
 										<TextField
 											type="date"
@@ -508,7 +510,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												shrink: true,
 											}}
 											inputProps={{
-												placeholder: 'Check-in',
+												placeholder: t('Check-in'),
 											}}
 										/>
 									</Box>
@@ -517,7 +519,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Box className={'inputWrapper'}>
 										<Box sx={{mb:"10px",display:"flex", alignItems:"center"}}>
 											<CalendarMonthIcon className={'inputIcon'} />
-											Check-out
+											{t('Check-out')}
 										</Box>
 										<TextField
 											type="date"
@@ -530,7 +532,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												shrink: true,
 											}}
 											inputProps={{
-												placeholder: 'Check-out',
+												placeholder: t('Check-out'),
 											}}
 										/>
 									</Box>
@@ -548,7 +550,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											>
 											{[1, 2, 3, 4, 5, 6].map((num) => (
 												<MenuItem key={num} value={num.toString()}>
-												<div style={{fontWeight: "600"}}>{num} {num === 1 ? 'Guest' : 'Guests'}</div>
+												<div style={{fontWeight: "600"}}>{num} {num === 1 ? t('Guest') : t('Guests')}</div>
 												</MenuItem>
 											))}
 											</TextField>
@@ -558,24 +560,24 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button 
 										onClick={handleReserve}
 										className={'reserve-button'}>
-										<Typography className={'title'}>Reserve</Typography>
+										<Typography className={'title'}>{t('Reserve')}</Typography>
 									</Button>
 								</Stack>
-								<Typography className={'title'}>You won't be charged yet</Typography>
+								<Typography className={'title'}>{t("You won't be charged yet")}</Typography>
 								<Stack className='reserve-info'>
-									<p>Per night</p>
+									<p>{t('Per night')}</p>
 									<span>{property?.propertyPricePerNight}$</span>
 								</Stack>
 
 								<Stack className='reserve-info'>
-									<p>Nights</p>
+									<p>{t('Nights')}</p>
 									<span>
 										{nights} x <span>{property?.propertyPricePerNight}$</span>
 									</span>
 								</Stack>
 
 								<Stack className='reserve-info'>
-									<p>Guests</p>
+									<p>{t('Guests')}</p>
 									<span style={{ display: "flex", justifyContent: "center", alignItems:"center" }}>
 										<PeopleIcon sx={{ mr: "10px" }} />
 										{guests}
@@ -585,7 +587,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<span className='line'></span>
 
 								<Stack className='reserve-info'>
-									<strong>Total</strong>
+									<strong>{t('Total')}</strong>
 									<strong>{totalPrice}$</strong>
 								</Stack>
 							</Stack>
@@ -594,8 +596,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Property</Typography>
-										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
+										<Typography className={'main-title'}>{t('Destination Property')}</Typography>
+										<Typography className={'sub-title'}>{t('Aliquam lacinia diam quis lacus euismod')}</Typography>
 									</Stack>
 								</Stack>
 								<Stack style={{alignItems: "center"}}>

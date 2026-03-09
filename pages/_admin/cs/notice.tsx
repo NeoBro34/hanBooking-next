@@ -32,8 +32,10 @@ import { Direction } from '@/libs/enums/common.enum';
 import { NoticesInquiry } from '@/libs/types/notice/notice.input';
 import { Notice } from '@/libs/types/notice/notice';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const AdminNotice: NextPage = () => {
+  const { t } = useTranslation('common');
   const [searchText, setSearchText] = useState('');
   const [tab, setTab] = useState<string>('ALL');
   const [openCreate, setOpenCreate] = useState(false);
@@ -107,9 +109,9 @@ const AdminNotice: NextPage = () => {
       setCreateForm({ noticeTitle: '', noticeContent: '' });
       setOpenCreate(false);
       await refetch({ input: inquiry });
-      await sweetTopSmallSuccessAlert('Notice created', 900);
+      await sweetTopSmallSuccessAlert(t('Notice created'), 900);
     } catch (err: any) {
-      sweetMixinErrorAlert(err?.message ?? 'Error').then();
+      sweetMixinErrorAlert(err?.message ?? t('Error')).then();
     }
   };
 
@@ -131,9 +133,9 @@ const AdminNotice: NextPage = () => {
       });
       setOpenEdit(false);
       await refetch({ input: inquiry });
-      await sweetTopSmallSuccessAlert('Notice updated', 900);
+      await sweetTopSmallSuccessAlert(t('Notice updated'), 900);
     } catch (err: any) {
-      sweetMixinErrorAlert(err?.message ?? 'Error').then();
+      sweetMixinErrorAlert(err?.message ?? t('Error')).then();
     }
   };
 
@@ -152,7 +154,7 @@ const AdminNotice: NextPage = () => {
       });
       await refetch({ input: inquiry });
     } catch (err: any) {
-      sweetMixinErrorAlert(err?.message ?? 'Error').then();
+      sweetMixinErrorAlert(err?.message ?? t('Error')).then();
     }
   };
 
@@ -161,25 +163,25 @@ const AdminNotice: NextPage = () => {
       await removeNotice({ variables: { noticeId: id } });
       await refetch({ input: inquiry });
     } catch (err: any) {
-      sweetMixinErrorAlert(err?.message ?? 'Error').then();
+      sweetMixinErrorAlert(err?.message ?? t('Error')).then();
     }
   };
 
   return (
     <Box component={'div'} className={'content cs-admin-page'}>
       <Box className={'title flex_space'}>
-        <Typography variant={'h2'}>Notice Management</Typography>
+        <Typography variant={'h2'}>{t('Notice Management')}</Typography>
         <Button variant={'contained'} onClick={() => setOpenCreate(true)}>
-          Add Notice
+          {t('Add Notice')}
         </Button>
       </Box>
 
       <Box className={'table-wrap'}>
         <List className={'tab-menu'}>
-          <ListItem onClick={() => tabChangeHandler('ALL')} className={tab === 'ALL' ? 'li on' : 'li'}>All</ListItem>
-          <ListItem onClick={() => tabChangeHandler('ACTIVE')} className={tab === 'ACTIVE' ? 'li on' : 'li'}>Active</ListItem>
-          <ListItem onClick={() => tabChangeHandler('HOLD')} className={tab === 'HOLD' ? 'li on' : 'li'}>Hold</ListItem>
-          <ListItem onClick={() => tabChangeHandler('DELETE')} className={tab === 'DELETE' ? 'li on' : 'li'}>Deleted</ListItem>
+          <ListItem onClick={() => tabChangeHandler('ALL')} className={tab === 'ALL' ? 'li on' : 'li'}>{t('All')}</ListItem>
+          <ListItem onClick={() => tabChangeHandler('ACTIVE')} className={tab === 'ACTIVE' ? 'li on' : 'li'}>{t('Active')}</ListItem>
+          <ListItem onClick={() => tabChangeHandler('HOLD')} className={tab === 'HOLD' ? 'li on' : 'li'}>{t('Hold')}</ListItem>
+          <ListItem onClick={() => tabChangeHandler('DELETE')} className={tab === 'DELETE' ? 'li on' : 'li'}>{t('Deleted')}</ListItem>
         </List>
         <Divider />
         <Stack className={'search-area'} sx={{ m: '24px' }}>
@@ -188,7 +190,7 @@ const AdminNotice: NextPage = () => {
             onChange={(e) => setSearchText(e.target.value)}
             sx={{ width: '100%' }}
             className={'search'}
-            placeholder="Search notice"
+            placeholder={t('Search notice')}
             onKeyDown={(event) => {
               if (event.key === 'Enter') searchHandler();
             }}
@@ -229,13 +231,13 @@ const AdminNotice: NextPage = () => {
               <Typography sx={{ mb: '8px', color: '#424242' }}>{notice.noticeContent}</Typography>
               <Stack direction={'row'} gap={1}>
                 <Button size={'small'} variant={'outlined'} onClick={() => openEditHandler(notice)}>
-                  Edit
+                  {t('Edit')}
                 </Button>
                 <Button size={'small'} variant={'outlined'} onClick={() => toggleStatusHandler(notice)}>
-                  {notice.noticeStatus === NoticeStatus.ACTIVE ? 'Set HOLD' : 'Set ACTIVE'}
+                  {notice.noticeStatus === NoticeStatus.ACTIVE ? t('Set HOLD') : t('Set ACTIVE')}
                 </Button>
                 <Button size={'small'} color={'error'} variant={'outlined'} onClick={() => removeHandler(notice._id)}>
-                  Delete
+                  {t('Delete')}
                 </Button>
               </Stack>
             </Stack>
@@ -254,19 +256,19 @@ const AdminNotice: NextPage = () => {
       </Box>
 
       <Dialog open={openCreate} onClose={() => setOpenCreate(false)} fullWidth maxWidth={'sm'}>
-        <DialogTitle>Create Notice</DialogTitle>
+        <DialogTitle>{t('Create Notice')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Title"
+            label={t('Title')}
             fullWidth
             value={createForm.noticeTitle}
             onChange={(e) => setCreateForm({ ...createForm, noticeTitle: e.target.value })}
           />
           <TextField
             margin="dense"
-            label="Content"
+            label={t('Content')}
             fullWidth
             multiline
             minRows={4}
@@ -275,25 +277,25 @@ const AdminNotice: NextPage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenCreate(false)}>Cancel</Button>
-          <Button onClick={createHandler} variant={'contained'}>Create</Button>
+          <Button onClick={() => setOpenCreate(false)}>{t('Cancel')}</Button>
+          <Button onClick={createHandler} variant={'contained'}>{t('Create')}</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth={'sm'}>
-        <DialogTitle>Edit Notice</DialogTitle>
+        <DialogTitle>{t('Edit Notice')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Title"
+            label={t('Title')}
             fullWidth
             value={editForm.noticeTitle}
             onChange={(e) => setEditForm({ ...editForm, noticeTitle: e.target.value })}
           />
           <TextField
             margin="dense"
-            label="Content"
+            label={t('Content')}
             fullWidth
             multiline
             minRows={4}
@@ -302,8 +304,8 @@ const AdminNotice: NextPage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
-          <Button onClick={editHandler} variant={'contained'}>Save</Button>
+          <Button onClick={() => setOpenEdit(false)}>{t('Cancel')}</Button>
+          <Button onClick={editHandler} variant={'contained'}>{t('Save')}</Button>
         </DialogActions>
       </Dialog>
     </Box>

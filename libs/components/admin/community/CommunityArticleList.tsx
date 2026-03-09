@@ -24,6 +24,7 @@ import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import { BoardArticleStatus } from '../../../enums/board-article.enum';
+import { useTranslation } from 'next-i18next';
 
 interface Data {
 	category: string;
@@ -102,6 +103,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
+	const { t } = useTranslation('common');
 	return (
 		<TableHead>
 			<TableRow>
@@ -111,7 +113,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 					>
-						{headCell.label}
+						{t(headCell.label)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -129,6 +131,7 @@ interface CommunityArticleListProps {
 }
 
 const CommunityArticleList = (props: CommunityArticleListProps) => {
+	const { t } = useTranslation('common');
 	const { articles, anchorEl, menuIconClickHandler, menuIconCloseHandler, updateArticleHandler, removeArticleHandler } =
 		props;
 
@@ -142,7 +145,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 						{articles.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+									<span className={'no-data'}>{t('data not found!')}</span>
 								</TableCell>
 							</TableRow>
 						)}
@@ -160,7 +163,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 													className={'img_box'}
 												>
 													<IconButton className="btn_window">
-														<Tooltip title={'Open window'}>
+														<Tooltip title={t('Open window')}>
 															<OpenInBrowserRoundedIcon />
 														</Tooltip>
 													</IconButton>

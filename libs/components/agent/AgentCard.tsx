@@ -11,6 +11,7 @@ import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/apollo/store";
 import { REACT_APP_API_URL } from "@/libs/config";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 interface AgentCardProps {
 	agent: any;
@@ -20,20 +21,21 @@ interface AgentCardProps {
 const AgentCard = (props: AgentCardProps) => {
     const { agent, likeMemberHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const imagePath: string = agent?.memberImage
 		? `${REACT_APP_API_URL}/${agent?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return <div>{t('AGENT CARD')}</div>;
 	} else {
         return (
             <Stack className={`agentCard fade-in-up`} style={{ animationDelay: `6s` }}>
                 <Stack className="cardImageWrapper">
                     <Box className='top-icon'>
                         <Typography style={{fontSize: "22px", fontWeight: "bold"}}>
-                            Agent
+                            {t('Agent')}
                         </Typography>
                         <Box><VerifiedIcon style={{fontSize:"20px", color: "green"}}/></Box>
                     </Box>
@@ -55,7 +57,7 @@ const AgentCard = (props: AgentCardProps) => {
                         {agent?.memberFullName ?? agent?.memberNick}
                     </Box>
                     <Box className="agent-location"><PersonPinCircleIcon style={{color: "gray"}}/>
-                        {agent?.memberAddress ?? 'No address' }
+                        {agent?.memberAddress ?? t('No address') }
                     </Box>
                     <Box className='border'></Box>
                 </Stack>
@@ -65,7 +67,7 @@ const AgentCard = (props: AgentCardProps) => {
                         className="group flex items-center gap-2 px-5 py-2 cursor-pointer font-medium   text-gray-400  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-1 px-3 rounded-full text-white hover:translate-x-0.5 transition"
                     >
                         <p className="group-hover:translate-x-0.5 transition-all">
-                            View Profile
+                            {t('View Profile')}
                         </p>
                         <svg
                             className="group-hover:translate-x-1 transition-all"

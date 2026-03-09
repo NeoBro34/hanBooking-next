@@ -10,6 +10,8 @@ import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import { Message } from '../../enums/common.enum';
 import SmallStayBookingCard from '../common/SmallPropertyCard';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 
 interface NewStaysProps {
@@ -19,6 +21,7 @@ interface NewStaysProps {
 const NewStays = (props: NewStaysProps) => {
     const { initialInput } = props;
     const device = useDeviceDetect();
+    const { t } = useTranslation('common');
     const [featuredStays, setFeaturedStays] = useState<Property[]>([]);
     const [page, setPage] = useState(initialInput.page || 1);
 
@@ -68,7 +71,7 @@ const NewStays = (props: NewStaysProps) => {
             // execute getFeaturedStaysRefetch
             await getFeaturedStaysRefetch({ input: initialInput });
 
-            await sweetTopSmallSuccessAlert('success', 800);
+            await sweetTopSmallSuccessAlert(t('success'), 800);
         } catch (err: any) {
             console.log('ERROR, likePropertyHandler:', err.message);
             sweetMixinErrorAlert(err.message).then();
@@ -83,7 +86,7 @@ const NewStays = (props: NewStaysProps) => {
 
     if (device === 'mobile') {
         return (
-            <div>Mobile</div>
+            <div>{t('Mobile')}</div>
         );
     } else {
         return (
@@ -101,12 +104,12 @@ const NewStays = (props: NewStaysProps) => {
                         <p
                         className="title text-3xl font-semibold"
                         >
-                            Featured Top Stays
+                            {t('Featured Top Stays')}
                         </p>
                         <p
                             className="title-desc text-sm text-slate-500  mt-2"
                         >
-                            Handpicked luxury accommodations for unforgettable experiences
+                            {t('Handpicked luxury accommodations for unforgettable experiences')}
                         </p>
                     </Box>
                     <Box>
@@ -115,9 +118,9 @@ const NewStays = (props: NewStaysProps) => {
                                 type="button"
                                 className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium text-gray-500  transition active:scale-95"
                             >
-                                <a href="/stays" className="group-hover:translate-x-1 transition-all">
-                                    All Stays
-                                </a>
+                                <Link href="/stays" className="group-hover:translate-x-1 transition-all">
+                                    {t('All Stays')}
+                                </Link>
                                 <svg
                                     className="group-hover:translate-x-3 transition-all"
                                     width="15"

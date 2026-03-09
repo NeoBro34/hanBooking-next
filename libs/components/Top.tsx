@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Box, Button, Container, Divider, IconButton, Stack } from "@mui/material"
+import { Box, Button, Divider, IconButton, Stack } from "@mui/material"
 import Link from "next/link";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Menu, { MenuProps } from "@mui/material/Menu";
@@ -31,12 +31,10 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const { t } = useTranslation("common");
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
-	const [lang, setLang] = useState<string | null>('en');
+	const [lang, setLang] = useState<string>('en');
 	const router = useRouter();
 	const drop = Boolean(anchorEl2);
 	const user = useReactiveVar(userVar);
-	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
-	let open = Boolean(anchorEl);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 	const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
@@ -47,13 +45,21 @@ const Top = () => {
 
     /** LIFECYCLES **/
 	useEffect(() => {
-		if (localStorage.getItem('locale') === null) {
-			localStorage.setItem('locale', 'en');
-			setLang('en');
-		} else {
-			setLang(localStorage.getItem('locale'));
+		if (!router.isReady) return;
+		const savedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') : null;
+		const currentLocale = router.locale || 'en';
+
+		if (savedLocale && savedLocale !== currentLocale) {
+			setLang(savedLocale);
+			router.replace(router.asPath, router.asPath, { locale: savedLocale }).then();
+			return;
 		}
-	}, [router]);
+
+		setLang(currentLocale);
+		if (typeof window !== 'undefined' && savedLocale !== currentLocale) {
+			localStorage.setItem('locale', currentLocale);
+		}
+	}, [router.isReady, router.locale, router.asPath]);
 
 	useEffect(() => {
 		switch (router.pathname) {
@@ -158,15 +164,17 @@ const Top = () => {
 
 	const langChoice = useCallback(
         async (locale: string) => {
+			if (locale === lang) {
+				setAnchorEl2(null);
+				return;
+			}
             setLang(locale);
             localStorage.setItem('locale', locale);
             setAnchorEl2(null);
 
-            await router.push(router.asPath, router.asPath, {
-                locale: locale,
-            });
+            await router.push(router.asPath, router.asPath, { locale });
         },
-        [router]
+        [router, lang]
     );
 
     const changeNavbarColor = () => {
@@ -177,9 +185,11 @@ const Top = () => {
 		}
 	};
 
-    if (typeof window !== 'undefined') {
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
 		window.addEventListener('scroll', changeNavbarColor);
-	}
+		return () => window.removeEventListener('scroll', changeNavbarColor);
+	}, []);
 
     const StyledMenu = styled((props: MenuProps) => (
 		<Menu
@@ -250,49 +260,49 @@ const Top = () => {
                         <Stack className="left-box">
                             <Box component={"div"} className={"logo-box"}>
                                 <Link href={"/"}>
-                                    <img style={{marginLeft: "-70px", marginRight: "40px"}} src="/img/logo/logoWhite.png" alt="" />
+                                    <img src="/img/logo/logoWhite.png" alt="HanBooking logo" />
                                 </Link>
                             </Box>
                             <Box component={"div"} className={"router-box"}>
                                 <nav className="flex items-center  max-md:w-full max-md:justify-between border-slate-700 px-6 py-4 rounded-full text-white text-sm">
                                     <div className="hidden md:flex items-center gap-6 ml-7">
-                                        <a href="/" className="relative overflow-hidden h-6 group">
+                                        <Link href="/" className="relative overflow-hidden h-6 group">
                                             <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Home')}</span>
                                             <span
                                                 className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Home')}</span>
-                                        </a>
-                                        <a href="/stays" className="relative overflow-hidden h-6 group">
+                                        </Link>
+                                        <Link href="/stays" className="relative overflow-hidden h-6 group">
                                             <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Stays')}</span>
                                             <span
                                                 className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Stays')}</span>
-                                        </a>
-                                        <a href="/agent" className="relative overflow-hidden h-6 group">
+                                        </Link>
+                                        <Link href="/agent" className="relative overflow-hidden h-6 group">
                                             <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Agents')}</span>
                                             <span
                                                 className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Agents')}</span>
-                                        </a>
-                                        <a href="/blog" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Blog</span>
+                                        </Link>
+                                        <Link href="/blog" className="relative overflow-hidden h-6 group">
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Blog')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Blog</span>
-                                        </a>
-                                        <a href="/about" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">About</span>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Blog')}</span>
+                                        </Link>
+                                        <Link href="/about" className="relative overflow-hidden h-6 group">
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('About')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">About</span>
-                                        </a>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('About')}</span>
+                                        </Link>
                                         {user?._id && (
-                                            <a href="/mypage" className="relative overflow-hidden h-6 group">
+                                            <Link href="/mypage" className="relative overflow-hidden h-6 group">
                                                 <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('MyPage')}</span>
                                                 <span
                                                     className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('MyPage')}</span>
-                                            </a>
+                                            </Link>
                                         )}
-                                        <a href="/cs" className="relative overflow-hidden h-6 group">
-                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">Support</span>
+                                        <Link href="/cs" className="relative overflow-hidden h-6 group">
+                                            <span className="block group-hover:-translate-y-full transition-transform duration-300 text-gray-400">{t('Support')}</span>
                                             <span
-                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">Support</span>
-                                        </a>
+                                                className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-400">{t('Support')}</span>
+                                        </Link>
                                     </div>
                                 </nav>
                             </Box>
@@ -326,9 +336,9 @@ const Top = () => {
 										disableRipple
 										style={{ justifyContent: 'space-between', fontWeight: 600, cursor: 'default' }}
 									>
-										<span>Notifications</span>
+										<span>{t('Notifications')}</span>
 										<Button size={'small'} onClick={markAllNotificationsReadHandler}>
-											Mark all read
+											{t('Mark all read')}
 										</Button>
 									</MenuItem>
 									<Divider />
@@ -350,7 +360,7 @@ const Top = () => {
 											>
 												<div style={{ fontWeight: 600, whiteSpace: 'normal' }}>{item.notificationTitle}</div>
 												<div style={{ fontSize: 12, color: '#616161', whiteSpace: 'normal' }}>
-													{item.notificationDesc || 'No description'}
+													{item.notificationDesc || t('No description')}
 												</div>
 												<div style={{ fontSize: 11, color: '#9e9e9e' }}>
 													{new Date(item.createdAt).toLocaleString()}
@@ -359,7 +369,7 @@ const Top = () => {
 										))
 									) : (
 										<MenuItem disableRipple style={{ cursor: 'default' }}>
-											No notifications yet
+											{t('No notifications yet')}
 										</MenuItem>
 									)}
 								</Menu>
@@ -382,12 +392,7 @@ const Top = () => {
                                     onClick={langClick}
                                     endIcon={<CaretDown size={14} color="gray" />}
                                 >
-                                    <Box>
-                                        <img
-                                            src={`/img/flag/lang${lang || "en"}.png`}
-                                            alt="langFlag"
-                                        />
-                                    </Box>
+                                    {(lang || 'en').toUpperCase()}
                                 </Button>
                                 <StyledMenu
                                     anchorEl={anchorEl2}
@@ -396,30 +401,19 @@ const Top = () => {
                                     sx={{ position: 'absolute' }}
                                 >
                                     <MenuItem disableRipple onClick={() => langChoice("en")}>
-                                        <img
-                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
-                                            src={"/img/flag/langen.png"}
-                                            alt="englishFlag"
-                                        />
                                         EN
                                     </MenuItem>
 
                                     <MenuItem disableRipple onClick={() => langChoice("kr")}>
-                                        <img
-                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
-                                            src={"/img/flag/langkr.png"}
-                                            alt="koreanFlag"
-                                        />
                                         KR
                                     </MenuItem>
 
                                     <MenuItem disableRipple onClick={() => langChoice("ru")}>
-                                        <img
-                                            style={{ width: "24px", height: "17px", borderRadius: "2px", marginRight: "8px" }}
-                                            src={"/img/flag/langru.png"}
-                                            alt="russianFlag"
-                                        />
                                         RU
+                                    </MenuItem>
+
+                                    <MenuItem disableRipple onClick={() => langChoice("uz")}>
+                                        UZ
                                     </MenuItem>
                                 </StyledMenu>
                             </div>
@@ -451,7 +445,7 @@ const Top = () => {
                                         >
                                             <MenuItem onClick={() => logOut()}>
                                                 <Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-                                                Logout
+                                                {t('Logout')}
                                             </MenuItem>
                                         </Menu>
                                    </>

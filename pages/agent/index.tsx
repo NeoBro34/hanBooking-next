@@ -15,6 +15,7 @@ import { GET_AGENTS } from '@/apollo/user/query';
 import { T } from '@/libs/types/common';
 import { Messages } from '@/libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -24,6 +25,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [filterSortName, setFilterSortName] = useState('Recent');
@@ -86,19 +88,19 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		switch (e.currentTarget.id) {
 			case 'recent':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: 'DESC' });
-				setFilterSortName('Recent');
+				setFilterSortName(t('Recent'));
 				break;
 			case 'old':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: 'ASC' });
-				setFilterSortName('Oldest order');
+				setFilterSortName(t('Oldest order'));
 				break;
 			case 'likes':
 				setSearchFilter({ ...searchFilter, sort: 'memberLikes', direction: 'DESC' });
-				setFilterSortName('Likes');
+				setFilterSortName(t('Likes'));
 				break;
 			case 'views':
 				setSearchFilter({ ...searchFilter, sort: 'memberViews', direction: 'DESC' });
-				setFilterSortName('Views');
+				setFilterSortName(t('Views'));
 				break;
 		}
 		setSortingOpen(false);
@@ -125,7 +127,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			});
 
 			await getAgentsRefetch({ input: searchFilter });
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert(t('success'), 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -133,7 +135,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>AgentList PAGE MOBILE</div>;
+		return <div>{t('AgentList PAGE MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className='agent-list-box'>
@@ -142,14 +144,14 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<TextField
 							style={{width: "70%", marginLeft:"15px"}}
 							variant="standard"
-							placeholder='search agent'
+							placeholder={t('search agent')}
 							InputProps={{
 								disableUnderline: true,
 								startAdornment: <SearchIcon style={{marginRight: "10px"}} />,
 							}}
 							/>
 							<Box component={'div'} className={'right'}>
-								<span>Sort by</span>
+								<span>{t('Sort by')}</span>
 								<div>
 									<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
 										{filterSortName}
@@ -159,25 +161,25 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 											onClick={sortingHandler} 
 											id={'recent'} disableRipple
 										>
-											Recent
+											{t('Recent')}
 										</MenuItem>
 										<MenuItem 
 											onClick={sortingHandler} 
 											id={'old'} disableRipple
 										>
-											Oldest
+											{t('Oldest')}
 										</MenuItem>
 										<MenuItem 
 											onClick={sortingHandler} 
 											id={'likes'} disableRipple
 										>
-											Likes
+											{t('Likes')}
 										</MenuItem>
 										<MenuItem 
 											onClick={sortingHandler} 
 											id={'views'} disableRipple
 										>
-											Views
+											{t('Views')}
 										</MenuItem>
 									</Menu>
 								</div>
@@ -187,7 +189,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						{agents?.length === 0 ? (
 							<div style={{width:"100%",display:"flex", flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Agents found!</p>
+								<p>{t('No Agents found!')}</p>
 							</div>
 						) : (
 							agents.map((agent: Member) => {

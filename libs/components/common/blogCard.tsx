@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '@/apollo/store';
 import { REACT_APP_API_URL } from '@/libs/config';
+import { useTranslation } from 'next-i18next';
 
 interface BlogCardProps {
 	boardArticle: BoardArticle;
@@ -30,6 +31,7 @@ interface BlogCardProps {
 const BlogCard = (props: BlogCardProps) => {
 	const { boardArticle, size = 'normal', likeArticleHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = boardArticle?.articleImage
@@ -54,7 +56,7 @@ const BlogCard = (props: BlogCardProps) => {
 	};
     
     if (device === 'mobile') {
-		return <div>COMMUNITY CARD MOBILE</div>;
+		return <div>{t('COMMUNITY CARD MOBILE')}</div>;
 	} else {
 		return (
             <Stack 

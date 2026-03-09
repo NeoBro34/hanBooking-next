@@ -1,15 +1,18 @@
 import { Container, Stack } from "@mui/material";
+import { useTranslation } from "next-i18next";
 
 const Features = () => {
+    const { t } = useTranslation('common');
+
     return(
         <>
             <Stack>
                 <h1 className="text-3xl font-semibold text-center mx-auto mt-40">
-                    Everything You Need for Hotel Booking
+                    {t('Everything You Need for Hotel Booking')}
                 </h1>
 
                 <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
-                    Discover, compare, and book the perfect hotel anywhere — fast, secure, and hassle-free.
+                    {t('Discover, compare, and book the perfect hotel anywhere, fast, secure, and hassle-free.')}
                 </p>
             </Stack>
             <div className="flex items-center justify-center gap-6 mt-20 px-4 md:px-0 cursor-pointer">
@@ -28,10 +31,10 @@ const Features = () => {
                 </div>
                 <div className="space-y-2">
                     <h3 className="text-base font-semibold text-slate-700">
-                    Real-Time Availability
+                    {t('Real-Time Availability')}
                     </h3>
                     <p className="text-sm text-slate-600">
-                    See available rooms and prices instantly with live updates.
+                    {t('See available rooms and prices instantly with live updates.')}
                     </p>
                 </div>
                 </div>
@@ -57,10 +60,10 @@ const Features = () => {
                 </div>
                 <div className="space-y-2">
                     <h3 className="text-base font-semibold text-slate-700">
-                    Secure Payments
+                    {t('Secure Payments')}
                     </h3>
                     <p className="text-sm text-slate-600">
-                    Pay safely with encrypted transactions and trusted payment methods.
+                    {t('Pay safely with encrypted transactions and trusted payment methods.')}
                     </p>
                 </div>
                 </div>
@@ -86,10 +89,10 @@ const Features = () => {
                 </div>
                 <div className="space-y-2">
                     <h3 className="text-base font-semibold text-slate-700">
-                    Flexible Booking
+                    {t('Flexible Booking')}
                     </h3>
                     <p className="text-sm text-slate-600">
-                    Free cancellation options and easy booking management anytime.
+                    {t('Free cancellation options and easy booking management anytime.')}
                     </p>
                 </div>
                 </div>

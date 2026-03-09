@@ -27,82 +27,84 @@ import {
   FavoriteBorder,
   CheckCircleOutline,
 } from '@mui/icons-material';
+import { useTranslation } from 'next-i18next';
 
 const About: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
 	const features = [
 		{
 		icon: <Public sx={{ fontSize: 50 }} />,
-		title: 'Worldwide Coverage',
+		title: t('Worldwide Coverage'),
 		description:
-			'Access millions of properties across 200+ countries and territories. From bustling cities to remote getaways, we bring the world to your fingertips.',
+			t('Access millions of properties across 200+ countries and territories. From bustling cities to remote getaways, we bring the world to your fingertips.'),
 		},
 		{
 		icon: <Security sx={{ fontSize: 50 }} />,
-		title: 'Secure & Safe',
+		title: t('Secure & Safe'),
 		description:
-			'Your security is our priority. We use industry-leading encryption and secure payment systems to protect your personal information and transactions.',
+			t('Your security is our priority. We use industry-leading encryption and secure payment systems to protect your personal information and transactions.'),
 		},
 		{
 		icon: <Star sx={{ fontSize: 50 }} />,
-		title: 'Verified Reviews',
+		title: t('Verified Reviews'),
 		description:
-			'Make informed decisions with authentic reviews from real travelers. Every review is verified to ensure transparency and reliability.',
+			t('Make informed decisions with authentic reviews from real travelers. Every review is verified to ensure transparency and reliability.'),
 		},
 		{
 		icon: <Support sx={{ fontSize: 50 }} />,
-		title: '24/7 Support',
+		title: t('24/7 Support'),
 		description:
-			'Our dedicated customer support team is available around the clock in multiple languages to assist you whenever you need help.',
+			t('Our dedicated customer support team is available around the clock in multiple languages to assist you whenever you need help.'),
 		},
 	];
 
 	const benefits = [
 		{
 		icon: <Search sx={{ fontSize: 40, color: '#1976d2' }} />,
-		title: 'Easy Search & Booking',
-		description: 'Find and book your perfect stay in just a few clicks',
+		title: t('Easy Search & Booking'),
+		description: t('Find and book your perfect stay in just a few clicks'),
 		},
 		{
 		icon: <Payments sx={{ fontSize: 40, color: '#1976d2' }} />,
-		title: 'Secure Payments',
-		description: 'Multiple payment options with bank-level security',
+		title: t('Secure Payments'),
+		description: t('Multiple payment options with bank-level security'),
 		},
 		{
 		icon: <TrendingUp sx={{ fontSize: 40, color: '#1976d2' }} />,
-		title: 'Best Price Guarantee',
-		description: 'Competitive prices and exclusive deals every day',
+		title: t('Best Price Guarantee'),
+		description: t('Competitive prices and exclusive deals every day'),
 		},
 		{
 		icon: <VerifiedUser sx={{ fontSize: 40, color: '#1976d2' }} />,
-		title: 'Verified Properties',
-		description: 'All accommodations are carefully vetted and verified',
+		title: t('Verified Properties'),
+		description: t('All accommodations are carefully vetted and verified'),
 		},
 	];
 
 	const values = [
 		{
 		icon: <FavoriteBorder sx={{ fontSize: 35 }} />,
-		title: 'Customer First',
-		description: 'Your satisfaction and experience are at the heart of everything we do',
+		title: t('Customer First'),
+		description: t('Your satisfaction and experience are at the heart of everything we do'),
 		},
 		{
 		icon: <CheckCircleOutline sx={{ fontSize: 35 }} />,
-		title: 'Trust & Transparency',
-		description: 'We believe in honest communication and building lasting relationships',
+		title: t('Trust & Transparency'),
+		description: t('We believe in honest communication and building lasting relationships'),
 		},
 		{
 		icon: <Public sx={{ fontSize: 35 }} />,
-		title: 'Global Connection',
-		description: 'We connect travelers with unique stays and experiences worldwide',
+		title: t('Global Connection'),
+		description: t('We connect travelers with unique stays and experiences worldwide'),
 		},
 	];
 
 	if (device === 'mobile') {
-		return <div>ABOUT PAGE MOBILE</div>;
+		return <div>{t('ABOUT PAGE MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className='about-list-box'>
@@ -135,7 +137,7 @@ const About: NextPage = () => {
 								mb: 2,
 								}}
 							>
-								Welcome to Stays Booking
+								{t('Welcome to Stays Booking')}
 							</Typography>
 							<Typography
 								variant="h5"
@@ -146,7 +148,7 @@ const About: NextPage = () => {
 								margin: '0 auto',
 								}}
 							>
-								Your trusted partner for finding the perfect accommodation anywhere in the world
+								{t('Your trusted partner for finding the perfect accommodation anywhere in the world')}
 							</Typography>
 							</Container>
 						</Box>
@@ -160,7 +162,7 @@ const About: NextPage = () => {
 								gutterBottom
 								sx={{ fontWeight: 700, color: '#1a1a1a', mb: 3 }}
 							>
-								About Stays Booking
+								{t('About Stays Booking')}
 							</Typography>
 							<Typography
 								variant="body1"
@@ -172,11 +174,7 @@ const About: NextPage = () => {
 								margin: '0 auto',
 								}}
 							>
-								Stays Booking is more than just a booking platform—we're your companion in creating
-								unforgettable travel experiences. Founded with a passion for travel and a commitment to
-								innovation, we've built a platform that connects millions of travelers with exceptional
-								accommodations worldwide. Whether you're planning a weekend getaway, a business trip,
-								or the vacation of a lifetime, we're here to make your journey seamless and memorable.
+								{t("Stays Booking is more than just a booking platform—we're your companion in creating unforgettable travel experiences. Founded with a passion for travel and a commitment to innovation, we've built a platform that connects millions of travelers with exceptional accommodations worldwide. Whether you're planning a weekend getaway, a business trip, or the vacation of a lifetime, we're here to make your journey seamless and memorable.")}
 							</Typography>
 							</Box>
 
@@ -202,13 +200,10 @@ const About: NextPage = () => {
 									gutterBottom
 									sx={{ fontWeight: 600, color: '#1976d2', mb: 2 }}
 									>
-									Our Mission
+									{t('Our Mission')}
 									</Typography>
 									<Typography variant="body1" sx={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#555' }}>
-									To empower travelers around the globe with the tools, choices, and confidence to
-									discover and book their ideal accommodations. We strive to make travel accessible,
-									affordable, and enjoyable for everyone, while supporting local hosts and
-									communities.
+									{t('To empower travelers around the globe with the tools, choices, and confidence to discover and book their ideal accommodations. We strive to make travel accessible, affordable, and enjoyable for everyone, while supporting local hosts and communities.')}
 									</Typography>
 								</CardContent>
 								</Card>
@@ -233,13 +228,10 @@ const About: NextPage = () => {
 									gutterBottom
 									sx={{ fontWeight: 600, color: '#1976d2', mb: 2 }}
 									>
-									Our Vision
+									{t('Our Vision')}
 									</Typography>
 									<Typography variant="body1" sx={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#555' }}>
-									To become the world's most trusted and innovative travel accommodation platform,
-									where every traveler finds their perfect stay and every host reaches their ideal
-									guests. We envision a future where travel brings people together, fosters cultural
-									understanding, and creates lasting memories.
+									{t("To become the world's most trusted and innovative travel accommodation platform, where every traveler finds their perfect stay and every host reaches their ideal guests. We envision a future where travel brings people together, fosters cultural understanding, and creates lasting memories.")}
 									</Typography>
 								</CardContent>
 								</Card>
@@ -257,15 +249,14 @@ const About: NextPage = () => {
 								gutterBottom
 								sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}
 							>
-								What Makes Us Unique
+								{t('What Makes Us Unique')}
 							</Typography>
 							<Typography
 								variant="body1"
 								align="center"
 								sx={{ fontSize: '1.125rem', color: '#555', mb: 6, maxWidth: '700px', margin: '0 auto 48px' }}
 							>
-								We stand out by combining cutting-edge technology with personalized service to deliver
-								an exceptional booking experience.
+								{t('We stand out by combining cutting-edge technology with personalized service to deliver an exceptional booking experience.')}
 							</Typography>
 
 							<Grid container spacing={4}>
@@ -309,15 +300,14 @@ const About: NextPage = () => {
 							gutterBottom
 							sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}
 							>
-							Benefits for Our Customers
+							{t('Benefits for Our Customers')}
 							</Typography>
 							<Typography
 							variant="body1"
 							align="center"
 							sx={{ fontSize: '1.125rem', color: '#555', mb: 6, maxWidth: '700px', margin: '0 auto 48px' }}
 							>
-							We're committed to providing you with the best tools and support for a stress-free booking
-							experience.
+							{t("We're committed to providing you with the best tools and support for a stress-free booking experience.")}
 							</Typography>
 
 							<Grid container spacing={4}>
@@ -366,7 +356,7 @@ const About: NextPage = () => {
 								gutterBottom
 								sx={{ fontWeight: 700, mb: 6 }}
 							>
-								Our Core Values
+								{t('Our Core Values')}
 							</Typography>
 
 							<Grid container spacing={4}>
@@ -394,7 +384,7 @@ const About: NextPage = () => {
 								<Box
 								component="img"
 								src="https://images.unsplash.com/photo-1758873268663-5a362616b5a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZSUyMGRpdmVyc2V8ZW58MXx8fHwxNzcxNjgwOTI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-								alt="Customer support team"
+									alt={String(t('Customer support team'))}
 								sx={{
 									width: '100%',
 									height: 'auto',
@@ -410,33 +400,27 @@ const About: NextPage = () => {
 								gutterBottom
 								sx={{ fontWeight: 700, color: '#1a1a1a', mb: 3 }}
 								>
-								Our Commitment to You
+								{t('Our Commitment to You')}
 								</Typography>
 								<Typography
 								variant="body1"
 								paragraph
 								sx={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#555', mb: 2 }}
 								>
-								At Stays Booking, customer satisfaction isn't just a goal—it's our promise. We
-								understand that travel can be stressful, which is why we've designed every aspect of
-								our platform to be intuitive, reliable, and supportive.
+								{t("At Stays Booking, customer satisfaction isn't just a goal—it's our promise. We understand that travel can be stressful, which is why we've designed every aspect of our platform to be intuitive, reliable, and supportive.")}
 								</Typography>
 								<Typography
 								variant="body1"
 								paragraph
 								sx={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#555', mb: 2 }}
 								>
-								Our dedicated team works tirelessly to ensure that you have access to accurate
-								information, competitive pricing, and responsive support whenever you need it. We
-								listen to your feedback, continuously improve our services, and go the extra mile to
-								resolve any issues quickly and fairly.
+								{t('Our dedicated team works tirelessly to ensure that you have access to accurate information, competitive pricing, and responsive support whenever you need it. We listen to your feedback, continuously improve our services, and go the extra mile to resolve any issues quickly and fairly.')}
 								</Typography>
 								<Typography
 								variant="body1"
 								sx={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#555', mb: 3 }}
 								>
-								When you book with Stays Booking, you're not just a customer—you're part of our global
-								community of travelers and explorers. We're honored to be part of your journey.
+								{t("When you book with Stays Booking, you're not just a customer—you're part of our global community of travelers and explorers. We're honored to be part of your journey.")}
 								</Typography>
 								<Button
 								variant="contained"
@@ -454,7 +438,7 @@ const About: NextPage = () => {
 									}
 								}}
 								>
-								Start Your Journey
+								{t('Start Your Journey')}
 								</Button>
 							</Grid>
 							</Grid>
@@ -476,14 +460,13 @@ const About: NextPage = () => {
 								gutterBottom
 								sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}
 								>
-								Ready to Find Your Perfect Stay?
+								{t('Ready to Find Your Perfect Stay?')}
 								</Typography>
 								<Typography
 								variant="body1"
 								sx={{ fontSize: '1.125rem', color: '#555', mb: 4, lineHeight: 1.7 }}
 								>
-								Join millions of satisfied travelers who trust Stays Booking for their accommodation
-								needs. Your next adventure is just a few clicks away.
+								{t('Join millions of satisfied travelers who trust Stays Booking for their accommodation needs. Your next adventure is just a few clicks away.')}
 								</Typography>
 								<Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
 								<Button
@@ -504,7 +487,7 @@ const About: NextPage = () => {
 										}
 									}}
 								>
-									Explore Accommodations
+									{t('Explore Accommodations')}
 								</Button>
 								<Button
 									variant="outlined"
@@ -524,7 +507,7 @@ const About: NextPage = () => {
 									},
 									}}
 								>
-									Contact Support
+									{t('Contact Support')}
 								</Button>
 								</Box>
 							</Box>

@@ -8,6 +8,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useQuery } from '@apollo/client';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 interface MemberMenuProps {
 	subscribeHandler: any;
@@ -17,6 +18,7 @@ interface MemberMenuProps {
 const MemberMenu = (props: MemberMenuProps) => {
 	const { subscribeHandler, unsubscribeHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const category: any = router.query?.category;
 	const [member, setMember] = useState<Member | null>(null);
@@ -45,7 +47,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 	}, [getMemberData]);
 
 	if (device === 'mobile') {
-		return <div>MEMBER MENU MOBILE</div>;
+		return <div>{t('MEMBER MENU MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className='profile-box' width={'100%'} padding={'30px 24px'}>
@@ -74,9 +76,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 									sx={{ background: '#b9b9b9',borderRadius:'30px' }}
 									onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
 								>
-									Unfollow
+									{t('Unfollow')}
 								</Button>
-								<Typography>Following</Typography>
+								<Typography>{t('Following')}</Typography>
 							</>
 						) : (
 							<Button
@@ -84,7 +86,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 								sx={{ background: '#26d22b',borderRadius:'30px', ':hover': { background: '#26d22b',borderRadius:'30px' } }}
 								onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
 							>
-								Follow
+								{t('Follow')}
 							</Button>
 						)}
 					</Stack>
@@ -106,7 +108,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 											
 											<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Properties
+												{t('Properties')}
 											</Typography>
 											<Typography className="count-title" variant="subtitle1">
 												{member?.memberProperties}
@@ -157,7 +159,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 											</g>
 										</svg>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Followers
+											{t('Followers')}
 										</Typography>
 										<Typography className="count-title" variant="subtitle1">
 											{member?.memberFollowers}
@@ -207,7 +209,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 											</g>
 										</svg>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Followings
+											{t('Followings')}
 										</Typography>
 										<Typography className="count-title" variant="subtitle1">
 											{member?.memberFollowings}
@@ -227,7 +229,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 										<div className={'flex-box'}>
 											<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Articles
+												{t('Articles')}
 											</Typography>
 											<Typography className="count-title" variant="subtitle1">
 												{member?.memberArticles}

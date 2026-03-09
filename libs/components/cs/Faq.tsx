@@ -11,6 +11,7 @@ import { Notice } from '@/libs/types/notice/notice';
 import { NoticesInquiry } from '@/libs/types/notice/notice.input';
 import { Direction } from '@/libs/enums/common.enum';
 import { NoticeCategory, NoticeStatus } from '@/libs/enums/notice.enum';
+import { useTranslation } from 'next-i18next';
 
 type FaqItem = {
 	id: string;
@@ -44,6 +45,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 
 const Faq = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [category, setCategory] = useState<string>('property');
 	const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -279,32 +281,32 @@ const Faq = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>FAQ MOBILE</div>;
+		return <div>{t('FAQ MOBILE')}</div>;
 	}
 
 	return (
 		<Stack className={'faq-content'}>
 			<Box className={'categories'} component={'div'}>
 				<div className={category === 'property' ? 'active' : ''} onClick={() => changeCategoryHandler('property')}>
-					Property
+					{t('Property')}
 				</div>
 				<div className={category === 'payment' ? 'active' : ''} onClick={() => changeCategoryHandler('payment')}>
-					Payment
+					{t('Payment')}
 				</div>
 				<div className={category === 'buyers' ? 'active' : ''} onClick={() => changeCategoryHandler('buyers')}>
-					For Buyers
+					{t('For Buyers')}
 				</div>
 				<div className={category === 'agents' ? 'active' : ''} onClick={() => changeCategoryHandler('agents')}>
-					For Agents
+					{t('For Agents')}
 				</div>
 				<div className={category === 'membership' ? 'active' : ''} onClick={() => changeCategoryHandler('membership')}>
-					Membership
+					{t('Membership')}
 				</div>
 				<div className={category === 'community' ? 'active' : ''} onClick={() => changeCategoryHandler('community')}>
-					Community
+					{t('Community')}
 				</div>
 				<div className={category === 'other' ? 'active' : ''} onClick={() => changeCategoryHandler('other')}>
-					Other
+					{t('Other')}
 				</div>
 			</Box>
 			<Box className={'wrap'} component={'div'}>

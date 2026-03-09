@@ -22,6 +22,7 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { NotePencil } from 'phosphor-react';
+import { useTranslation } from 'next-i18next';
 
 type Order = 'asc' | 'desc';
 
@@ -105,6 +106,7 @@ interface EnhancedTableToolbarProps {
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
+	const { t } = useTranslation('common');
 	const [select, setSelect] = useState('');
 	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
 
@@ -125,11 +127,11 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 									}}
 								/>
 								<Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="h6" component="div">
-									{numSelected} selected
+									{numSelected} {t('selected')}
 								</Typography>
 							</Box>
 							<Button variant={'text'} size={'large'}>
-								Delete
+								{t('Delete')}
 							</Button>
 						</Box>
 					</Toolbar>
@@ -154,7 +156,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 								align={headCell.numeric ? 'left' : 'right'}
 								padding={headCell.disablePadding ? 'none' : 'normal'}
 							>
-								{headCell.label}
+								{t(headCell.label)}
 							</TableCell>
 						))}
 					</TableRow>
@@ -176,6 +178,7 @@ interface NoticeListType {
 }
 
 export const NoticeList = (props: NoticeListType) => {
+	const { t } = useTranslation('common');
 	const {
 		dense,
 		membersData,
@@ -206,9 +209,9 @@ export const NoticeList = (props: NoticeListType) => {
 									<TableCell padding="checkbox">
 										<Checkbox color="primary" />
 									</TableCell>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+									<TableCell align="left">{t('mb id')}</TableCell>
+									<TableCell align="left">{t('member.mb_full_name')}</TableCell>
+									<TableCell align="left">{t('member.mb_phone')}</TableCell>
 									<TableCell align="left" className={'name'}>
 										<Stack direction={'row'}>
 											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
@@ -217,19 +220,19 @@ export const NoticeList = (props: NoticeListType) => {
 												</div>
 											</Link>
 											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
+												<div>{t('member.mb_nick')}</div>
 											</Link>
 										</Stack>
 									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+									<TableCell align="left">{t('member.mb_phone')}</TableCell>
+									<TableCell align="left">{t('member.mb_phone')}</TableCell>
 									<TableCell align="right">
-										<Tooltip title={'delete'}>
+										<Tooltip title={t('delete')}>
 											<IconButton>
 												<DeleteRoundedIcon />
 											</IconButton>
 										</Tooltip>
-										<Tooltip title="edit">
+										<Tooltip title={t('edit')}>
 											<IconButton onClick={() => router.push(`/_admin/cs/notice_create?id=notice._id`)}>
 												<NotePencil size={24} weight="fill" />
 											</IconButton>

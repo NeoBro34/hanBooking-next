@@ -10,9 +10,11 @@ import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
@@ -91,7 +93,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			const jwtToken = result.data.updateMember?.accessToken;
 			await updateStorage({ jwtToken });
 			updateUserInfo(result.data.updateMember?.accessToken);
-			await sweetMixinSuccessAlert('information updated successfully.');
+			await sweetMixinSuccessAlert(t('information updated successfully.'));
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
@@ -111,19 +113,19 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	console.log('+updateData', updateData);
 
 	if (device === 'mobile') {
-		return <>MY PROFILE PAGE MOBILE</>;
+		return <>{t('MY PROFILE PAGE MOBILE')}</>;
 	} else
 		return (
 			<div id="my-profile-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Profile</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('My Profile')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="top-box">
 					<Stack className="photo-box">
-						<Typography className="title">Photo</Typography>
+						<Typography className="title">{t('Photo')}</Typography>
 						<Stack className="image-big-box">
 							<Stack className="image-box">
 								<img
@@ -144,44 +146,44 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									accept="image/jpg, image/jpeg, image/png"
 								/>
 								<label htmlFor="hidden-input" className="labeler">
-									<Typography>Upload Profile Image</Typography>
+									<Typography>{t('Upload Profile Image')}</Typography>
 								</label>
-								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
+								<Typography className="upload-text">{t('A photo must be in JPG, JPEG or PNG format!')}</Typography>
 							</Stack>
 						</Stack>
 					</Stack>
 					<Stack className="small-input-box">
 						<Stack className="input-box">
-							<Typography className="title">Username</Typography>
+							<Typography className="title">{t('Username')}</Typography>
 							<input
 								type="text"
-								placeholder="Your username"
+								placeholder={t('Your username')}
 								value={updateData.memberNick}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
 							/>
 						</Stack>
 						<Stack className="input-box">
-							<Typography className="title">Phone</Typography>
+							<Typography className="title">{t('Phone')}</Typography>
 							<input
 								type="text"
-								placeholder="Your Phone"
+								placeholder={t('Your Phone')}
 								value={updateData.memberPhone}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
 							/>
 						</Stack>
 					</Stack>
 					<Stack className="address-box">
-						<Typography className="title">Address</Typography>
+						<Typography className="title">{t('Address')}</Typography>
 						<input
 							type="text"
-							placeholder="Your address"
+							placeholder={t('Your address')}
 							value={updateData.memberAddress}
 							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
 						/>
 					</Stack>
 					<Stack className="about-me-box">
 						<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
-							<Typography>Update Profile</Typography>
+							<Typography>{t('Update Profile')}</Typography>
 							<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
 								<g clipPath="url(#clip0_7065_6985)">
 									<path

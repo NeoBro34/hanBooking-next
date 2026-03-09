@@ -1,12 +1,16 @@
 import { Container, Stack } from "@mui/material";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 export default function About() {
+    const { t } = useTranslation('common');
+
     return (
         <div className="mt-20px">
             <section className="flex flex-col md:flex-row items-center justify-center gap-10 mt-70 mb-50">
                 <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
                     <img className="max-w-md w-full object-cover rounded-2xl"
-                        src="img/banner/seoul.jpg"
+                        src="/img/banner/seoul.jpg"
                         alt="" />
                     <div className="flex items-center gap-1 max-w-72 absolute bottom-8 left-8 bg-white p-4 rounded-xl">
                         <div className="flex -space-x-4 shrink-0">
@@ -22,22 +26,22 @@ export default function About() {
                                 50+
                             </div>
                         </div>
-                        <p className="text-sm font-medium text-slate-800">Stay with us</p>
+                        <p className="text-sm font-medium text-slate-800">{t('Stay with us')}</p>
                     </div>
                 </div>
                 <div className="text-sm text-slate-600 max-w-lg">
-                    <h1 className="text-xl uppercase font-semibold text-slate-700">What we do?</h1>
+                    <h1 className="text-xl uppercase font-semibold text-slate-700">{t('What we do?')}</h1>
                     <div className="w-24 h-[3px] rounded-full bg-gradient-to-r from-indigo-600 to-[#DDD9FF]"></div>
-                    <p className="mt-8">Discover the best hotels, apartments, and resorts at the best prices.Compare options and book your perfect stay and quickly.</p>
-                    <p className="mt-4">Whether you're traveling for vacation, business, or family trip — we help you find comfort, convenience, and great value.</p>
-                    <p className="mt-4">Thousands of happy guests book with us every day.Your perfect stay is just one click away.</p>
+                    <p className="mt-8">{t('Discover the best hotels, apartments, and resorts at the best prices. Compare options and book your perfect stay quickly.')}</p>
+                    <p className="mt-4">{t("Whether you're traveling for vacation, business, or family trip, we help you find comfort, convenience, and great value.")}</p>
+                    <p className="mt-4">{t('Thousands of happy guests book with us every day. Your perfect stay is just one click away.')}</p>
                     <button
                         type="button"
                         className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-3 px-8 rounded-full text-white hover:translate-x-0.5 transition mt-10"
                     >
-                        <a href="#" className="group-hover:translate-x-1 transition-all">
-                            All Stays
-                        </a>
+                        <Link href="/stays" className="group-hover:translate-x-1 transition-all">
+                            {t('All Stays')}
+                        </Link>
                         <svg
                             className="group-hover:translate-x-3 transition-all"
                             width="15"

@@ -10,6 +10,7 @@ import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { PropertyStatus } from '../../enums/property.enum';
+import { useTranslation } from 'next-i18next';
 
 interface PropertyCardProps {
 	property: Property;
@@ -21,6 +22,7 @@ interface PropertyCardProps {
 export const PropertyCard = (props: PropertyCardProps) => {
 	const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -52,7 +54,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MOBILE PROPERTY CARD</div>;
+		return <div>{t('MOBILE PROPERTY CARD')}</div>;
 	} else
 		return (
 			<Stack className="property-card-box">
@@ -108,7 +110,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 										updatePropertyHandler(PropertyStatus.PAUSED, property?._id);
 									}}
 								>
-									PAUSE
+									{t('PAUSE')}
 								</MenuItem>
 							</>
 						)}
@@ -121,7 +123,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 										updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
 									}}
 								>
-									ACTIVE
+									{t('ACTIVE')}
 								</MenuItem>
 							</>
 						)}

@@ -4,10 +4,13 @@ import { Box, Container, Stack } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
     const [popularDestination, setPopularDestination] = useState<number[]>(initialInput);
     const router = useRouter();
+    const { t } = useTranslation('common');
 
     const handleDestinationClick = (location: string) => {
         const input = {
@@ -30,71 +33,71 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
     const cardData = [
         {
             title: "Seoul",
-            image: "img/destinations/seoul.png",
+            image: "/img/destinations/seoul.png",
         },
         {
             title: "Busan",
-            image: "img/destinations/busan.png",
+            image: "/img/destinations/busan.png",
         },
         {
             title: "Incheon",
-            image: "img/destinations/incheon.png",
+            image: "/img/destinations/incheon.png",
         },
         {
             title: "Daegu",
-            image: "img/destinations/daegu.png",
+            image: "/img/destinations/daegu.png",
         },
         {
             title: "Daejeon",
-            image: "img/destinations/daejeon.png",
+            image: "/img/destinations/daejeon.png",
         },
         {
             title: "Gwangju",
-            image: "img/destinations/gwangju.png",
+            image: "/img/destinations/gwangju.png",
         },
         {
             title: "Ulsan",
-            image: "img/destinations/ulsan.png",
+            image: "/img/destinations/ulsan.png",
         },
         {
             title: "Sejong",
-            image: "img/destinations/sejong.png",
+            image: "/img/destinations/sejong.png",
         },
         {
             title: "Gyeonggi",
-            image: "img/destinations/gyeonggi-do.png",
+            image: "/img/destinations/gyeonggi-do.png",
         },
         {
             title: "Gangwon",
-            image: "img/destinations/Gangwon-do.png",
+            image: "/img/destinations/Gangwon-do.png",
         },
         {
             title: "Chungcheongbuk",
-            image: "img/destinations/Chungcheongbuk-do.png",
+            image: "/img/destinations/Chungcheongbuk-do.png",
         },
         {
             title: "Chungcheongnam",
-            image: "img/destinations/Chungcheongnam-do.png",
+            image: "/img/destinations/Chungcheongnam-do.png",
         },
         {
             title: "Jeollabuk",
-            image: "img/destinations/Jeollabuk-do.png",
+            image: "/img/destinations/Jeollabuk-do.png",
         },
         {
             title: "Jeollanam",
-            image: "img/destinations/Jeollanam-do.png",
+            image: "/img/destinations/Jeollanam-do.png",
         },
         {
             title: "Gyeongsangbuk",
-            image: "img/destinations/Gyeongsangbuk-do.png",
+            image: "/img/destinations/Gyeongsangbuk-do.png",
         },
         {
             title: "Gyeongsangnam",
-            image: "img/destinations/Gyeongsangnam-do.png",
+            image: "/img/destinations/Gyeongsangnam-do.png",
         },
         {
             title: "Jeju",
-            image: "img/destinations/jeju.png",
+            image: "/img/destinations/jeju.png",
         },
     ];
 
@@ -113,12 +116,12 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                 <p
                 className="title text-3xl font-semibold"
                 >
-                    Popular Destination
+                    {t('Popular Destination')}
                 </p>
                 <p
                     className="title-desc text-sm text-slate-500  mt-2"
                 >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    {t('Discover top destinations and explore the best stays for your next trip.')}
                 </p>
             </Box>
             <Box>
@@ -127,9 +130,9 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                         type="button"
                         className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95"
                     >
-                        <a href="/stays" className="group-hover:translate-x-1 transition-all">
-                            See All Destination
-                        </a>
+                        <Link href="/stays" className="group-hover:translate-x-1 transition-all">
+                            {t('See All Destination')}
+                        </Link>
                         <svg
                             className="group-hover:translate-x-3 transition-all"
                             width="15"
@@ -161,13 +164,13 @@ const PopularDestination: NextPage = ({ initialInput, ...props }: any) => {
                                     className="w-56 mx-4 h-[18rem] relative group hover:scale-90 transition-all duration-300">
                                     <img src={card.image} alt="card" className="w-full h-full object-cover rounded-full" />
                                     <div className="flex items-end justify-center px-4 opacity-0 group-hover:opacity-100 transition-all duration-300 absolute bottom-0 backdrop-blur-md left-0 w-full h-full bg-black/20 rounded-full">
-                                        <a href='#' className="flex justify-center  text-white text-lg mb-10 cursor-pointer gap-2">
-                                            View All
+                                        <span className="flex justify-center text-white text-lg mb-10 cursor-pointer gap-2">
+                                            {t('View All')}
                                             <NorthEastIcon/>
-                                        </a>
+                                        </span>
                                     </div>
                                 </div>
-                                <p className="text-gray-600 text-lg font-semibold text-center"><LocationOnIcon />{card.title}</p>
+                                <p className="text-gray-600 text-lg font-semibold text-center"><LocationOnIcon />{t(card.title)}</p>
                             </div>
                         ))}
                     </div>

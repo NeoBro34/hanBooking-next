@@ -14,6 +14,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PeopleIcon from '@mui/icons-material/People';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Booking } from '@/libs/types/booking/booking';
+import { useTranslation } from 'next-i18next';
 
 interface MyBookingCardProps {
     myBooking: Booking;
@@ -26,6 +27,7 @@ interface MyBookingCardProps {
 export const MyBookingCard = (props: MyBookingCardProps) => {
     const { myBooking, memberPage, confirmBookingHandler, completeBookingHandler, cancelBookingHandler } = props;
     const device = useDeviceDetect();
+    const { t } = useTranslation('common');
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -59,7 +61,7 @@ export const MyBookingCard = (props: MyBookingCardProps) => {
     };
 
     if (device === 'mobile') {
-        return <div>MOBILE PROPERTY CARD</div>;
+        return <div>{t('MOBILE PROPERTY CARD')}</div>;
     } else
         return (
             <Stack className="my-booking-card-box">
@@ -77,12 +79,12 @@ export const MyBookingCard = (props: MyBookingCardProps) => {
                                 {property.propertyTitle}
                             </h1>
                             <h4><LocationOnIcon sx={{mr:"1px"}}/>{property.propertyLocation}</h4>
-                            <span><PeopleIcon sx={{mr:"6px"}}/>Guests: <strong>{myBooking.guests}</strong></span>
-                            <strong>Total: <span>${myBooking.totalPrice}</span></strong>
+                            <span><PeopleIcon sx={{mr:"6px"}}/>{t('Guests')}: <strong>{myBooking.guests}</strong></span>
+                            <strong>{t('Total')}: <span>${myBooking.totalPrice}</span></strong>
                         </Stack>
                         <Stack className='check-box'>
                             <Box className='checking'>
-                                <strong>Check-In:</strong>
+                                <strong>{t('Check-In')}:</strong>
                                 <span>{new Date(myBooking.checkInDate).toLocaleDateString("en-US", 
                                     {
                                         year: "numeric",
@@ -92,7 +94,7 @@ export const MyBookingCard = (props: MyBookingCardProps) => {
                                 </span>
                             </Box>
                                 <Box className='checking'>
-                                <strong>Check-Out:</strong>
+                                <strong>{t('Check-Out')}:</strong>
                                 <span>{new Date(myBooking.checkOutDate).toLocaleDateString("en-US", 
                                     {
                                         year: "numeric",
@@ -122,7 +124,7 @@ export const MyBookingCard = (props: MyBookingCardProps) => {
                                         className='cancle-button'
                                         onClick={() => cancelBookingHandler?.(myBooking._id)}
                                     >
-                                        <p>Cancel</p>
+                                        <p>{t('Cancel')}</p>
                                     </Button>
                                 )}
 
@@ -132,7 +134,7 @@ export const MyBookingCard = (props: MyBookingCardProps) => {
                                         className='pay-button'
                                         onClick={() => confirmBookingHandler?.(myBooking._id)}
                                     >
-                                        <p>Pay Now</p>
+                                        <p>{t('Pay Now')}</p>
                                     </Button>
                                 )}
 

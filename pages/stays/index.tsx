@@ -16,6 +16,7 @@ import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { GET_PROPERTIES } from '@/apollo/user/query';
 import { T } from '@/libs/types/common';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -25,6 +26,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
@@ -100,7 +102,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			// execute getPropertiesRefetch
 			await getPropertiesRefetch({ input: initialInput });
 
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert(t('success'), 800);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -121,28 +123,28 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		switch (e.currentTarget.id) {
 			case 'new':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
-				setFilterSortName('New');
+				setFilterSortName(t('New'));
 				break;
 			case 'lowest':
 				setSearchFilter({ ...searchFilter, sort: 'propertyPricePerNight', direction: Direction.ASC });
-				setFilterSortName('Lowest Price');
+				setFilterSortName(t('Lowest Price'));
 				break;
 			case 'highest':
 				setSearchFilter({ ...searchFilter, sort: 'propertyPricePerNight', direction: Direction.DESC });
-				setFilterSortName('Highest Price');
+				setFilterSortName(t('Highest Price'));
 		}
 		setSortingOpen(false);
 		setAnchorEl(null);
 	};
 
 	if (device === 'mobile') {
-		return <div>Stays MOBILE</div>;
+		return <div>{t('Stays MOBILE')}</div>;
 	} else {
 		return (
 			<div id='property-list-page'>
 				<div className='container'>
 					<Box component={'div'} className={'right'}>
-						<span>Sort by</span>
+						<span>{t('Sort by')}</span>
 						<div>
 							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
 								{filterSortName}
@@ -154,7 +156,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									disableRipple
 									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
 								>
-									New
+									{t('New')}
 								</MenuItem>
 								<MenuItem
 									onClick={sortingHandler}
@@ -162,7 +164,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									disableRipple
 									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
 								>
-									Lowest Price
+									{t('Lowest Price')}
 								</MenuItem>
 								<MenuItem
 									onClick={sortingHandler}
@@ -170,7 +172,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									disableRipple
 									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
 								>
-									Highest Price
+									{t('Highest Price')}
 								</MenuItem>
 							</Menu>
 						</div>
@@ -185,7 +187,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties?.length === 0 ? (
 									<div style={{ display:"flex",flexDirection:"column",alignItems:"center"}}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Properties found!</p>
+										<p>{t('No Properties found!')}</p>
 									</div>
 								) : (
 									properties.map(( property: Property ) => {
@@ -204,7 +206,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties.length !== 0 && (
 									<Stack className="total-result">
 										<Typography sx={{color:"#0f427d"}}>
-											Total <strong style={{color:"gray"}}>{total}</strong> propert{total > 1 ? 'ies' : 'y'} available
+											{t('Total')} <strong style={{color:"gray"}}>{total}</strong> {t(total > 1 ? 'properties available' : 'property available')}
 										</Typography>
 									</Stack>
 								)}

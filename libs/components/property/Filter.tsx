@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { beds, rooms } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useTranslation } from 'next-i18next';
 
 const MenuProps = {
 	PaperProps: {
@@ -37,6 +38,7 @@ interface FilterType {
 const Filter = (props: FilterType) => {
 	const { searchFilter, setSearchFilter, initialInput } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
@@ -338,18 +340,18 @@ const Filter = (props: FilterType) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PROPERTIES FILTER</div>;
+		return <div>{t('PROPERTIES FILTER')}</div>;
 	} else {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'40px'}>
-					<Typography className={'title-main'}>Find Your Home</Typography>
+					<Typography className={'title-main'}>{t('Find Your Home')}</Typography>
 					<Stack className={'input-box'}>
 						<OutlinedInput
 							value={searchText}
 							type={'text'}
 							className={'search-input'}
-							placeholder={'What are you looking for?'}
+							placeholder={t('What are you looking for?')}
 							onChange={(e: any) => setSearchText(e.target.value)}
 							onKeyDown={(event: any) => {
 								if (event.key == 'Enter') {
@@ -374,7 +376,7 @@ const Filter = (props: FilterType) => {
 							}
 						/>
 						<img src={'/img/icons/search_icon.png'} alt={''} />
-						<Tooltip title="Reset">
+						<Tooltip title={t('Reset')}>
 							<IconButton onClick={refreshHandler}>
 								<RefreshIcon />
 							</IconButton>
@@ -383,7 +385,7 @@ const Filter = (props: FilterType) => {
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
-						Location
+						{t('Location')}
 					</p>
 					<Stack
 						className={`property-location`}
@@ -416,7 +418,7 @@ const Filter = (props: FilterType) => {
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Property Type</Typography>
+					<Typography className={'title'}>{t('Property Type')}</Typography>
 					<Stack 
 						style={{ display: "flex", flexDirection: "row" }}
 					>
@@ -439,15 +441,15 @@ const Filter = (props: FilterType) => {
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Rooms</Typography>
+					<Typography className={'title'}>{t('Rooms')}</Typography>
 					<Stack className="button-group">
 						<FormControl>
-							<InputLabel id="demo-simple-select-label">Min</InputLabel>
+							<InputLabel id="demo-simple-select-label">{t('Min')}</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
 								value={searchFilter?.search?.roomsList?.[0] || ''}
-								label="Rooms"
+								label={t('Rooms')}
 								onChange={(e: any) => propertyRoomSelectHandler(Number(e.target.value))}
 								MenuProps={MenuProps}
 							>
@@ -464,16 +466,16 @@ const Filter = (props: FilterType) => {
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Beds</Typography>
+					<Typography className={'title'}>{t('Beds')}</Typography>
 					<Stack className="button-group">
 						<Stack className="button-group">
 							<FormControl>
-								<InputLabel id="demo-simple-select-label">Min</InputLabel>
+								<InputLabel id="demo-simple-select-label">{t('Min')}</InputLabel>
 								<Select
 									labelId="demo-simple-select-label"
 									id="demo-simple-select"
 									value={searchFilter?.search?.bedsList?.[0] || ''}
-									label="Min"
+									label={t('Min')}
 									onChange={(e: any) => propertyBedSelectHandler(Number(e.target.value))}
 									MenuProps={MenuProps}
 								>
@@ -491,7 +493,7 @@ const Filter = (props: FilterType) => {
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'}>
-					<Typography className={'title'}>Price Range</Typography>
+					<Typography className={'title'}>{t('Price Range')}</Typography>
 					<Stack className="square-year-input">
 						<input
 							type="number"

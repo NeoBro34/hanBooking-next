@@ -10,9 +10,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CommunityCard from "./CommunityCard";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 const CommunityBoard = () => {
 	const device = useDeviceDetect();
+    const { t } = useTranslation('common');
 	const [searchCommunity, setSearchCommunity] = useState({
         page: 1,
         sort: 'createdAt',
@@ -50,7 +53,7 @@ const CommunityBoard = () => {
     }, [getFreeArticlesData]);
     
     if (device === 'mobile') {
-		return <div>BlogList PAGE MOBILE</div>;
+		return <div>{t('BlogList PAGE MOBILE')}</div>;
 	} else {
         return (
         <>
@@ -67,12 +70,12 @@ const CommunityBoard = () => {
                     <p
                     className="title text-3xl font-semibold"
                     >
-                        Our CommunityBlog
+                        {t('Our CommunityBlog')}
                     </p>
                     <p
                         className="title-desc text-sm text-slate-500  mt-2"
                     >
-                        Handpicked luxury accommodations for unforgettable experiences
+                        {t('Handpicked luxury accommodations for unforgettable experiences')}
                     </p>
                 </Box>
                 <Box>
@@ -81,9 +84,9 @@ const CommunityBoard = () => {
                             type="button"
                             className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium text-gray-500  transition active:scale-95"
                         >
-                            <a href="/blog" className="group-hover:translate-x-1 transition-all">
-                                Our Blog
-                            </a>
+                            <Link href="/blog" className="group-hover:translate-x-1 transition-all">
+                                {t('Our Blog')}
+                            </Link>
                             <svg
                                 className="group-hover:translate-x-3 transition-all"
                                 width="15"

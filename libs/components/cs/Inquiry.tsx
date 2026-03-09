@@ -12,9 +12,11 @@ import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAle
 import { Direction } from '@/libs/enums/common.enum';
 import { userVar } from '@/apollo/store';
 import { NoticeCategory } from '@/libs/enums/notice.enum';
+import { useTranslation } from 'next-i18next';
 
 const Inquiry = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [selectedInquiryId, setSelectedInquiryId] = useState<string>('');
 	const [newMessage, setNewMessage] = useState('');
@@ -53,23 +55,23 @@ const Inquiry = () => {
 	const createInquiryHandler = async () => {
 		try {
 			if (!form.noticeTitle.trim() || !form.noticeContent.trim()) {
-				throw new Error('Please provide title and content');
+				throw new Error(t('Please provide title and content'));
 			}
 			const result = await createInquiry({ variables: { input: form } });
 			setForm({ noticeTitle: '', noticeContent: '' });
 			await refetch({ input: inquiryInput });
 			const createdId = result?.data?.createInquiry?._id;
 			if (createdId) setSelectedInquiryId(createdId);
-			await sweetTopSmallSuccessAlert('Inquiry sent', 900);
+			await sweetTopSmallSuccessAlert(t('Inquiry sent'), 900);
 		} catch (err: any) {
-			sweetMixinErrorAlert(err?.message ?? 'Error').then();
+			sweetMixinErrorAlert(err?.message ?? t('Error')).then();
 		}
 	};
 
 	const sendMessageHandler = async () => {
 		try {
-			if (!selectedInquiryId) throw new Error('Please choose inquiry');
-			if (!newMessage.trim()) throw new Error('Please type message');
+			if (!selectedInquiryId) throw new Error(t('Please choose inquiry'));
+			if (!newMessage.trim()) throw new Error(t('Please type message'));
 
 			await sendInquiryMessage({
 				variables: {
@@ -83,7 +85,7 @@ const Inquiry = () => {
 			await messageRefetch({ inquiryId: selectedInquiryId });
 			await refetch({ input: inquiryInput });
 		} catch (err: any) {
-			sweetMixinErrorAlert(err?.message ?? 'Error').then();
+			sweetMixinErrorAlert(err?.message ?? t('Error')).then();
 		}
 	};
 
@@ -98,35 +100,35 @@ const Inquiry = () => {
 	}, [inquiryList, selectedInquiryId]);
 
 	if (device === 'mobile') {
-		return <div>Inquiry MOBILE</div>;
+		return <div>{t('Inquiry MOBILE')}</div>;
 	}
 
 	return (
 		<Stack gap={2}>
-			<Typography variant={'h5'}>1:1 Inquiry Chat</Typography>
+			<Typography variant={'h5'}>{t('1:1 Inquiry Chat')}</Typography>
 
 			<Stack gap={1} sx={{ border: '1px solid #ececec', borderRadius: '10px', p: '12px', background: '#fff' }}>
-				<Typography variant={'subtitle1'}>Create New Inquiry</Typography>
+				<Typography variant={'subtitle1'}>{t('Create New Inquiry')}</Typography>
 				<TextField
-					label="Title"
+					label={t('Title')}
 					value={form.noticeTitle}
 					onChange={(e) => setForm({ ...form, noticeTitle: e.target.value })}
 				/>
 				<TextField
-					label="Content"
+					label={t('Content')}
 					value={form.noticeContent}
 					multiline
 					minRows={3}
 					onChange={(e) => setForm({ ...form, noticeContent: e.target.value })}
 				/>
 				<Box>
-					<Button variant={'contained'} onClick={createInquiryHandler}>Send Inquiry</Button>
+					<Button variant={'contained'} onClick={createInquiryHandler}>{t('Send Inquiry')}</Button>
 				</Box>
 			</Stack>
 
 			<Stack direction={'row'} gap={2}>
 				<Stack sx={{ width: '34%', border: '1px solid #ececec', borderRadius: '10px', background: '#fff' }}>
-					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>My Inquiry Rooms</Box>
+					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>{t('My Inquiry Rooms')}</Box>
 					<Divider />
 					<Stack>
 						{inquiryList.map((ele: Notice) => (
@@ -150,12 +152,12 @@ const Inquiry = () => {
 				</Stack>
 
 				<Stack sx={{ width: '66%', border: '1px solid #ececec', borderRadius: '10px', background: '#fff' }}>
-					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>Chat</Box>
+					<Box sx={{ p: '10px 12px', fontWeight: 600 }}>{t('Chat')}</Box>
 					<Divider />
 					<Stack sx={{ p: '12px', minHeight: 320, maxHeight: 380, overflowY: 'auto' }} gap={1}>
 						{selectedInquiry && (
 							<Box sx={{ mb: 1, p: '10px', borderRadius: '8px', background: '#fafafa', border: '1px solid #eee' }}>
-								<div style={{ fontSize: 12, color: '#757575' }}>My inquiry question</div>
+									<div style={{ fontSize: 12, color: '#757575' }}>{t('My inquiry question')}</div>
 								<div style={{ fontWeight: 600, marginTop: 4 }}>{selectedInquiry.noticeTitle}</div>
 								<div style={{ fontSize: 13, marginTop: 4, whiteSpace: 'pre-wrap' }}>{selectedInquiry.noticeContent}</div>
 							</Box>
@@ -174,7 +176,7 @@ const Inquiry = () => {
 													background: isMine ? '#ffe6b3' : '#f6f6f6',
 												}}
 											>
-												<div style={{ fontSize: 13, marginBottom: 4 }}>{msg.senderData?.memberNick ?? 'Unknown'}</div>
+													<div style={{ fontSize: 13, marginBottom: 4 }}>{msg.senderData?.memberNick ?? t('Unknown')}</div>
 												<div>{msg.message}</div>
 												<div style={{ fontSize: 11, color: '#9e9e9e', marginTop: 3 }}>
 													{new Date(msg.createdAt).toLocaleString()}
@@ -184,10 +186,10 @@ const Inquiry = () => {
 									);
 								})
 							) : (
-								<Typography color={'text.secondary'}>No messages yet</Typography>
+								<Typography color={'text.secondary'}>{t('No messages yet')}</Typography>
 							)
 						) : (
-							<Typography color={'text.secondary'}>Choose inquiry room</Typography>
+							<Typography color={'text.secondary'}>{t('Choose inquiry room')}</Typography>
 						)}
 					</Stack>
 					<Divider />
@@ -195,14 +197,14 @@ const Inquiry = () => {
 						<TextField
 							fullWidth
 							size={'small'}
-							placeholder={'Type a message'}
+							placeholder={t('Type a message')}
 							value={newMessage}
 							onChange={(e) => setNewMessage(e.target.value)}
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') sendMessageHandler();
 							}}
 						/>
-						<Button variant={'contained'} onClick={sendMessageHandler}>Send</Button>
+						<Button variant={'contained'} onClick={sendMessageHandler}>{t('Send')}</Button>
 					</Stack>
 				</Stack>
 			</Stack>

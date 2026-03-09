@@ -6,6 +6,7 @@ import { AgentsInquiry } from "@/libs/types/member/member.input";
 import { useQuery } from "@apollo/client";
 import { Box, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -14,6 +15,7 @@ interface TopAgentsProps {
 const TopUsers = (props: TopAgentsProps) => {
     const { initialInput } = props;
 	const device = useDeviceDetect();
+    const { t } = useTranslation('common');
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -38,9 +40,9 @@ const TopUsers = (props: TopAgentsProps) => {
     }, [getAgentsData]);
     
 	/** HANDLERS **/
-    if (device === 'mobile') {
+	if (device === 'mobile') {
 		return (
-			<div>Mobile</div>
+			<div>{t('Mobile')}</div>
 		);
 	} else {
         return (
@@ -97,11 +99,11 @@ const TopUsers = (props: TopAgentsProps) => {
                             <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping duration-300"></span>
                             <span className="relative inline-flex size-2 rounded-full bg-green-600"></span>
                         </span>
-                        <span className="text-gray-500">Trusted by</span> 
+                        <span className="text-gray-500">{t('Trusted by')}</span> 
                         <span className="font-medium text-yellow-800">
                             100,000+
                         </span> 
-                        <span className="text-gray-500">users</span> 
+                        <span className="text-gray-500">{t('users')}</span> 
                     </p>
                 </div>
             </div>

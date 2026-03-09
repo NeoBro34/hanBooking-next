@@ -4,6 +4,7 @@ import { Stack, Box, Typography } from '@mui/material';
 import { Comment } from '../../types/comment/comment';
 import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
+import { useTranslation } from 'next-i18next';
 
 interface ReviewCardProps {
 	fromMyPage?: string;
@@ -12,12 +13,13 @@ interface ReviewCardProps {
 const ReviewCard = (props: ReviewCardProps) => {
 	const { fromMyPage, comment } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const imagePath: string = comment?.memberData?.memberImage
 		? `${REACT_APP_API_URL}/${comment?.memberData?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
-		return <div>REVIEW CARD</div>;
+		return <div>{t('REVIEW CARD')}</div>;
 	} else {
 		return (
 			<Box component={'div'} className={'review-card'}>
@@ -48,7 +50,7 @@ const ReviewCard = (props: ReviewCardProps) => {
 								</clipPath>
 							</defs>
 						</svg>
-						<Typography className="reply-text">Reply</Typography>
+						<Typography className="reply-text">{t('Reply')}</Typography>
 					</Stack>
 				)}
 			</Box>

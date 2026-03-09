@@ -24,6 +24,7 @@ import { REACT_APP_API_URL, topPropertyRank } from '@/libs/config';
 import Link from 'next/link';
 import { PropertyAmenity } from '@/libs/enums/property.enum';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 interface SmallStayBookingCard {
 	property: Property;
@@ -36,6 +37,7 @@ interface SmallStayBookingCard {
 const SmallStayBookingCard = (props: SmallStayBookingCard) => {
     const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
     const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = property?.propertyImages[0]
@@ -49,7 +51,7 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
 
     if (device === 'mobile') {
 		return (
-            <div>PROPERTY CARD</div>
+            <div>{t('PROPERTY CARD')}</div>
         );
 	} else {
         return (
@@ -60,13 +62,13 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                             {property.createdAt && Date.now() - new Date(property.createdAt).getTime() <= 10 * 24 * 60 * 60 * 1000 ? (
                                 <Box className='top-icon'>
                                     <Box><AutoAwesomeIcon/></Box>
-                                    <Typography sx={{ml:"15px", mt:"3px",fontWeight:"bold"}}>New</Typography>
+                                    <Typography sx={{ml:"15px", mt:"3px",fontWeight:"bold"}}>{t('New')}</Typography>
                                 </Box>
                             ) : (
                             property && property?.propertyRank > topPropertyRank && (
                                 <Box className='top-icon-top'>
                                     <Box><BoltIcon/></Box>
-                                    <Typography sx={{ml:"7px", mt:"3px",fontWeight:"bold"}}>Top</Typography>
+                                    <Typography sx={{ml:"7px", mt:"3px",fontWeight:"bold"}}>{t('Top')}</Typography>
                                 </Box>
                             ))}
                             <CardMedia
@@ -102,47 +104,47 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                             size="small"
                                         />
                                         <span className="text-sm text-gray-600">
-                                            ({property.propertyComments} reviews)
+                                            ({property.propertyComments} {t('reviews')})
                                         </span>
                                     </div>
                                     <div className="text-gray-700 text-sm leading-relaxed line-clamp-2">
                                         <Stack className="amenities">
                                             <Box className="amenity">
                                                 <MeetingRoomIcon className='amenityIcon' />
-                                                <span>{property.propertyRooms} Room</span>
+                                                <span>{property.propertyRooms} {t('Room')}</span>
                                             </Box>
                                             <Box className="amenity">
                                                 <BedIcon className='amenityIcon'/>
-                                                <span>{property.propertyBeds} Beds</span>
+                                                <span>{property.propertyBeds} {t('Beds')}</span>
                                             </Box>
                                             {property.amenities.includes(PropertyAmenity.WIFI) && (
                                                 <Box className="amenity">
                                                     <WifiIcon className='amenityIcon'/>
-                                                    <span>Wifi</span>
+                                                    <span>{t('Wifi')}</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.POOL) && (
                                                 <Box className="amenity">
                                                     <PoolIcon className='amenityIcon'/>
-                                                    <span> Pool</span>
+                                                    <span>{t('Pool')}</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.GYM) && (
                                                 <Box className="amenity">
                                                     <FitnessCenterIcon className='amenityIcon'/>
-                                                    <span> Gym</span>
+                                                    <span>{t('Gym')}</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.AC) && (
                                                 <Box className="amenity">
                                                     <AirIcon className='amenityIcon'/>
-                                                    <span> Air</span>
+                                                    <span>{t('Air')}</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.PARKING) && (
                                                 <Box className="amenity">
                                                     <LocalParkingIcon  className='amenityIcon'/>
-                                                    <span>Parking</span>
+                                                    <span>{t('Parking')}</span>
                                                 </Box>
                                             )}
                                         </Stack>
@@ -188,7 +190,7 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                         $ {property.propertyPricePerNight}
                                     </Typography>
                                     <Typography variant="body2" className="priceLabel">
-                                        /night
+                                        {t('/night')}
                                     </Typography>
                                 </Box>
                                 <Link
@@ -202,7 +204,7 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
                                         className="group flex items-center gap-2 px-3 py-1.5 cursor-pointer font-medium   text-gray-400  transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] py-1 px-3 rounded-full text-white hover:translate-x-0.5 transition"
                                     >
                                         <p className="group-hover:translate-x-0.5 transition-all">
-                                            Book Now
+                                            {t('Book Now')}
                                         </p>
                                         <svg
                                             className="group-hover:translate-x-1 transition-all"

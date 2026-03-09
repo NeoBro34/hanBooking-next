@@ -19,6 +19,7 @@ import { BoardArticleCategory } from '@/libs/enums/board-article.enum';
 import { Messages } from '@/libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import BlogCard from '@/libs/components/common/BlogCard';
+import { useTranslation } from 'next-i18next';
 
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -29,6 +30,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const { query } = router;
 	const articleCategory = query?.articleCategory as string;
@@ -103,7 +105,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 			await likeTargetBoardArticle({ variables: { input: id } });
 
 			await getBoardArticlesRefetch({ input: searchCommunity });
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert(t('success'), 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -111,7 +113,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>BlogList PAGE MOBILE</div>;
+		return <div>{t('BlogList PAGE MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className='blog-list-box'>
@@ -124,7 +126,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 										<TextField
 											style={{width: "100%"}}
 											variant="standard"
-											placeholder='search article'
+											placeholder={t('search article')}
 											InputProps={{
 												disableUnderline: true,
 											}}
@@ -145,22 +147,22 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 									>
 										<Tab
 											value={'FREE'}
-											label={'Free Board'}
+											label={t('Free Board')}
 											className={`category-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
 										/>
 										<Tab
 											value={'RECOMMEND'}
-											label={'Recommendation'}
+											label={t('Recommendation')}
 											className={`category-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
 										/>
 										<Tab
 											value={'NEWS'}
-											label={'News'}
+											label={t('News')}
 											className={`category-button ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
 										/>
 										<Tab
 											value={'HUMOR'}
-											label={'Humor'}
+											label={t('Humor')}
 											className={`category-button ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
 										/>
 									</TabList>
@@ -179,7 +181,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 										})
 									}
 								>
-									<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/> Write
+									<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/> {t('Write')}
 								</Button>
 							</Box>
 						</Stack>
@@ -199,7 +201,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No Article found!</p>
+											<p>{t('No Article found!')}</p>
 										</Stack>
 									)}
 								</Stack>
@@ -219,7 +221,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No Article found!</p>
+											<p>{t('No Article found!')}</p>
 										</Stack>
 									)}
 								</Stack>
@@ -239,7 +241,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No Article found!</p>
+											<p>{t('No Article found!')}</p>
 										</Stack>
 									)}
 								</Stack>
@@ -259,7 +261,7 @@ const BlogList: NextPage = ({ initialInput, ...props }: T) => {
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No Article found!</p>
+											<p>{t('No Article found!')}</p>
 										</Stack>
 									)}
 								</Stack>

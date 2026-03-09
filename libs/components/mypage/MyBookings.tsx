@@ -15,9 +15,11 @@ import { OrderStatus } from '@/libs/enums/booking.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '@/libs/sweetAlert';
 import { CANCEL_BOOKING, COMPLETE_BOOKING, CONFIRM_BOOKING } from '@/apollo/user/mutation';
 import { MyBookingCard } from './MyBookingCard';
+import { useTranslation } from 'next-i18next';
 
 const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
     const device = useDeviceDetect();
+    const { t } = useTranslation('common');
     const user = useReactiveVar(userVar);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [searchFilter, setSearchFilter] = useState<BookingsInquiry>(initialInput);
@@ -77,7 +79,7 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
     const confirmBookingHandler = async (id: string) => {
         console.log("booking id:", id);
         try {
-            if (await sweetConfirmAlert("Are you sure to CONFIRM this booking?")) {
+            if (await sweetConfirmAlert(t('Are you sure to CONFIRM this booking?'))) {
                 await confirmBooking({
                     variables: {
                         bookingId: id
@@ -93,7 +95,7 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
 
     const completeBookingHandler = async (id: string) => {
         try {
-            if (await sweetConfirmAlert("Are you sure to COMPLETE this booking?")) {
+            if (await sweetConfirmAlert(t('Are you sure to COMPLETE this booking?'))) {
                 await completeBooking({
                     variables: {
                         bookingId: id,
@@ -109,7 +111,7 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
 
     const cancelBookingHandler = async (id: string) => {
         try {
-            if (await sweetConfirmAlert("Are you sure to CANCEL this booking?")) {
+            if (await sweetConfirmAlert(t('Are you sure to CANCEL this booking?'))) {
                 await cancelBooking({
                     variables: {
                         bookingId: id,
@@ -126,14 +128,14 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
     
 
     if (device === 'mobile') {
-        return <>ARTICLE PAGE MOBILE</>;
+        return <>{t('ARTICLE PAGE MOBILE')}</>;
     } else
         return (
             <div id="my-bookings-page">
                 <Stack className="main-title-box">
                     <Stack className="right-box">
-                        <Typography className="main-title">My Bookings</Typography>
-                        <Typography className="sub-title">We are glad to see you again!</Typography>
+                        <Typography className="main-title">{t('My Bookings')}</Typography>
+                        <Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
                     </Stack>
                 </Stack>
                 <Stack className="property-list-box">
@@ -142,40 +144,40 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
                             onClick={() => changeStatusHandler(OrderStatus.PENDING)}
                             className={searchFilter.search.bookingStatus === 'PENDING' ? 'active-tab-name' : 'tab-name'}
                         >
-                            Pending
+                            {t('Pending')}
                         </Typography>
                         <Typography
                             onClick={() => changeStatusHandler(OrderStatus.CONFIRMED)}
                             className={searchFilter.search.bookingStatus === 'CONFIRMED' ? 'active-tab-name' : 'tab-name'}
                         >
-                            Confirmed
+                            {t('Confirmed')}
                         </Typography>
                         <Typography
                             onClick={() => changeStatusHandler(OrderStatus.COMPLETED)}
                             className={searchFilter.search.bookingStatus === 'COMPLETED' ? 'active-tab-name' : 'tab-name'}
                         >
-                            Completed
+                            {t('Completed')}
                         </Typography>
                         <Typography
                             onClick={() => changeStatusHandler(OrderStatus.CANCELLED)}
                             className={searchFilter.search.bookingStatus === 'CANCELLED' ? 'active-tab-name' : 'tab-name'}
                         >
-                            Cancelled
+                            {t('Cancelled')}
                         </Typography>
                     </Stack>
                     <Stack className="list-box">
                         <Stack className="listing-title-box">
-                            <Typography className="title-text">Listing title</Typography>
-                            <Typography className="title-text">Date Published</Typography>
-                            <Typography className="title-text">Status</Typography>
-                            <Typography className="title-text">View</Typography>
-                            <Typography className="title-text">Action</Typography>
+                            <Typography className="title-text">{t('Listing title')}</Typography>
+                            <Typography className="title-text">{t('Date Published')}</Typography>
+                            <Typography className="title-text">{t('Status')}</Typography>
+                            <Typography className="title-text">{t('View')}</Typography>
+                            <Typography className="title-text">{t('Action')}</Typography>
                         </Stack>
 
                         {myBookings?.length === 0 ? (
                             <div className={'no-data'}>
                                 <img src="/img/icons/icoAlert.svg" alt="" />
-                                <p>No Property found!</p>
+                                <p>{t('No Property found!')}</p>
                             </div>
                         ) : (
                             myBookings.map((myBooking: Booking) => {
@@ -203,7 +205,7 @@ const MyBookings: NextPage = ({ initialInput, ...props }: T) => {
                                     />
                                 </Stack>
                                 <Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
-                                    <Typography>{total} property available</Typography>
+                                    <Typography>{total} {t('property available')}</Typography>
                                 </Stack>
                             </Stack>
                         )}

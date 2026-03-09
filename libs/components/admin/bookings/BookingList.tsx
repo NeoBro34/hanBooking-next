@@ -22,6 +22,7 @@ import { PropertyStatus } from '../../../enums/property.enum';
 import { Booking } from '@/libs/types/booking/booking';
 import { OrderStatus } from '@/libs/enums/booking.enum';
 import Moment from 'react-moment';
+import { useTranslation } from 'next-i18next';
 
 interface Data {
 	id: string;
@@ -113,6 +114,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { onSelectAllClick } = props;
+	const { t } = useTranslation('common');
 
 	return (
 		<TableHead>
@@ -123,7 +125,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 					>
-						{headCell.label}
+						{t(headCell.label)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -141,6 +143,7 @@ interface PropertyPanelListType {
 }
 
 export const BookingPanelList = (props: PropertyPanelListType) => {
+	const { t } = useTranslation('common');
 	const {
 		properties,
 		anchorEl,
@@ -160,7 +163,7 @@ export const BookingPanelList = (props: PropertyPanelListType) => {
 						{properties.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+									<span className={'no-data'}>{t('data not found!')}</span>
 								</TableCell>
 							</TableRow>
 						)}

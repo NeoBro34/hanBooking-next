@@ -15,6 +15,7 @@ import { userVar } from '../../apollo/store';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -24,6 +25,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const MemberPage: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const category: any = router.query?.category;
 	const user = useReactiveVar(userVar);
@@ -59,7 +61,7 @@ const MemberPage: NextPage = () => {
 					input: id,
 				},
 			});
-			await sweetTopSmallSuccessAlert('Subscribed!', 800);
+			await sweetTopSmallSuccessAlert(t('Subscribed!'), 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -76,7 +78,7 @@ const MemberPage: NextPage = () => {
 					input: id,
 				},
 			});
-			await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
+			await sweetTopSmallSuccessAlert(t('Unsubscribed!'), 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -93,7 +95,7 @@ const MemberPage: NextPage = () => {
 					input: id,
 				},
 			});
-			await sweetTopSmallSuccessAlert('Success!', 750);
+			await sweetTopSmallSuccessAlert(t('Success!'), 750);
 			await refetch({ input: query });
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
@@ -111,7 +113,7 @@ const MemberPage: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <>MEMBER PAGE MOBILE</>;
+		return <>{t('MEMBER PAGE MOBILE')}</>;
 	} else {
 		return (
 			<div id="member-page" style={{ position: 'relative' }}>

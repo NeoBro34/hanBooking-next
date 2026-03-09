@@ -29,6 +29,7 @@ import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { sweetConfirmAlert, sweetMixinErrorAlert, sweetMixinSuccessAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
+import { useTranslation } from 'next-i18next';
 const ToastViewerComponent = dynamic(() => import('../../libs/components/blog/TViewer'), { ssr: false });
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -39,6 +40,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const { query } = router;
 
@@ -143,7 +145,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			});
 
 			await getBoardArticleRefetch({ input: articleId });
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert(t('success'), 800);
 		} catch (err: any) {
 			console.log('ERROR, likeBoardArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -168,7 +170,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await getCommentsRefetch({ input: searchFilter });
 			await getBoardArticleRefetch({ input: articleId });
 			setComment('');
-			await sweetMixinSuccessAlert('Successfully commented!');
+			await sweetMixinSuccessAlert(t('Successfully commented!'));
 		} catch (error: any) {
 			await sweetMixinErrorAlert(error.message);
 		}
@@ -177,7 +179,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const updateButtonHandler = async (commentId: string, commentStatus?: CommentStatus.DELETE) => {
 		try {
 			if (!user?._id) throw new Error(Messages.error2);
-			if (!commentId) throw new Error('Select a comment to update!');
+			if (!commentId) throw new Error(t('Select a comment to update!'));
 			if (updatedComment === comments?.find((comment) => comment?._id === commentId)?.commentContent) return;
 
 			const updateData: CommentUpdate = {
@@ -187,18 +189,18 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			};
 
 			if (!updateData?.commentContent && !updateData?.commentStatus)
-				throw new Error('Provide data to update your comment!');
+				throw new Error(t('Provide data to update your comment!'));
 
 			if (commentStatus) {
-				if (await sweetConfirmAlert('Do you want to delete the comment?')) {
+				if (await sweetConfirmAlert(t('Do you want to delete the comment?'))) {
 					await updateComment({
 						variables: { input: updateData }
 					});
-					await sweetMixinSuccessAlert('Successfully deleted!');
+					await sweetMixinSuccessAlert(t('Successfully deleted!'));
 				} else return;
 			} else {
 				await updateComment({ variables: { input: updateData }});
-				await sweetMixinSuccessAlert('Successfully updated!');
+				await sweetMixinSuccessAlert(t('Successfully updated!'));
 			}
 			await getCommentsRefetch({ input: searchFilter });
 		} catch (error: any) {
@@ -238,21 +240,21 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
+		return <div>{t('COMMUNITY DETAIL PAGE MOBILE')}</div>;
 	} else {
 		return (
 			<div id="community-detail-page">
 				<div className="container">
 					<Stack className="main-box">
 						<Stack className='back-box' sx={{width:"80%"}}>
-							<a href='/blog' className='back-button'><ArrowBackIcon/>Back</a>
+							<a href='/blog' className='back-button'><ArrowBackIcon/>{t('Back')}</a>
 						</Stack>
 						<div className="community-detail-config">
 							<Stack className="title-box">
 								<Stack className="left">
 									<Typography className="title">{articleCategory} BOARD</Typography>
 									<Typography className="sub-title">
-										Express your opinions freely here without content restrictions
+										{t('Express your opinions freely here without content restrictions')}
 									</Typography>
 								</Stack>
 								<Button
@@ -268,7 +270,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									}
 									className="right"
 								>
-									<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/>Write
+									<DriveFileRenameOutlineIcon style={{marginRight: "7px"}}/>{t('Write')}
 								</Button>
 							</Stack>
 							<div className="config">
@@ -333,11 +335,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									className="second-box-config"
 									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid #eee' }}
 								>
-									<Typography className="title-text">Comments ({total})</Typography>
+									<Typography className="title-text">{t('Comments')} ({total})</Typography>
 									<Stack className="leave-comment">
 										<input
 											type="text"
-											placeholder="Leave a comment"
+											placeholder={t('Leave a comment')}
 											value={comment}
 											onChange={(e) => {
 												if (e.target.value.length > 100) return;
@@ -347,13 +349,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										/>
 										<Stack className="button-box">
 											<Typography>{wordsCnt}/100</Typography>
-											<Button onClick={creteCommentHandler}>comment <SendIcon sx={{ml:"5px"}}/></Button>
+											<Button onClick={creteCommentHandler}>{t('comment')} <SendIcon sx={{ml:"5px"}}/></Button>
 										</Stack>
 									</Stack>
 								</Stack>
 								{total > 0 && (
 									<Stack className="comments">
-										<Typography className="comments-title">Comments</Typography>
+										<Typography className="comments-title">{t('Comments')}</Typography>
 									</Stack>
 								)}
 								{comments?.map((commentData, index) => {
@@ -421,7 +423,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																	}}
 																>
 																	<Typography variant="h4" color={'#b9b9b9'}>
-																		Update comment
+																		{t('Update comment')}
 																	</Typography>
 																	<Stack gap={'20px'}>
 																		<input
@@ -448,7 +450,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																					sx={{borderRadius:"20px", height:"36px"}}
 																					onClick={() => cancelButtonHandler()}
 																				>
-																					Cancel
+																					{t('Cancel')}
 																				</Button>
 																				<Button
 																					variant="contained"
@@ -456,7 +458,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																					sx={{borderRadius:"20px", height:"36px"}}
 																					onClick={() => updateButtonHandler(updatedCommentId, undefined)}
 																				>
-																					Update
+																					{t('Update')}
 																				</Button>
 																			</Stack>
 																		</Stack>

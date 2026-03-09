@@ -16,9 +16,11 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import { userVar } from "@/apollo/store";
 import { REACT_APP_API_URL } from "@/libs/config";
+import { useTranslation } from "next-i18next";
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const pathname = router.query.category ?? 'myProfile';
 	const category: any = router.query?.category ?? 'myProfile';
@@ -37,7 +39,7 @@ const MyMenu = () => {
 
 
     if (device === 'mobile') {
-		return <div>MY MENU</div>;
+		return <div>{t('MY MENU')}</div>;
 	} else {
 		return (
             <Stack className="my-menu">
@@ -72,7 +74,7 @@ const MyMenu = () => {
                         className={pathname === 'myProfile' ? 'focus' : 'section'}
                     >
                             <ManageAccountsIcon className="icon"/>
-                            <span>Profile</span>
+                            <span>{t('Profile')}</span>
                     </Link>
                     <Link 
                         href={{
@@ -83,7 +85,7 @@ const MyMenu = () => {
                         className={pathname === 'followers' ? 'focus' : 'section'}
                     >
                             <GroupsIcon className="icon"/>
-                            <span>Followers</span>
+                            <span>{t('Followers')}</span>
                     </Link>
                     <Link
                         href={{
@@ -94,7 +96,7 @@ const MyMenu = () => {
                         className={pathname === 'followings' ? 'focus' : 'section'}
                     >
                             <GroupAddIcon className="icon"/>
-                            <span>Followings</span>
+                            <span>{t('Followings')}</span>
                     </Link>
                     <Link 
                         href={{
@@ -105,7 +107,7 @@ const MyMenu = () => {
                         className={pathname === 'myFavorites' ? 'focus' : 'section'}
                     >
                             <FavoriteBorderIcon className="icon"/>
-                            <span>Favorites</span>
+                            <span>{t('Favorites')}</span>
                     </Link>
                     <Link 
                         href={{
@@ -116,9 +118,9 @@ const MyMenu = () => {
                         className={pathname === 'recentlyVisited' ? 'focus' : 'section'}
                     >
                             <ManageSearchIcon className="icon"/>
-                            <span>Resently Visited</span>
+                            <span>{t('Recently Visited')}</span>
                     </Link>
-                     <Link 
+                    <Link 
                         href={{
                             pathname: '/mypage',
                             query: { category: 'myBookings' },
@@ -127,7 +129,7 @@ const MyMenu = () => {
                         className={pathname === 'myBookings' ? 'focus' : 'section'}
                     >
                             <EventNoteIcon className="icon"/>
-                            <span>My Bookings</span>
+                            <span>{t('My Bookings')}</span>
                     </Link>
                     {user?.memberType === 'AGENT' && (
                         <>
@@ -140,7 +142,7 @@ const MyMenu = () => {
                                 className={pathname === 'myProperties' ? 'focus' : 'section'}
                             >
                                     <LibraryAddCheckIcon className="icon"/>
-                                    <span>My Properties</span>
+                                    <span>{t('My Properties')}</span>
                             </Link>
                             <Link 
                                 href={{
@@ -151,7 +153,7 @@ const MyMenu = () => {
                                 className={pathname === 'addProperty' ? 'focus' : 'section'}
                             >
                                     <AddHomeWorkIcon className="icon"/>
-                                    <span>Add Property</span>
+                                    <span>{t('Add Property')}</span>
                             </Link>
                         </>
                     )}
@@ -164,7 +166,7 @@ const MyMenu = () => {
                         className={pathname === 'myArticles' ? 'focus' : 'section'}
                     >
                             <ArtTrackIcon className="icon"/>
-                            <span>Articles</span>
+                            <span>{t('Articles')}</span>
                     </Link>
                     <Link 
                         href={{
@@ -175,7 +177,7 @@ const MyMenu = () => {
                         className={pathname === 'writeArticle' ? 'focus' : 'section'}
                     >
                             <DriveFileRenameOutlineIcon className="icon"/>
-                            <span>Write Article</span>
+                            <span>{t('Write Article')}</span>
                     </Link>
                     {/* <Box sx={{ml:"15px", mt: "30px"}}>
                         <LogoutIcon/>

@@ -10,9 +10,11 @@ import SmallStayBookingCard from '../common/SmallPropertyCard';
 import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { Messages } from '@/libs/config';
 import { sweetMixinErrorAlert } from '@/libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [recentlyVisited, setRecentlyVisited] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
@@ -65,14 +67,14 @@ const RecentlyVisited: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY FAVORITES MOBILE</div>;
+		return <div>{t('MY FAVORITES MOBILE')}</div>;
 	} else {
 		return (
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Recently Visited</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('Recently Visited')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
@@ -83,7 +85,7 @@ const RecentlyVisited: NextPage = () => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Recently Visited Properties found!</p>
+							<p>{t('No Recently Visited Properties found!')}</p>
 						</div>
 					)}
 				</Stack>
@@ -100,7 +102,7 @@ const RecentlyVisited: NextPage = () => {
 						</Stack>
 						<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
 							<Typography>
-								Total {total} recently visited propert{total > 1 ? 'ies' : 'y'}
+								{t('Total')} {total} {t(total > 1 ? 'recently visited properties' : 'recently visited property')}
 							</Typography>
 						</Stack>
 					</Stack>

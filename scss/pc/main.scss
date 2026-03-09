@@ -67,8 +67,15 @@
                         display: flex;
                         flex-direction: row;
                         .logo-box {
+                            display: flex;
+                            align-items: center;
+                            margin-left: -48px;
+                            margin-right: 40px;
                             img {
-                                height: 250px;
+                                width: auto;
+                                max-width: 320px;
+                                max-height: 122px;
+                                display: block;
                                 cursor: pointer;
                             }
                         }
@@ -97,6 +104,7 @@
                             display: flex; 
                             flex-direction: row; 
                             justify-content: flex-end;
+                            margin-right: 8px;
                             .join-box { 
                                 width: 184px; 
                                 height: 47px; 
@@ -144,12 +152,6 @@
                                     height: 15px;
                                     border-radius: 2px;
                                 }
-                            }
-                            .img-flag {
-                                width: 24px;
-                                height: 17px;
-                                border-radius: 2px;
-                                margin-right: 8px;
                             }
                         }
                     }

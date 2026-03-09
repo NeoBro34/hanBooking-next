@@ -11,6 +11,8 @@ import { useQuery } from "@apollo/client";
 import { GET_AGENTS } from "@/apollo/user/query";
 import { T } from "@/libs/types/common";
 import TopAgentCard from "../common/TopAgentCard";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -20,6 +22,7 @@ interface TopAgentsProps {
 const TopAgents = (props: TopAgentsProps) => {
     const { initialInput } = props;
 	const device = useDeviceDetect();
+    const { t } = useTranslation('common');
 	const router = useRouter();
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
@@ -47,7 +50,7 @@ const TopAgents = (props: TopAgentsProps) => {
 
     if (device === 'mobile') {
 		return (
-            <div>Mobile</div>
+            <div>{t('Mobile')}</div>
         );
     } else {
         return (
@@ -65,12 +68,12 @@ const TopAgents = (props: TopAgentsProps) => {
                         <p
                         className="title text-3xl font-semibold"
                         >
-                            Top Agents
+                            {t('Top Agents')}
                         </p>
                         <p
                             className="title-desc text-sm text-slate-500  mt-2"
                         >
-                            Handpicked luxury accommodations for unforgettable experiences
+                            {t('Handpicked luxury accommodations for unforgettable experiences')}
                         </p>
                     </Box>
                     <Box>
@@ -79,9 +82,9 @@ const TopAgents = (props: TopAgentsProps) => {
                                 type="button"
                                 className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium   text-gray-500  transition active:scale-95"
                             >
-                                <a href="/agent" className="group-hover:translate-x-1 transition-all">
-                                    All Agents
-                                </a>
+                                <Link href="/agent" className="group-hover:translate-x-1 transition-all">
+                                    {t('All Agents')}
+                                </Link>
                                 <svg
                                     className="group-hover:translate-x-3 transition-all"
                                     width="15"

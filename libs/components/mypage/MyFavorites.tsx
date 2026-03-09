@@ -10,9 +10,11 @@ import { GET_FAVORITES } from '../../../apollo/user/query';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Messages } from '../../config';
 import SmallStayBookingCard from '../common/SmallPropertyCard';
+import { useTranslation } from 'next-i18next';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [myFavorites, setMyFavorites] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
@@ -64,14 +66,14 @@ const MyFavorites: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY FAVORITES MOBILE</div>;
+		return <div>{t('MY FAVORITES MOBILE')}</div>;
 	} else {
 		return (
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Favorites</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('My Favorites')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
@@ -82,7 +84,7 @@ const MyFavorites: NextPage = () => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
+							<p>{t('No Favorites found!')}</p>
 						</div>
 					)}
 				</Stack>
@@ -99,7 +101,7 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 						<Stack sx={{width:'100%', alignItems:'center', display:'flex', justifyContent:'center'}}>
 							<Typography>
-								Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+								{t('Total')} {total} {t(total > 1 ? 'favorite properties' : 'favorite property')}
 							</Typography>
 						</Stack>
 					</Stack>

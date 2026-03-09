@@ -8,6 +8,7 @@ import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import withLayoutFull from '@/libs/components/layout/LayoutFull';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -17,6 +18,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const Join: NextPage = () => {
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
 	const [loginView, setLoginView] = useState<boolean>(true);
@@ -65,7 +67,7 @@ const Join: NextPage = () => {
 	console.log('+input: ', input);
 
 	if (device === 'mobile') {
-		return <div>LOGIN MOBILE</div>;
+		return <div>{t('LOGIN MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className={'join-page'}>
@@ -73,14 +75,14 @@ const Join: NextPage = () => {
 					<Stack className={'main'}>
 						<Stack className={'left'}>
 							<Box className={'info'}>
-								<span>{loginView ? 'Log in' : 'Sign up'}</span>
+								<span>{loginView ? t('Log in') : t('Sign up')}</span>
 							</Box>
 							<Box className={'input-wrap'}>
 								<div className={'input-box'}>
-									<span>Nickname</span>
+									<span>{t('Nickname')}</span>
 									<input
 										type="text"
-										placeholder={'Enter Nickname'}
+										placeholder={t('Enter Nickname')}
 										onChange={(e) => handleInput('nick', e.target.value)}
 										required={true}
 										onKeyDown={(event) => {
@@ -90,10 +92,10 @@ const Join: NextPage = () => {
 									/>
 								</div>
 								<div className={'input-box'}>
-									<span>Password</span>
+									<span>{t('Password')}</span>
 									<input
 										type="text"
-										placeholder={'Enter Password'}
+										placeholder={t('Enter Password')}
 										onChange={(e) => handleInput('password', e.target.value)}
 										required={true}
 										onKeyDown={(event) => {
@@ -104,10 +106,10 @@ const Join: NextPage = () => {
 								</div>
 								{!loginView && (
 									<div className={'input-box required'}>
-										<span>Phone</span>
+										<span>{t('Phone')}</span>
 										<input
 											type="text"
-											placeholder={'Enter Phone'}
+											placeholder={t('Enter Phone')}
 											onChange={(e) => handleInput('phone', e.target.value)}
 											required={true}
 											onKeyDown={(event) => {
@@ -120,7 +122,7 @@ const Join: NextPage = () => {
 							<Box className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
+										<span className={'text'}>{t('I want to be registered as:')}</span>
 										<div>
 											<FormGroup>
 												<FormControlLabel
@@ -132,7 +134,7 @@ const Join: NextPage = () => {
 															checked={input?.type == 'USER'}
 														/>
 													}
-													label="User"
+													label={t('User')}
 												/>
 											</FormGroup>
 											<FormGroup>
@@ -145,7 +147,7 @@ const Join: NextPage = () => {
 															checked={input?.type == 'AGENT'}
 														/>
 													}
-													label="Agent"
+													label={t('Agent')}
 												/>
 											</FormGroup>
 										</div>
@@ -155,9 +157,9 @@ const Join: NextPage = () => {
 								{loginView && (
 									<div className={'remember-info'}>
 										<FormGroup>
-											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
+											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label={t('Remember me')} />
 										</FormGroup>
-										<a>Lost your password?</a>
+										<a>{t('Lost your password?')}</a>
 									</div>
 								)}
 
@@ -168,7 +170,7 @@ const Join: NextPage = () => {
 										onClick={doLogin}
 										style={{cursor:"pointer"}}
 									>
-										Login
+										{t('Login')}
 									</Button>
 								) : (
 									<Button
@@ -177,25 +179,25 @@ const Join: NextPage = () => {
 										onClick={doSignUp}
 										style={{cursor:"pointer"}}
 									>
-										Signup
+										{t('Signup')}
 									</Button>
 								)}
 							</Box>
 							<Box className={'ask-info'}>
 								{loginView ? (
 									<p>
-										Don't have an account? 
+										{t("Don't have an account?")} 
 										<a style={{color:"#3865eb", cursor:'pointer', textDecoration:'underline'}}
 											onClick={() => {
 												viewChangeHandler(false);
 											}}
-										> Sign up
+										> {t('Sign up')}
 										</a>
 									</p>
 								) : (
 									<p>
-										Already have an account?
-										<a style={{color:"#3865eb", cursor:'pointer', textDecoration:'underline'}} onClick={() => viewChangeHandler(true)}> Log in</a>
+										{t('Already have an account?')}
+										<a style={{color:"#3865eb", cursor:'pointer', textDecoration:'underline'}} onClick={() => viewChangeHandler(true)}> {t('Log in')}</a>
 									</p>
 								)}
 							</Box>
