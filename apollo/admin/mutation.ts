@@ -190,3 +190,83 @@ export const REMOVE_BOOKING_BY_ADMIN = gql`
 	}
 
 `;
+
+/**************************
+ *      NOTICE / FAQ      *
+ *************************/
+
+export const CREATE_NOTICE = gql`
+	mutation CreateNotice($input: CreateNoticeInput!) {
+		createNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_NOTICE_BY_ADMIN = gql`
+	mutation UpdateNoticeByAdmin($input: NoticeUpdate!) {
+		updateNoticeByAdmin(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const REMOVE_NOTICE_BY_ADMIN = gql`
+	mutation RemoveNoticeByAdmin($noticeId: String!) {
+		removeNoticeByAdmin(noticeId: $noticeId) {
+			_id
+			noticeStatus
+			updatedAt
+		}
+	}
+`;
+
+export const ANSWER_INQUIRY_BY_ADMIN = gql`
+	mutation AnswerInquiryByAdmin($input: AnswerInquiryInput!) {
+		answerInquiryByAdmin(input: $input) {
+			_id
+			noticeStatus
+			inquiryAnswer
+			answeredAt
+			answeredBy
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const CREATE_NOTIFICATION_BY_ADMIN = gql`
+	mutation CreateNotificationByAdmin($input: CreateNotificationInput!) {
+		createNotificationByAdmin(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			propertyId
+			articleId
+			createdAt
+			updatedAt
+		}
+	}
+`;

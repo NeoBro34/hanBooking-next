@@ -158,6 +158,14 @@
       .no-data {
         font-size: 16px;
       }
+      &.cs-admin-page {
+        .form-card {
+          padding: 14px;
+          border: 1px solid #ececec;
+          border-radius: 12px;
+          background: #fff;
+        }
+      }
     }
     .detail {
       // width: 1080px;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Box, Button, Container, IconButton, Stack } from "@mui/material"
+import { Box, Button, Container, Divider, IconButton, Stack } from "@mui/material"
 import Link from "next/link";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Menu, { MenuProps } from "@mui/material/Menu";
@@ -14,12 +14,15 @@ import { alpha, styled } from '@mui/material/styles';
 import { useRouter } from "next/router";
 import Badge from "@mui/material/Badge";
 import useDeviceDetect from "../hooks/useDeviceDetect";
-import { useReactiveVar } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import { userVar } from "@/apollo/store";
 import React from "react";
 import { getJwtToken, logOut, updateUserInfo } from "../auth";
 import { REACT_APP_API_URL } from "../config";
 import { useTheme } from 'next-themes';
+import { GET_MY_NOTIFICATIONS } from "@/apollo/user/query";
+import { MARK_ALL_NOTIFICATIONS_READ, MARK_NOTIFICATION_READ } from "@/apollo/user/mutation";
+import { NotificationStatus } from "../enums/notification.enum";
 
 
 const Top = () => {
@@ -36,6 +39,8 @@ const Top = () => {
 	let open = Boolean(anchorEl);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
+	const notificationOpen = Boolean(notificationAnchor);
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
@@ -77,6 +82,72 @@ const Top = () => {
 
 
     /** HANDLERS **/
+	const {
+		data: notificationData,
+		refetch: notificationRefetch,
+	} = useQuery(GET_MY_NOTIFICATIONS, {
+		fetchPolicy: 'network-only',
+		skip: !user?._id,
+		variables: {
+			input: {
+				page: 1,
+				limit: 8,
+				sort: 'createdAt',
+				direction: 'DESC',
+				search: {},
+			},
+		},
+	});
+	const [markNotificationRead] = useMutation(MARK_NOTIFICATION_READ);
+	const [markAllNotificationsRead] = useMutation(MARK_ALL_NOTIFICATIONS_READ);
+	const myNotifications = notificationData?.getMyNotifications?.list ?? [];
+	const unreadCount = myNotifications.filter(
+		(item: any) => item?.notificationStatus === NotificationStatus.WAIT,
+	).length;
+
+	const notificationOpenHandler = async (event: any) => {
+		setNotificationAnchor(event.currentTarget);
+		await notificationRefetch();
+	};
+
+	const notificationCloseHandler = () => {
+		setNotificationAnchor(null);
+	};
+
+	const markOneNotificationReadHandler = async (notificationId: string) => {
+		try {
+			await markNotificationRead({
+				variables: { notificationId },
+			});
+			await notificationRefetch();
+		} catch (err) {
+			console.log('markOneNotificationReadHandler error:', err);
+		}
+	};
+
+	const markAllNotificationsReadHandler = async () => {
+		try {
+			await markAllNotificationsRead();
+			await notificationRefetch();
+		} catch (err) {
+			console.log('markAllNotificationsReadHandler error:', err);
+		}
+	};
+
+	const moveByNotificationHandler = async (item: any) => {
+		await markOneNotificationReadHandler(item?._id);
+		notificationCloseHandler();
+		if (item?.propertyId) {
+			await router.push(`/stays/detail?id=${item.propertyId}`);
+			return;
+		}
+		if (item?.articleId) {
+			await router.push(`/blog/detail?id=${item.articleId}`);
+			return;
+		}
+		await router.push('/cs/?tab=inquiry');
+	};
+
 	const langClick = (e: any) => {
 		setAnchorEl2(e.currentTarget);
 	};
@@ -229,7 +300,7 @@ const Top = () => {
                         <Stack className="right-box">
                             <div className={'lan-box'}>
                                 {user?._id && <Badge 
-                                        badgeContent={3}
+                                        badgeContent={unreadCount}
                                         color="error"
                                         overlap="circular"
                                         anchorOrigin={{
@@ -237,9 +308,61 @@ const Top = () => {
                                             horizontal: 'right',
                                         }}
                                     >
-                                            <NotificationsOutlinedIcon className={'notification-icon'}/>
+										<IconButton
+											style={{ width: "30px", height: "30px" }}
+											onClick={notificationOpenHandler}
+										>
+											<NotificationsOutlinedIcon className={'notification-icon'}/>
+										</IconButton>
                                     </Badge>
                                 }
+								<Menu
+									anchorEl={notificationAnchor}
+									open={notificationOpen}
+									onClose={notificationCloseHandler}
+									PaperProps={{ style: { width: 360, maxHeight: 440 } }}
+								>
+									<MenuItem
+										disableRipple
+										style={{ justifyContent: 'space-between', fontWeight: 600, cursor: 'default' }}
+									>
+										<span>Notifications</span>
+										<Button size={'small'} onClick={markAllNotificationsReadHandler}>
+											Mark all read
+										</Button>
+									</MenuItem>
+									<Divider />
+									{myNotifications.length ? (
+										myNotifications.map((item: any) => (
+											<MenuItem
+												key={item._id}
+												onClick={() => moveByNotificationHandler(item)}
+												style={{
+													display: 'flex',
+													alignItems: 'flex-start',
+													flexDirection: 'column',
+													gap: 4,
+													background:
+														item?.notificationStatus === NotificationStatus.WAIT
+															? 'rgba(233, 44, 40, 0.06)'
+															: 'transparent',
+												}}
+											>
+												<div style={{ fontWeight: 600, whiteSpace: 'normal' }}>{item.notificationTitle}</div>
+												<div style={{ fontSize: 12, color: '#616161', whiteSpace: 'normal' }}>
+													{item.notificationDesc || 'No description'}
+												</div>
+												<div style={{ fontSize: 11, color: '#9e9e9e' }}>
+													{new Date(item.createdAt).toLocaleString()}
+												</div>
+											</MenuItem>
+										))
+									) : (
+										<MenuItem disableRipple style={{ cursor: 'default' }}>
+											No notifications yet
+										</MenuItem>
+									)}
+								</Menu>
                                 <IconButton
                                     style={{ width: "30px", height: "30px", marginLeft: "20px" }}
                                     onClick={handleMode}

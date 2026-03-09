@@ -52,7 +52,7 @@ const AdminMenuList = (props: any) => {
 				setClickSubMenu('Logs');
 				break;
 			case 'inquiry':
-				setClickSubMenu('1:1 Inquiry');
+				setClickSubMenu('User Help 1:1');
 				break;
 			case 'notice':
 				setClickSubMenu('Notice');
@@ -114,6 +114,7 @@ const AdminMenuList = (props: any) => {
 		Bookings: [{ title: 'List', url: '/_admin/bookings' }],
 		Community: [{ title: 'List', url: '/_admin/community' }],
 		Cs: [
+			{ title: 'User Help 1:1', url: '/_admin/cs/inquiry' },
 			{ title: 'FAQ', url: '/_admin/cs/faq' },
 			{ title: 'Notice', url: '/_admin/cs/notice' },
 		],

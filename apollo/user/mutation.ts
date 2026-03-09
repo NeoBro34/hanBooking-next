@@ -396,3 +396,64 @@ export const COMPLETE_BOOKING = gql`
 		}
 	}
 `;
+
+/**************************
+ *         INQUIRY        *
+ *************************/
+
+export const CREATE_INQUIRY = gql`
+	mutation CreateInquiry($input: CreateInquiryInput!) {
+		createInquiry(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			inquiryAnswer
+			answeredAt
+			answeredBy
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const MARK_NOTIFICATION_READ = gql`
+	mutation MarkNotificationRead($notificationId: String!) {
+		markNotificationRead(notificationId: $notificationId) {
+			_id
+			notificationStatus
+			updatedAt
+		}
+	}
+`;
+
+export const MARK_ALL_NOTIFICATIONS_READ = gql`
+	mutation MarkAllNotificationsRead {
+		markAllNotificationsRead
+	}
+`;
+
+export const SEND_INQUIRY_MESSAGE = gql`
+	mutation SendInquiryMessage($input: SendInquiryMessageInput!) {
+		sendInquiryMessage(input: $input) {
+			_id
+			inquiryId
+			senderId
+			message
+			createdAt
+			updatedAt
+			senderData {
+				_id
+				memberType
+				memberNick
+				memberImage
+			}
+		}
+	}
+`;

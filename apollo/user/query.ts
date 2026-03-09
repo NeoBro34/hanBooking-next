@@ -752,3 +752,100 @@ export const GET_AGENT_BOOKINGS = gql`
 		}
 	}
 `;
+
+/**************************
+ *      NOTICE / FAQ      *
+ *************************/
+
+export const GET_NOTICES = gql`
+	query GetNotices($input: NoticesInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				inquiryAnswer
+				answeredAt
+				answeredBy
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_MY_INQUIRIES = gql`
+	query GetMyInquiries($input: NoticesInquiry!) {
+		getMyInquiries(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				inquiryAnswer
+				answeredAt
+				answeredBy
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_INQUIRY_MESSAGES = gql`
+	query GetInquiryMessages($inquiryId: String!) {
+		getInquiryMessages(inquiryId: $inquiryId) {
+			_id
+			inquiryId
+			senderId
+			message
+			createdAt
+			updatedAt
+			senderData {
+				_id
+				memberType
+				memberNick
+				memberImage
+			}
+		}
+	}
+`;
+
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const GET_MY_NOTIFICATIONS = gql`
+	query GetMyNotifications($input: NotificationsInquiry!) {
+		getMyNotifications(input: $input) {
+			list {
+				_id
+				notificationType
+				notificationStatus
+				notificationGroup
+				notificationTitle
+				notificationDesc
+				authorId
+				receiverId
+				propertyId
+				articleId
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;

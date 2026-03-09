@@ -1,6 +1,10 @@
 export enum NotificationType {
+	BOOKING = 'BOOKING',
 	LIKE = 'LIKE',
 	COMMENT = 'COMMENT',
+	INQUIRY = 'INQUIRY',
+	NOTICE = 'NOTICE',
+	GENERAL = 'GENERAL',
 }
 
 export enum NotificationStatus {

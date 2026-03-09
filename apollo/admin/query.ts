@@ -277,3 +277,30 @@ export const GET_ALL_BOOKINGS_BY_ADMIN = gql`
 		}
 	}
 `;
+
+/**************************
+ *      NOTICE / FAQ      *
+ *************************/
+
+export const GET_ALL_INQUIRIES_BY_ADMIN = gql`
+	query GetAllInquiriesByAdmin($input: NoticesInquiry!) {
+		getAllInquiriesByAdmin(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				inquiryAnswer
+				answeredAt
+				answeredBy
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
