@@ -1,23 +1,22 @@
-import { Container, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useTranslation } from "next-i18next";
 
 const Features = () => {
     const { t } = useTranslation('common');
-
     return(
         <>
             <Stack>
-                <h1 className="text-3xl font-semibold text-center mx-auto mt-40">
+                <h1 className="text-2xl sm:text-3xl font-semibold text-center mx-auto mt-16 sm:mt-40 px-4">
                     {t('Everything You Need for Hotel Booking')}
                 </h1>
 
-                <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
+                <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto px-4">
                     {t('Discover, compare, and book the perfect hotel anywhere, fast, secure, and hassle-free.')}
                 </p>
             </Stack>
-            <div className="flex items-center justify-center gap-6 mt-20 px-4 md:px-0 cursor-pointer">
+            <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-6 mt-8 sm:mt-20 px-4 md:px-0 cursor-pointer">
                 {/* Real-Time Availability */}
-                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-violet-200 gap-6 max-w-sm">
+                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-violet-200 gap-6 w-full max-w-sm mx-auto">
                 <div className="p-6 aspect-square bg-violet-100 rounded-full">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                     <path
@@ -40,7 +39,7 @@ const Features = () => {
                 </div>
 
                 {/* Secure Payments */}
-                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-green-200 gap-6 max-w-sm cursor-pointer">
+                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-green-200 gap-6 w-full max-w-sm mx-auto cursor-pointer">
                 <div className="p-6 aspect-square bg-green-100 rounded-full">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                     <path
@@ -69,7 +68,7 @@ const Features = () => {
                 </div>
 
                 {/* Flexible Booking */}
-                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-orange-200 gap-6 max-w-sm cursor-pointer">
+                <div className="flex flex-col text-center items-center justify-center rounded-xl p-6 border border-orange-200 gap-6 w-full max-w-sm mx-auto cursor-pointer">
                 <div className="p-6 aspect-square bg-orange-100 rounded-full">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                     <path

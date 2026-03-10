@@ -223,7 +223,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										type="text"
 										className="description-input"
 										placeholder={t('Price')}
-										value={insertPropertyData.propertyPricePerNight}
+										value={insertPropertyData.propertyPricePerNight || ''}
 										onChange={({ target: { value } }) =>
 											setInsertPropertyData({ ...insertPropertyData, propertyPricePerNight: parseInt(value) })
 										}

@@ -11,12 +11,21 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+.hide-scroll-bar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
 /** DARK MODE **/
 
 .dark {
   body {
     background: rgb(61, 61, 61);
-    color: #8d8d8d;
+    color: #cac5c5;
   }
 }
 

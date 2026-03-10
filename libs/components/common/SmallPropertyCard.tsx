@@ -51,7 +51,106 @@ const SmallStayBookingCard = (props: SmallStayBookingCard) => {
 
     if (device === 'mobile') {
 		return (
-            <div>{t('PROPERTY CARD')}</div>
+            <Stack className="w-full">
+                <Stack className="bg-white rounded-2xl shadow-md overflow-hidden w-full">
+                    <div className="relative">
+                        {property.createdAt && Date.now() - new Date(property.createdAt).getTime() <= 10 * 24 * 60 * 60 * 1000 ? (
+                            <Box className="absolute left-3 top-3 z-10 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 text-yellow-700">
+                                <AutoAwesomeIcon sx={{ fontSize: 18 }} />
+                                <Typography sx={{ fontSize: 12, fontWeight: 700 }}>{t('New')}</Typography>
+                            </Box>
+                        ) : (
+                            property && property?.propertyRank > topPropertyRank && (
+                                <Box className="absolute left-3 top-3 z-10 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 text-red-600">
+                                    <BoltIcon sx={{ fontSize: 18 }} />
+                                    <Typography sx={{ fontSize: 12, fontWeight: 700 }}>{t('Top')}</Typography>
+                                </Box>
+                            )
+                        )}
+
+                        <CardMedia
+                            component="img"
+                            image={imagePath}
+                            alt={'propertycard'}
+                            className="w-full h-48 object-cover"
+                            onClick={() => {
+                                pushDetailHandler(property?._id);
+                            }}
+                        />
+                    </div>
+
+                    <Stack className="p-4 gap-2">
+                        <h2 className="text-base font-bold text-gray-900 line-clamp-2">
+                            <Link href={{ pathname: '/stays/detail', query: { id: property?._id } }}>{property.propertyTitle}</Link>
+                        </h2>
+
+                        <div className="flex items-center gap-1 text-gray-600">
+                            <LocationOnIcon sx={{ fontSize: 18 }} />
+                            <span className="text-sm">{property.propertyLocation}</span>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <Rating value={4.8} precision={0.1} readOnly size="small" />
+                                <span className="text-xs text-gray-600">
+                                    ({property.propertyComments} {t('reviews')})
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <IconButton
+                                    onClick={() => {
+                                        if (likePropertyHandler) likePropertyHandler(user, property?._id);
+                                    }}
+                                    size="small"
+                                >
+                                    <Badge badgeContent={property.propertyLikes} style={{ color: "gray", cursor: "pointer" }}>
+                                        {myFavorites ? (
+                                            <FavoriteIcon sx={{ fontSize: 20, color: '#ef4444' }} />
+                                        ) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+                                            <FavoriteIcon sx={{ fontSize: 20, color: '#ef4444' }} />
+                                        ) : (
+                                            <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+                                        )}
+                                    </Badge>
+                                </IconButton>
+                                <Box className="flex items-center">
+                                    <Badge badgeContent={property.propertyViews} style={{ color: "gray" }}>
+                                        <RemoveRedEyeIcon sx={{ color: "gray", fontSize: 20 }} />
+                                    </Badge>
+                                </Box>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                            <Box className="flex items-end gap-1">
+                                <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1, color: "rgb(48, 82, 168)" }}>
+                                    $ {property.propertyPricePerNight}
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                                    {t('/night')}
+                                </Typography>
+                            </Box>
+                            <Link href={{ pathname: '/stays/detail', query: { id: property?._id } }}>
+                                <button
+                                    type="button"
+                                    className="group flex items-center gap-2 px-3 py-2 cursor-pointer font-medium text-gray-400 transition active:scale-95 bg-gradient-to-r from-yellow-600 to-[#4e4b4b] rounded-full text-white"
+                                >
+                                    <p className="group-hover:translate-x-0.5 transition-all text-sm">{t('Book Now')}</p>
+                                    <svg className="group-hover:translate-x-1 transition-all" width="15" height="11" viewBox="0 0 15 11" fill="none">
+                                        <path
+                                            d="M1 5.5h13.092M8.949 1l5.143 4.5L8.949 10"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        />
+                                    </svg>
+                                </button>
+                            </Link>
+                        </div>
+                    </Stack>
+                </Stack>
+            </Stack>
         );
 	} else {
         return (

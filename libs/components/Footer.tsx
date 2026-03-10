@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
             {/* Brand Column */}
             <Grid item xs={12} md={3} sx={{ ml: { md: 3 }, pl: { md: 1 } }}>
               <div className="flex items-center gap-2 mb-4">
-                <Link href={"/"}><img src="/img/logo/logoWhiteF.png" width={"200px"} alt="" /></Link>
+                <Link href={"/"}><img src="/img/logo/logoWhite.png" style={{marginLeft:'-55px',marginBottom:'20px'}} width={"350px"} alt="" /></Link>
               </div>
               <p className="text-gray-400 mb-4 leading-relaxed">
                 {t('Discover extraordinary stays across South Korea. From luxury hotels to cozy retreats, we help you find your perfect accommodation.')}

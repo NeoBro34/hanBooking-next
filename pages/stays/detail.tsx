@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress, MenuItem, Rating, Stack, TextField, Typo
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
-import Review from '../../libs/components/property/Review';
+import Review from '../../libs/components/stays/Review';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';

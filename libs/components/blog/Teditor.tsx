@@ -32,6 +32,14 @@ const TuiEditor = () => {
 		return { articleTitle, articleContent, articleImage };
 	}, []);
 
+	// Strip all HTML tags so we only store user written text (e.g., description under the image)
+	const extractPlainText = (html: string) => {
+		if (typeof window === 'undefined') return html;
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = html;
+		return (wrapper.textContent || wrapper.innerText || '').trim();
+	};
+
 	/** HANDLERS **/
 	const uploadImage = async (image: any) => {
 		try {
@@ -87,7 +95,7 @@ const TuiEditor = () => {
 		try {
 			const editor = editorRef.current;
 			const articleContent = editor?.getInstance().getHTML() as string;
-			memoizedValues.articleContent = articleContent;
+			memoizedValues.articleContent = extractPlainText(articleContent);
 
 			if (memoizedValues.articleContent === '' && memoizedValues.articleTitle === '') {
 				throw new Error(Message.INSERT_ALL_INPUTS);

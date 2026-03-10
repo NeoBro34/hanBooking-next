@@ -213,15 +213,20 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		}
 	};
 
-	const getCommentMemberImage = (imageUrl: string | undefined) => {
-		if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
-		else return '/img/blog/defaultUser.svg';
-	};
+const getCommentMemberImage = (imageUrl: string | undefined) => {
+	if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
+	else return '/img/blog/defaultUser.svg';
+};
 
-	const goMemberPage = (id: any) => {
-		if (id === user?._id) router.push('/mypage');
-		else router.push(`/member?memberId=${id}`);
-	};
+const getArticleImage = (imageUrl: string | undefined) => {
+	if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
+	return '/img/blog/blogImg.jpg';
+};
+
+const goMemberPage = (id: any) => {
+	if (id === user?._id) router.push('/mypage');
+	else router.push(`/member?memberId=${id}`);
+};
 
 	const cancelButtonHandler = () => {
 		setOpenBackdrop(false);
@@ -314,6 +319,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 												<Typography className="text">{total}</Typography>
 											</Stack>
 										</Stack>
+									</Stack>
+									<Stack sx={{ width: '100%', mt: '20px' }}>
+										<img
+											src={getArticleImage(boardArticle?.articleImage)}
+											alt={boardArticle?.articleTitle || 'Article image'}
+											style={{ width: '100%', borderRadius: '12px', objectFit: 'cover' }}
+										/>
 									</Stack>
 									<Stack>
 										<ToastViewerComponent markdown={boardArticle?.articleContent} className={'ytb_play'} />

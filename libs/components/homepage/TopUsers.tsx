@@ -1,5 +1,4 @@
 import { GET_AGENTS } from "@/apollo/user/query";
-import useDeviceDetect from "@/libs/hooks/useDeviceDetect";
 import { T } from "@/libs/types/common";
 import { Member } from "@/libs/types/member/member";
 import { AgentsInquiry } from "@/libs/types/member/member.input";
@@ -14,7 +13,6 @@ interface TopAgentsProps {
 
 const TopUsers = (props: TopAgentsProps) => {
     const { initialInput } = props;
-	const device = useDeviceDetect();
     const { t } = useTranslation('common');
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
@@ -40,13 +38,8 @@ const TopUsers = (props: TopAgentsProps) => {
     }, [getAgentsData]);
     
 	/** HANDLERS **/
-	if (device === 'mobile') {
-		return (
-			<div>{t('Mobile')}</div>
-		);
-	} else {
-        return (
-            <div className="flex items-center divide-x divide-gray-300 mt-15">
+    return (
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 sm:divide-x sm:divide-gray-300 mt-6 sm:mt-15">
                 <div className="flex -space-x-3 pr-3">
                     {topAgents.map((member,  index) => {
                         return (
@@ -75,7 +68,7 @@ const TopUsers = (props: TopAgentsProps) => {
                         <Box className="flex justify-center items-center size-12 rounded-full border-2 border-white group-hover:transition-all duration-400 z-2 bg-gradient-to-r from-yellow-600 to-[#4e4b4b]">200+</Box>
                     </Stack>
                 </div>
-                <div className="pl-3">
+                <div className="pl-0 sm:pl-3 hidden sm:block">
                     <Box className="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>
@@ -106,9 +99,8 @@ const TopUsers = (props: TopAgentsProps) => {
                         <span className="text-gray-500">{t('users')}</span> 
                     </p>
                 </div>
-            </div>
-        );
-    }
+	            </div>
+	    );
 };
 
 TopUsers.defaultProps = {

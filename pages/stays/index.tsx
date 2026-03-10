@@ -10,7 +10,7 @@ import { PropertiesInquiry } from '@/libs/types/property/property.input';
 import { Property } from '@/libs/types/property/property';
 import { Direction, Message } from '@/libs/enums/common.enum';
 import StayBookingCard from '@/libs/components/common/PropertyCard';
-import Filter from '@/libs/components/property/Filter';
+import Filter from '@/libs/components/stays/Filter';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_PROPERTY } from '@/apollo/user/mutation';
 import { GET_PROPERTIES } from '@/apollo/user/query';

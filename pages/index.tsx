@@ -10,6 +10,7 @@ import NewStays from '@/libs/components/homepage/NewStays';
 import CommunityBoard from '@/libs/components/homepage/CommunityBoard';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Events from '@/libs/components/homepage/Events';
 
 const Home: NextPage = () => {
   return (
@@ -22,6 +23,7 @@ const Home: NextPage = () => {
         <TopAgents />
         <NewStays />
         <CommunityBoard />
+        <Events/>
       </Stack>
     </Container>
   );

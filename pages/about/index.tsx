@@ -109,7 +109,7 @@ const About: NextPage = () => {
 		return (
 			<Stack className='about-list-box'>
 				<Stack className='container'>
-					<Stack sx={{ bgcolor: '#f5f5f5', minHeight: '100vh' }}>
+					<Stack sx={{ minHeight: '100vh' }}>
 						{/* Hero Section */}
 						<Box
 							sx={{
@@ -240,7 +240,7 @@ const About: NextPage = () => {
 						</Container>
 
 						{/* What Makes Us Unique */}
-						<Box sx={{ bgcolor: 'white', py: { xs: 6, md: 8 } }}>
+						<Box sx={{ bgcolor: 'white', py: { xs: 6, md: 8 }, borderRadius:'20px' }}>
 							<Container maxWidth="lg">
 							<Typography
 								variant="h3"
@@ -447,9 +447,9 @@ const About: NextPage = () => {
 						{/* Final CTA Section */}
 						<Box
 							sx={{
-							bgcolor: '#f9f9f9',
 							py: { xs: 6, md: 8 },
 							borderTop: '1px solid #e0e0e0',
+							borderRadius:'20px'
 							}}
 						>
 							<Container maxWidth="md">

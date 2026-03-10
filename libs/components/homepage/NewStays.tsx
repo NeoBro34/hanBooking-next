@@ -86,8 +86,62 @@ const NewStays = (props: NewStaysProps) => {
 
     if (device === 'mobile') {
         return (
-            <div>{t('Mobile')}</div>
-        );
+            <>
+                <Stack
+                    sx={{
+                        display: "flex",
+                        flexDirection: { xs: "column", sm: "row" },
+                        justifyContent: "space-between",
+                        alignItems: { xs: "flex-start", sm: "center" },
+                        gap: { xs: 2, sm: 0 },
+                        mt: { xs: 8, md: 18 },
+                    }}
+                >
+                    <Box>
+                        <p className="title text-2xl sm:text-3xl font-semibold">{t('New Stays')}</p>
+                        <p className="title-desc text-sm text-slate-500 mt-2">
+                            {t('Freshly added stays you can book today')}
+                        </p>
+                    </Box>
+                    <Box>
+                        <div className="flex items-center justify-start sm:justify-end mt-2 sm:mt-6 text-sm">
+                            <button
+                                type="button"
+                                className="group flex items-center gap-4 px-8 py-3 cursor-pointer font-medium text-gray-500 transition active:scale-95"
+                            >
+                                <Link href="/stays" className="group-hover:translate-x-1 transition-all">
+                                    {t('All Stays')}
+                                </Link>
+                                <svg className="group-hover:translate-x-3 transition-all" width="15" height="11" viewBox="0 0 15 11" fill="none">
+                                    <path
+                                        d="M1 5.5h13.092M8.949 1l5.143 4.5L8.949 10"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </Box>
+                </Stack>
+
+                <Stack className="featuredRooms mt-6" id="rooms">
+                    <Stack className="roomCard-box flex flex-col md:flex-row md:flex-wrap gap-4">
+                        {featuredStays.map((property: Property) => (
+                            <SmallStayBookingCard property={property} likePropertyHandler={likePropertyHandler} key={property._id} />
+                        ))}
+                    </Stack>
+                    <Pagination
+                        page={page}
+                        count={pageCount}
+                        onChange={handlePageChange}
+                        color="primary"
+                        sx={{ display: "flex", justifyContent: "center", mt: 4 }}
+                    />
+                </Stack>
+            </>
+        )
     } else {
         return (
             <>
