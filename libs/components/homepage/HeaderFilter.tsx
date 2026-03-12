@@ -6,6 +6,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import { useRouter } from 'next/router';
 import TopUsers from './TopUsers';
 import useDeviceDetect from '@/libs/hooks/useDeviceDetect';
+import { useTranslation } from "next-i18next";
 
 const HeaderFilter = () => {
 
@@ -13,6 +14,7 @@ const HeaderFilter = () => {
     const device = useDeviceDetect();
     const [destination, setDestination] = useState<string>('');
     const [guests, setGuests] = useState<string>('2');
+    const { t } = useTranslation('common');
 
     // GraphQL ENUM bilan mos keladigan values
     const destinations = [
@@ -59,7 +61,7 @@ const HeaderFilter = () => {
                         className={'heroTitle'}
                         sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' }, color: { xs: '#F09F24', md: undefined } }}
                     >
-                        Discover Your Perfect Escape
+                        {t('Discover Your Perfect Escape')}
                     </Typography>
 
                     <Typography
@@ -67,7 +69,7 @@ const HeaderFilter = () => {
                         className={'heroSubtitle'}
                         sx={{ fontSize: { xs: '1rem', md: '1.125rem' }, color: { xs: '#ffffff', md: undefined } }}
                     >
-                        Luxury accommodations in the South Korea most breathtaking destinations
+                        {t('Luxury accommodations in the South Korea most breathtaking destinations')}
                     </Typography>
 
                     <Box className={'searchWrapper'}>
