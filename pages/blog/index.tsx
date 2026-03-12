@@ -18,8 +18,8 @@ import { GET_BOARD_ARTICLES } from '@/apollo/user/query';
 import { BoardArticleCategory } from '@/libs/enums/board-article.enum';
 import { Messages } from '@/libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
-import BlogCard from '@/libs/components/common/BlogCard';
 import { useTranslation } from 'next-i18next';
+import BlogCard from '@/libs/components/common/blogCard';
 
 
 export const getStaticProps = async ({ locale }: any) => ({
