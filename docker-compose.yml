@@ -1,6 +1,3 @@
-version: "3.3"
-
-
 services:
   hanbooking-next:
     container_name: hanbooking-next
@@ -14,7 +11,7 @@ services:
     volumes:
       - ./:/usr/src/hanbooking-next
     working_dir: /usr/src/hanbooking-next
-    
+
     networks:
       - client-network
 

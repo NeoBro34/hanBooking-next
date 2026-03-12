@@ -109,28 +109,28 @@ const StayBookingCard = (props: PropertyCardType) => {
                                         <Stack className="amenities">
                                             <Box className="amenity">
                                                 <MeetingRoomIcon />
-                                                <span>{property.propertyRooms} {t('Room')}</span>
+                                                <span>{property.propertyRooms} Room</span>
                                             </Box>
                                             <Box className="amenity">
                                                 <BedIcon />
-                                                <span>{property.propertyBeds} {t('Beds')}</span>
+                                                <span>{property.propertyBeds} Beds</span>
                                             </Box>
                                             {property.amenities.includes(PropertyAmenity.POOL) && (
                                                 <Box className="amenity">
                                                     <PoolIcon />
-                                                    <span>{t('Pool')}</span>
+                                                    <span>Pool</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.WIFI) && (
                                                 <Box className="amenity">
                                                     <SelfImprovementIcon />
-                                                    <span>{t('Spa')}</span>
+                                                    <span>Wifi</span>
                                                 </Box>
                                             )}
                                             {property.amenities.includes(PropertyAmenity.PARKING) && (
                                                 <Box className="amenity">
                                                     <LocalParkingIcon  />
-                                                    <span>{t('Parking')}</span>
+                                                    <span>Parking</span>
                                                 </Box>
                                             )}
                                         </Stack>
