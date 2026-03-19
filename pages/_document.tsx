@@ -8,7 +8,7 @@ export default function Document() {
         <meta name='title' content='HanBooking' />
         <meta name='robots' content='index, follow' />
         <link rel='icon' type='image/png' href='/img/logo/titlelogo.png' />
-        <meta name='keyword' content={"hanbooking, HanBooking.uz, devex mern, mern. nestjs fullstack"}/>
+        <meta name='keyword' content={"hanbooking, hanbooking.uz, devex mern, mern. nestjs fullstack"}/>
         <meta name='description' 
           content={
             'HanBooking is a modern hotel booking platform in South Korea that helps you find the best hotels across quickly and securely. Whether you are traveling for business, family vacations, or halal tourism, HanBooking offers trusted hotels with transparent prices and easy online booking.| ' + 
