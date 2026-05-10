@@ -45,26 +45,32 @@ const Join: NextPage = () => {
 	}, []);
 
 	const doLogin = useCallback(async () => {
-		console.warn(input);
+		if (!input.nick.trim() || !input.password.trim()) {
+			await sweetMixinErrorAlert(t('Please fulfill all inputs!'));
+			return;
+		}
+
 		try {
-			await logIn(input.nick, input.password);
+			await logIn(input.nick.trim(), input.password);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
+	}, [input, router, t]);
 
 	const doSignUp = useCallback(async () => {
-		console.warn(input);
+		if (!input.nick.trim() || !input.password.trim() || !input.phone.trim() || !input.type.trim()) {
+			await sweetMixinErrorAlert(t('Please fulfill all inputs!'));
+			return;
+		}
+
 		try {
-			await signUp(input.nick, input.password, input.phone, input.type);
+			await signUp(input.nick.trim(), input.password, input.phone.trim(), input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
-
-	console.log('+input: ', input);
+	}, [input, router, t]);
 
 	if (device === 'mobile') {
 		return <div>{t('LOGIN MOBILE')}</div>;
@@ -92,10 +98,10 @@ const Join: NextPage = () => {
 									/>
 								</div>
 								<div className={'input-box'}>
-									<span>{t('Password')}</span>
-									<input
-										type="text"
-										placeholder={t('Enter Password')}
+										<span>{t('Password')}</span>
+										<input
+											type="password"
+											placeholder={t('Enter Password')}
 										onChange={(e) => handleInput('password', e.target.value)}
 										required={true}
 										onKeyDown={(event) => {

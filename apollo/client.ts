@@ -5,29 +5,24 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth';
-import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
-	const headers = {} as HeadersInit;
+	const headers: Record<string, string> = {};
 	const token = getJwtToken();
-	// @ts-ignore
 	if (token) headers['Authorization'] = `Bearer ${token}`;
 	return headers;
 }
 
-const tokenRefreshLink = new TokenRefreshLink({
-	accessTokenField: 'accessToken',
-	isTokenValidOrUndefined: () => {
-		return true;
-	}, // @ts-ignore
-	fetchAccessToken: () => {
-		// execute refresh token
-		return null;
-	},
-});
+function clearAuthAndReload() {
+	if (typeof window === 'undefined') return;
+
+	localStorage.removeItem('accessToken');
+	window.localStorage.setItem('logout', Date.now().toString());
+	window.location.reload();
+}
 
 //Custom WebSocet client
 class LoggingWebSocket {
@@ -89,18 +84,22 @@ function createIsomorphicLink() {
 			webSocketImpl: LoggingWebSocket
 		});
 
-		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
+		const errorLink = onError(({ graphQLErrors, networkError }) => {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
 					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+					if (extensions?.code === 'UNAUTHENTICATED') {
+						clearAuthAndReload();
+						return;
+					}
 					if (!message.includes('input')) sweetErrorAlert(message);
 				}
 					
 				);
 			}
 			if (networkError) console.log(`[Network error]: ${networkError}`);
-			// @ts-ignore
-			if (networkError?.statusCode === 401) {
+			if ((networkError as { statusCode?: number })?.statusCode === 401) {
+				clearAuthAndReload();
 			}
 		});
 
@@ -113,7 +112,7 @@ function createIsomorphicLink() {
 			authLink.concat(link),
 		);
 
-		return from([errorLink, tokenRefreshLink, splitLink]);
+		return from([errorLink, splitLink]);
 	}
 }
 

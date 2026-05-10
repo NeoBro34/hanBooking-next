@@ -6,6 +6,8 @@ This is the recommended order for the next working session.
 
 ## Step 1 - Configure ESLint
 
+Status: completed on 2026-05-10.
+
 Goal: make `yarn lint` non-interactive and useful.
 
 Tasks:
@@ -25,6 +27,8 @@ Expected result:
 - `yarn lint` should produce real lint output instead of a setup prompt.
 
 ## Step 2 - Harden AI Chat API
+
+Status: completed on 2026-05-10.
 
 File:
 
@@ -55,6 +59,8 @@ Manual checks:
 
 ## Step 3 - Fix Login UX/Security Basics
 
+Status: completed on 2026-05-10.
+
 File:
 
 - `pages/account/join.tsx`
@@ -74,6 +80,8 @@ yarn build
 
 ## Step 4 - Decide Token Refresh Strategy
 
+Status: completed on 2026-05-10 for current frontend scope.
+
 Files:
 
 - `apollo/client.ts`
@@ -84,9 +92,16 @@ Options:
 - Implement real refresh-token flow if backend supports it.
 - Remove `TokenRefreshLink` and handle `401` with logout plus user-facing message.
 
-Do not keep the current placeholder long term.
+Decision:
+
+- No refresh endpoint or mutation was found in the frontend GraphQL operations.
+- The placeholder refresh link was removed.
+- Current behavior clears `accessToken` and reloads on `401` or GraphQL `UNAUTHENTICATED`.
+- If the backend later adds refresh-token support, revisit this step.
 
 ## Step 5 - Clean Build-Time Console Noise
+
+Status: partially completed on 2026-05-10.
 
 Start with files that printed during `yarn build`:
 
@@ -100,9 +115,19 @@ Then scan:
 rg -n "console\\." pages libs apollo
 ```
 
-Keep only intentional dev logs or replace with a tiny logger that is disabled in production.
+Progress:
+
+- Removed account join render/input logs.
+- Removed my profile render log.
+
+Remaining:
+
+- Search for remaining `console.*` logs and decide which are useful.
+- Apollo/i18n build warnings remain and are not ordinary app `console.log` output.
 
 ## Step 6 - Safe Query Parsing
+
+Status: completed for `pages/stays/index.tsx` on 2026-05-10.
 
 File:
 
@@ -119,15 +144,24 @@ Task:
 
 ## Step 7 - Dependency Cleanup
 
+Status: partially completed on 2026-05-10.
+
 Review `package.json` and remove or upgrade carefully.
 
 Likely candidates:
 
-- Align `eslint-config-next` with `next`.
+- Align `eslint-config-next` with `next`. Completed.
 - Investigate Apollo warning.
 - Replace deprecated `subscriptions-transport-ws` eventually.
-- Remove `react-scripts` if unused.
-- Review old picker packages.
+- Remove `react-scripts` if unused. Completed.
+- Review old picker packages. `material-ui-pickers` removed because it was unused.
+
+Already removed:
+
+- `@apollo/react-components`
+- `apollo-link-token-refresh`
+- `material-ui-pickers`
+- `react-scripts`
 
 Run after each dependency change:
 
@@ -136,4 +170,3 @@ yarn install
 npx tsc --noEmit
 yarn build
 ```
-

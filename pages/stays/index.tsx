@@ -18,6 +18,17 @@ import { T } from '@/libs/types/common';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '@/libs/sweetAlert';
 import { useTranslation } from 'next-i18next';
 
+const parseSearchInput = (input: string | string[] | undefined, fallback: PropertiesInquiry): PropertiesInquiry => {
+	if (typeof input !== 'string') return fallback;
+
+	try {
+		const parsed = JSON.parse(input);
+		return parsed && typeof parsed === 'object' ? parsed : fallback;
+	} catch {
+		return fallback;
+	}
+};
+
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -29,7 +40,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
-		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
+		parseSearchInput(router?.query?.input, initialInput),
 	);
 	const [properties, setProperties] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
@@ -65,23 +76,28 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
-			const inputObj = JSON.parse(router?.query?.input as string);
+			const inputObj = parseSearchInput(router?.query?.input, initialInput);
 			setSearchFilter(inputObj);
+			setCurrentPage(inputObj.page === undefined ? 1 : inputObj.page);
+			return;
 		}
-		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
-	}, [router]);
+		setCurrentPage(1);
+	}, [router.query.input, initialInput]);
 
 	useEffect(() => {
-		console.log("searchFilter:", searchFilter);
 		getPropertiesRefetch({ input: searchFilter }).then();
-	}, [searchFilter]);
+	}, [searchFilter, getPropertiesRefetch]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
-		searchFilter.page = value;
+		const nextSearchFilter = {
+			...searchFilter,
+			page: value,
+		};
+
 		await router.push(
-			`/stays?input=${JSON.stringify(searchFilter)}`,
-			`/stays?input=${JSON.stringify(searchFilter)}`,
+			`/stays?input=${JSON.stringify(nextSearchFilter)}`,
+			`/stays?input=${JSON.stringify(nextSearchFilter)}`,
 			{
 				scroll: false,
 			},

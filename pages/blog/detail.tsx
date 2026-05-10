@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -252,7 +253,7 @@ const goMemberPage = (id: any) => {
 				<div className="container">
 					<Stack className="main-box">
 						<Stack className='back-box' sx={{width:"80%"}}>
-							<a href='/blog' className='back-button'><ArrowBackIcon/>{t('Back')}</a>
+								<Link href='/blog' className='back-button'><ArrowBackIcon/>{t('Back')}</Link>
 						</Stack>
 						<div className="community-detail-config">
 							<Stack className="title-box">

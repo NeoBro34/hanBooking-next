@@ -1,10 +1,87 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+const MAX_MESSAGE_LENGTH = 500;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 20;
+
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+
+type AiChatResponse = {
+  reply: string;
+  error?: string;
+};
+
+function getClientIp(req: NextApiRequest) {
+  const forwardedFor = req.headers["x-forwarded-for"];
+
+  if (Array.isArray(forwardedFor)) return forwardedFor[0] ?? "unknown";
+  if (forwardedFor) return forwardedFor.split(",")[0]?.trim() || "unknown";
+
+  return req.socket.remoteAddress ?? "unknown";
+}
+
+function isRateLimited(clientIp: string) {
+  const now = Date.now();
+  const current = rateLimitStore.get(clientIp);
+
+  if (!current || current.resetAt <= now) {
+    rateLimitStore.set(clientIp, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return false;
+  }
+
+  current.count += 1;
+  rateLimitStore.set(clientIp, current);
+
+  return current.count > RATE_LIMIT_MAX_REQUESTS;
+}
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<AiChatResponse>
 ) {
-    const { message } = req.body;
+    if (req.method !== "POST") {
+      res.setHeader("Allow", "POST");
+      return res.status(405).json({
+        reply: "Only POST requests are allowed.",
+        error: "METHOD_NOT_ALLOWED",
+      });
+    }
+
+    const clientIp = getClientIp(req);
+    if (isRateLimited(clientIp)) {
+      return res.status(429).json({
+        reply: "Too many requests. Please try again later.",
+        error: "RATE_LIMITED",
+      });
+    }
+
+    if (!process.env.GROQ_API_KEY) {
+      return res.status(500).json({
+        reply: "AI service is not configured.",
+        error: "MISSING_API_KEY",
+      });
+    }
+
+    const { message } = req.body ?? {};
+
+    if (typeof message !== "string" || !message.trim()) {
+      return res.status(400).json({
+        reply: "Message is required.",
+        error: "INVALID_MESSAGE",
+      });
+    }
+
+    const normalizedMessage = message.trim();
+
+    if (normalizedMessage.length > MAX_MESSAGE_LENGTH) {
+      return res.status(400).json({
+        reply: `Message must be ${MAX_MESSAGE_LENGTH} characters or less.`,
+        error: "MESSAGE_TOO_LONG",
+      });
+    }
 
     const systemPrompt = `
         You are the official AI assistant of the HanBooking platform.
@@ -68,7 +145,7 @@ export default async function handler(
             },
             {
             role: "user",
-            content: message,
+            content: normalizedMessage,
             },
         ],
         })
@@ -77,7 +154,12 @@ export default async function handler(
 
     const data = await response.json();
 
-    console.log("GROQ RESPONSE:", data);
+    if (!response.ok) {
+      return res.status(502).json({
+        reply: "AI service is temporarily unavailable.",
+        error: data?.error?.message ?? "UPSTREAM_ERROR",
+      });
+    }
 
     const reply =
       data.choices?.[0]?.message?.content || "AI javob bera olmadi";
@@ -85,10 +167,9 @@ export default async function handler(
     res.status(200).json({ reply });
 
   } catch (error) {
-    console.error(error);
-
     res.status(500).json({
       reply: "AI server xatoligi",
+      error: "AI_SERVER_ERROR",
     });
   }
 }

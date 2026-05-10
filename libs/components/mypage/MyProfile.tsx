@@ -34,12 +34,11 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	}, [user]);
 
 	/** HANDLERS **/
-	const uploadImage = async (e: any) => {
-		try {
-			const image = e.target.files[0];
-			console.log('+image:', image);
+		const uploadImage = async (e: any) => {
+			try {
+				const image = e.target.files[0];
 
-			const formData = new FormData();
+				const formData = new FormData();
 			formData.append(
 				'operations',
 				JSON.stringify({
@@ -68,16 +67,15 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				},
 			});
 
-			const responseImage = response.data.data.imageUploader;
-			console.log('+responseImage: ', responseImage);
-			updateData.memberImage = responseImage;
-			setUpdateData({ ...updateData });
+				const responseImage = response.data.data.imageUploader;
+				updateData.memberImage = responseImage;
+				setUpdateData({ ...updateData });
 
 			return `${REACT_APP_API_URL}/${responseImage}`;
-		} catch (err) {
-			console.log('Error, uploadImage:', err);
-		}
-	};
+			} catch (err) {
+				sweetErrorHandling(err).then();
+			}
+		};
 
 	const updatePropertyHandler = useCallback(async () => {
 		try {
@@ -110,9 +108,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		}
 	};
 
-	console.log('+updateData', updateData);
-
-	if (device === 'mobile') {
+		if (device === 'mobile') {
 		return <>{t('MY PROFILE PAGE MOBILE')}</>;
 	} else
 		return (
